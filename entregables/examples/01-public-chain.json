@@ -1,0 +1,74 @@
+{
+  "_example": {
+    "file": "01-public-chain.json",
+    "covers_authority": "PUBLIC_CHAIN",
+    "what_it_demonstrates": "El camino mas fuerte: un saldo nativo leido en vivo por RPC, anclado a un NUMERO DE BLOQUE y a su hash. Cualquiera con un nodo repite la consulta y obtiene la misma cifra: eso es verificacion deterministica. La cantidad va en 'quantity', no en prosa.",
+    "source_of_record": "Consulta JSON-RPC en vivo. Endpoint y bloque exactos en 'source_reference'. El bloque se puede leer en cualquier explorador por su hash.",
+    "anonymization": "La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi precisamente para que el ejemplo no identifique a ninguna persona. El sujeto se referencia con una ETIQUETA LOCAL (prefijo LOCAL:), no con un dato personal."
+  },
+  "claim_id": "LAMC-P1-2026-0001",
+  "subject": {
+    "type": "NATURAL_PERSON",
+    "subject_id": "LOCAL:SUBJ-NP-0001",
+    "label": "Titular de la wallet observada (anonimizado)"
+  },
+  "container": {
+    "type": "BLOCKCHAIN_WALLET",
+    "container_id": "0xb1e1bb4bfb6c396c65e7c70ac9e4863f7fbbebe5",
+    "operator": "SELF_CUSTODY",
+    "chain": "ethereum-mainnet",
+    "chain_id": 1
+  },
+  "instrument": {
+    "kind": "NATIVE",
+    "symbol": "ETH"
+  },
+  "quantity": "0",
+  "source_type": "ONCHAIN",
+  "source_reference": "Ethereum mainnet, bloque 26037286 (hash 0x18cb45db9bba0ee85f72997b51c5ab7dee89d8c8cea8be9efa71ebb26eb1c965) via JSON-RPC eth_getBalance en ethereum-rpc.publicnode.com. Consulta reproducible: eth_getBalance(0xb1e1bb4bfb6c396c65e7c70ac9e4863f7fbbebe5, 0x18d4c26)",
+  "capture_method": "Llamada JSON-RPC eth_getBalance con la etiqueta del bloque fijo (no 'latest'), de modo que la consulta se puede repetir en el futuro y devuelve el mismo valor. El valor viene en wei: 0. CERO MEDIDO: se consulto y la respuesta fue cero, que NO es lo mismo que 'no establecido' (axioma A1). La direccion no tiene actividad: saldo, nonce y codigo comprobados antes de usarla.",
+  "observed_at": "2026-09-23T02:48:26Z",
+  "effective_at": "2026-09-23T02:45:23Z",
+  "freshness": {
+    "status": "fresh",
+    "valid_until": "2026-09-23T03:48:26Z",
+    "policy": "Saldo puntual de cadena: vigencia 60 minutos desde la observacion. Pasado ese plazo sigue siendo cierto PARA AQUEL BLOQUE, pero deja de describir el presente y no puede sostener una conclusion sobre el saldo actual."
+  },
+  "authority": "PUBLIC_CHAIN",
+  "verification_status": "deterministic",
+  "confidence": "high",
+  "raw_reference": "Cadena Ethereum mainnet: bloque 26037286, consultado por RPC. La prueba no es un archivo nuestro, es el propio estado de la cadena: se reverifica repitiendo la llamada o leyendo el bloque en cualquier explorador.",
+  "evidence_hash": "keccak256:18cb45db9bba0ee85f72997b51c5ab7dee89d8c8cea8be9efa71ebb26eb1c965",
+  "reconciliation_status": "unreconciled",
+  "unknown": [],
+  "unknown_reason": {},
+  "unknown_detail": {
+    "subject.subject_id": "Etiqueta LOCAL asignada por nosotros para poder hablar del sujeto: NO es un dato sobre el mundo ni un identificador de una fuente. El identificador real del sujeto no esta establecido."
+  },
+  "producer": "LAMC-P1/eth-rpc",
+  "schema_version": "0.2.0",
+  "known": [
+    "claim_id",
+    "subject",
+    "container",
+    "instrument",
+    "quantity",
+    "source_type",
+    "source_reference",
+    "capture_method",
+    "observed_at",
+    "effective_at",
+    "freshness",
+    "authority",
+    "verification_status",
+    "confidence",
+    "raw_reference",
+    "evidence_hash",
+    "reconciliation_status",
+    "known",
+    "unknown",
+    "unknown_reason",
+    "producer",
+    "schema_version"
+  ]
+}

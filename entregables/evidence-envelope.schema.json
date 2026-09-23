@@ -1,0 +1,1084 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lamc.example/evidence-envelope.schema.json",
+  "title": "LAMC Evidence Envelope",
+  "description": "Contrato comun de evidencia financiera de LAMC. Cada afirmacion economica viaja dentro de este sobre. Ninguna fuente puede mezclarse con otra sin declarar quien la afirma, cuando se observo, cuando rige, CUANTO vale, con que autoridad y que queda AUN NO ESTABLECIDO (unknown) y por que. Axiomas: A1 UNKNOWN != 0 - A2 EVIDENCE COMPLETENESS != RISK - A3 la ausencia de evidencia no constituye evidencia - A4 container != instrument - A5 source_type != calidad. REGLA DEL CENTINELA (cerrada en v0.5.0): los 22 campos se parten en 16 CAMPOS DEL HECHO, que admiten el centinela 'UNKNOWN' (subject, container, instrument, quantity, source_type, source_reference, capture_method, observed_at, effective_at, freshness, authority, verification_status, confidence, raw_reference, evidence_hash, reconciliation_status), y 6 CAMPOS DEL REGISTRO, que NUNCA lo admiten (claim_id, known, unknown, unknown_reason, producer, schema_version): no describen el mundo, describen la propia ficha, y una contabilidad que dice 'no se' de si misma no es una contabilidad. NO APLICA, en dos niveles: los 22 campos NUNCA se omiten — 'no aplica' se expresa con el centinela; los subcampos OPCIONALES si se omiten cuando no aplican (v0.5.0/S1 y S5).",
+  "version": "0.2.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claim_id",
+    "subject",
+    "container",
+    "instrument",
+    "quantity",
+    "source_type",
+    "source_reference",
+    "capture_method",
+    "observed_at",
+    "effective_at",
+    "freshness",
+    "authority",
+    "verification_status",
+    "confidence",
+    "raw_reference",
+    "evidence_hash",
+    "reconciliation_status",
+    "known",
+    "unknown",
+    "unknown_reason",
+    "producer",
+    "schema_version"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "minLength": 11,
+      "maxLength": 40,
+      "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*-[0-9]{4}-[0-9]{4}$",
+      "examples": [
+        "LAMC-P1-2026-0001"
+      ],
+      "description": "Identificador unico y estable. CONVENCION OBLIGATORIA: <APARATO>-<AAAA>-<NNNN>. APARATO: slug del emisor EN MAYUSCULAS (A-Z, 0-9, guiones), de 1 a 30 caracteres, y DEBE coincidir con el primer segmento de 'producer' (lo que va antes de '/' o '@'). AAAA: ano de emision. NNNN: secuencia monotona de 4 digitos POR APARATO Y ANO, desde 0001. LONGITUD TOTAL: 11 a 40 caracteres — el patron exige como minimo 1+1+4+1+4 = 11, de modo que 'A-2026-0001' es valido y el esquema no lo rechaza. Un id NUNCA se reutiliza ni se edita: una correccion es una ficha nueva con un id nuevo. La unicidad la sostiene el emisor con un registro append-only id -> producer. EL CODIGO LO ELIGE QUIEN EMITE: no hay registro central al que pedir permiso ni que consultar. Un emisor nuevo elige su APARATO, lo declara aqui, y arranca su secuencia en 0001. No es un dato sobre el mundo: es un identificador asignado y declarado, como la etiqueta LOCAL (v0.5.0/I2)."
+    },
+    "subject": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "subject_id"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "NATURAL_PERSON",
+                "LEGAL_ENTITY",
+                "GROUP"
+              ],
+              "description": "NATURAL_PERSON una persona - LEGAL_ENTITY sociedad, fundacion o trust - GROUP conjunto de sujetos agregados (familia, grupo empresarial). NO ADMITE el centinela 'UNKNOWN' (es un enum obligatorio). LIMITACION DECLARADA: no se puede declarar conocimiento parcial dentro del objeto — si no sabes QUE TIPO es, el objeto entero (subject/container/instrument) vale 'UNKNOWN', no un objeto con el tipo sin establecer."
+            },
+            "subject_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Identificador del sujeto. CUATRO FORMAS LEGITIMAS: (1) el identificador TAL CUAL lo da una fuente, sin prefijo; (2) una etiqueta LOCAL asignada por NOSOTROS, que DEBE empezar por 'LOCAL:' para que sea imposible confundirla con un identificador real ('LOCAL:SUBJ-0001'); (3) una FORMA ENMASCARADA O TRUNCADA de un identificador real ('BANCO-XXXX-XXXX-1234'), que es visiblemente parcial y por eso tampoco se confunde con el identificador completo; (4) el centinela 'UNKNOWN', si no lo sabemos. En los casos (2) y (3) el identificador real no queda establecido, y eso se declara en unknown_detail con la clave 'subject.subject_id'. En material publico no se publica un identificador personal (R-008): se usa la forma enmascarada o LOCAL:, no el numero real. La mascara se escribe con X (por ejemplo 'BANCO-XXXX-XXXX-1234') PORQUE ESTE PATRON no admite asteriscos: 'BANCO-****-****-1234' seria rechazado (v0.5.0/X1 y v0.6.0/B4).",
+              "pattern": "^(LOCAL:)?[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "examples": [
+                "LOCAL:SUBJ-0001"
+              ]
+            },
+            "label": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Etiqueta legible. Nunca debe contener un dato personal identificable en material publico. OPCIONAL: admite el centinela 'UNKNOWN'. Si no aplica, se omite."
+            }
+          }
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "El Economic Subject: la entidad cuyos derechos y obligaciones economicas se representan. EXACTAMENTE UNO por afirmacion. Un portafolio familiar son N afirmaciones, no una. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "container": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "BLOCKCHAIN_WALLET",
+                "BANK_ACCOUNT",
+                "BROKERAGE_ACCOUNT",
+                "CENTRALIZED_EXCHANGE",
+                "CUSTODY_ACCOUNT",
+                "PENSION_ACCOUNT",
+                "CREDIT_ACCOUNT",
+                "DOCUMENTARY_ASSET",
+                "OTHER"
+              ],
+              "description": "Subtipo de contenedor financiero. NO ADMITE el centinela 'UNKNOWN' (es un enum obligatorio). LIMITACION DECLARADA: no se puede declarar conocimiento parcial dentro del objeto — si no sabes QUE TIPO es, el objeto entero (subject/container/instrument) vale 'UNKNOWN', no un objeto con el tipo sin establecer."
+            },
+            "container_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Identificador del contenedor: direccion publica, contrato, numero de cuenta. Mismas CUATRO formas que 'subject_id': tal cual lo da la fuente; etiqueta propia con prefijo 'LOCAL:'; forma enmascarada o truncada (visiblemente parcial); o el centinela 'UNKNOWN'. Si el hueco es real, se declara en unknown_detail con su ruta. Si el campo NO APLICA, se OMITE y no se declara hueco (C11). CONVENCION (no obligacion del patron): la mascara se escribe con X —'BANCO-XXXX-XXXX-1234'— tambien aqui, por coherencia con 'subject_id'. OJO: 'container_id' NO TIENE patron en el esquema, asi que aqui no hay nada que lo obligue; la razon de que 'subject_id' use X es que SU patron no admite asteriscos (v0.6.0/B4). Si el hueco es real, se declara en unknown_detail con su ruta."
+            },
+            "operator": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Quien administra el contenedor. En una CUENTA DE ACTIVO es el custodio; en un CREDIT_ACCOUNT es el ACREEDOR (la entidad a la que se debe). Si aplica y no se establecio, vale 'UNKNOWN'. Si no aplica, se OMITE y no se declara hueco (C11)."
+            },
+            "chain": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Solo si type = BLOCKCHAIN_WALLET. Etiqueta de la red. OPCIONAL: admite el centinela 'UNKNOWN'. Si no aplica, se omite."
+            },
+            "chain_id": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Solo si type = BLOCKCHAIN_WALLET. Identificador numerico de la red (por ejemplo Ethereum mainnet = 1). Resuelve la ambiguedad de nombre. OPCIONAL: admite el centinela 'UNKNOWN'. Si no aplica, se omite."
+            }
+          }
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "DONDE se observa el derecho u obligacion. El contenedor no es el activo (axioma A4): un banco != su moneda, Binance != BTC, wallet != ETH. En un CREDIT_ACCOUNT, operator es el ACREEDOR (la entidad a la que se debe), no un custodio. Subcampos opcionales (container_id, operator, chain, chain_id): 'no aplica' NO es 'no establecido' — lo que no aplica se OMITE y no se declara como hueco (C11). ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "instrument": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "NATIVE",
+                "ERC20",
+                "SPL",
+                "JETTON",
+                "BEP20",
+                "ERC721",
+                "ERC1155",
+                "LP_POSITION",
+                "LENDING_POSITION",
+                "CASH",
+                "FIAT_BALANCE",
+                "DEBT",
+                "NONE"
+              ],
+              "description": "NONE significa que la afirmacion no se refiere a un instrumento separado del contenedor. DEBT significa obligacion A CARGO DEL SUJETO (pasivo): el sujeto es el deudor y la cantidad es lo que DEBE, nunca lo disponible. NO ADMITE el centinela 'UNKNOWN' (es un enum obligatorio). LIMITACION DECLARADA: no se puede declarar conocimiento parcial dentro del objeto — si no sabes QUE TIPO es, el objeto entero (subject/container/instrument) vale 'UNKNOWN', no un objeto con el tipo sin establecer."
+            },
+            "symbol": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Simbolo del instrumento Y UNIDAD de 'quantity' (USD, ETH, EUR...). No es unico entre cadenas: interpretarlo junto a chain_id. Admite 'UNKNOWN' cuando aplica pero no se establecio. Si no aplica, se OMITE y no se declara hueco (C11)."
+            },
+            "contract_address": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Direccion del contrato del instrumento, si aplica. OPCIONAL: admite el centinela 'UNKNOWN'. Si no aplica, se omite."
+            },
+            "token_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Identificador dentro del contrato, para NFT o posiciones con identificador propio (por ejemplo el tokenId de un NFT de Uniswap V3). NO es una cantidad. OPCIONAL: admite el centinela 'UNKNOWN'. Si no aplica, se omite."
+            }
+          }
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "QUE existe economicamente dentro del contenedor. Distinto del contenedor por axioma A4. Si la afirmacion es sobre el contenedor mismo (por ejemplo una cuenta sin instrumento separado) se declara kind = NONE. Su symbol es la UNIDAD de quantity. Subcampos opcionales (symbol, contract_address, token_id): lo que no aplica se OMITE y no se declara como hueco (C11). ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "quantity": {
+      "type": "string",
+      "description": "CUANTO. La cantidad de instrument.symbol que la afirmacion sostiene, escrita como CADENA DECIMAL con punto, sin separadores de miles y sin simbolo (por ejemplo '4750000', '0.123456789012345678'). Se usa cadena y no numero para no perder precision con decimales largos ni con enteros grandes. NUNCA es negativa: un pasivo se expresa con su valor absoluto y con instrument.kind = DEBT. Si no se establecio, vale el centinela 'UNKNOWN' con su motivo en unknown_reason. El importe NO va en prosa dentro de capture_method ni de ningun otro campo. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO. CUANDO LA CIFRA ES APROXIMADA ('como dos millones') no hay valor exacto que poner: 'quantity' vale el centinela 'UNKNOWN' y la aproximacion se escribe EN EL MOTIVO del hueco, no en el valor. La prohibicion de escribir el importe en prosa vale CUANDO LA CIFRA SE CONOCE (v0.6.0/B1 y L-8).",
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "examples": [
+        "4750000",
+        "0.000123",
+        "UNKNOWN"
+      ]
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "ONCHAIN",
+        "PUBLIC_API",
+        "REGULATED_API",
+        "INSTITUTION_API",
+        "OPEN_FINANCE_API",
+        "SIGNED_DOCUMENT",
+        "BANK_STATEMENT",
+        "BROKER_STATEMENT",
+        "STRUCTURED_EXPORT",
+        "MANUAL_DOCUMENT",
+        "MANUAL_ASSERTION",
+        "UNKNOWN"
+      ],
+      "description": "QUE ES la fuente (su naturaleza). NO implica calidad (axioma A5), y NO implica como la leimos: eso es capture_method. Una lectura por API no convierte la fuente en institucional; un PDF no convierte la fuente en documental por si mismo. BANK_STATEMENT cubre el extracto de CUENTA y el de TARJETA; BROKER_STATEMENT cubre el estado de cuenta de intermediacion. MANUAL_DOCUMENT = documento que NO emite una institucion: apuntes, capturas, un PDF hecho por nosotros; NO aporta autoridad institucional. MANUAL_ASSERTION = una afirmacion SIN documento detras (lo que alguien dice). ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO.",
+      "examples": [
+        "ONCHAIN",
+        "BANK_STATEMENT"
+      ]
+    },
+    "source_reference": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "examples": [
+            "ethereum-rpc.publicnode.com (JSON-RPC), bloque 26037286"
+          ]
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "Referencia a la fuente de la que se extrajo el dato: endpoint, documento, identificador de consulta. Debe permitir volver a la fuente. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "capture_method": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "examples": [
+            "eth_getBalance por JSON-RPC",
+            "transcripcion manual del PDF por el operador"
+          ]
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "COMO obtuvimos el dato (el camino de acceso): lectura de contrato, consulta a endpoint, transcripcion del documento por nosotros, tecleo de lo que alguien dijo, calculo. DESCRIBE EL METODO con la precision suficiente para que un tercero pueda INTENTARLO: no se le EXIGE reproducibilidad, porque una transcripcion manual no es reproducible por definicion y el contrato no puede exigir lo imposible. La reproducibilidad se GRADUA con 'confidence' (K1), no se exige aqui (v0.6.0/B3). Una transcripcion manual de un documento NO cambia la autoridad de la fuente: cambia como la verificamos. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "observed_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}(:[0-9]{2}(\\.[0-9]+)?)?(Z|[+-][0-9]{2}:[0-9]{2}))?$"
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "CUANDO LO VIMOS, en RFC 3339 con desplazamiento horario EXPLICITO (Z o +-hh:mm). No es lo mismo que effective_at y deben poder diferir. CONVENCION: los instantes de sistema y de cadena van en UTC (Z); un corte de una fuente se expresa en la zona DE LA FUENTE (por ejemplo +02:00 para un banco) y no se convierte en silencio. Si se normaliza, la convencion se declara en capture_method. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO. NO SE AÑADE PRECISION QUE LA FUENTE NO DIO: una FECHA SIN HORA ('2026-01-31') es un valor valido y honesto cuando la fuente solo da la fecha; si se escribe hora, la zona horaria es OBLIGATORIA (nunca una hora local sin desplazamiento). El PATRON es la regla: no se declara 'format' porque el formato admite fecha sin hora (v0.6.0/B2)."
+    },
+    "effective_at": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}(:[0-9]{2}(\\.[0-9]+)?)?(Z|[+-][0-9]{2}:[0-9]{2}))?$"
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "CUANDO RIGE ECONOMICAMENTE, en RFC 3339 con zona horaria, o el centinela 'UNKNOWN'. Misma convencion de zona horaria que observed_at (B9). Para un SALDO A UNA FECHA DE CORTE, la fecha de corte es effective_at: un saldo al 31-08 rige desde el 31-08, no desde que lo leimos. Un saldo puntual de cadena rige en el instante del bloque. No se establecio -> 'UNKNOWN' y su motivo en unknown_reason. Un registro de fecha de captura NO es prueba de fecha de efecto. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO. NO SE AÑADE PRECISION QUE LA FUENTE NO DIO: una FECHA SIN HORA ('2026-01-31') es un valor valido y honesto cuando la fuente solo da la fecha; si se escribe hora, la zona horaria es OBLIGATORIA (nunca una hora local sin desplazamiento). El PATRON es la regla: no se declara 'format' porque el formato admite fecha sin hora (v0.6.0/B2)."
+    },
+    "freshness": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "fresh",
+                "stale",
+                "expired",
+                "UNKNOWN"
+              ],
+              "description": "fresh vigente - stale envejecida, usable con reserva - expired vencida: no puede sostener una conclusion - UNKNOWN no se establecio la politica de vigencia. CASO DECLARADO: es un enum obligatorio Y admite el centinela, al contrario que subject.type, container.type e instrument.kind, porque su valor 'UNKNOWN' no es conocimiento parcial del tipo: significa 'no se establecio la politica de vigencia', que es una afirmacion util."
+            },
+            "valid_until": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}(:[0-9]{2}(\\.[0-9]+)?)?(Z|[+-][0-9]{2}:[0-9]{2}))?$"
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Instante a partir del cual la afirmacion deja de ser vigente, o el centinela 'UNKNOWN' si no se pudo derivar. Admite fecha sin hora: la precision que la fuente dio."
+            },
+            "policy": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "const": "UNKNOWN"
+                }
+              ],
+              "description": "Regla que define la vigencia (por ejemplo 'saldo on-chain: 60 minutos'). ES OPCIONAL: el esquema solo exige 'status'. Si la fuente no declara politica de vigencia, 'status' vale UNKNOWN y el hueco se declara; 'policy' se omite. Los ejemplos de esta spec y del esquema son ILUSTRACIONES, nunca valores por defecto: copiarlos cuando la fuente no los declara es inferencia (A1/A3). OPCIONAL: admite el centinela 'UNKNOWN'. Si no aplica, se omite."
+            }
+          }
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "Vigencia de la afirmacion. Si esta vencida, la afirmacion NO PUEDE sostener una conclusion. Un campo establecido puede perfectamente valer 'UNKNOWN' por dentro: eso NO lo saca de known (regla C8). ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "authority": {
+      "type": "string",
+      "enum": [
+        "PUBLIC_CHAIN",
+        "INSTITUTION",
+        "INSTITUTION_DOCUMENT",
+        "HUMAN",
+        "DERIVED",
+        "UNKNOWN"
+      ],
+      "description": "QUIEN responde por la afirmacion. PUBLIC_CHAIN estado de una blockchain verificable deterministicamente - INSTITUTION API de una institucion - INSTITUTION_DOCUMENT documento emitido por una institucion, INCLUIDA su transcripcion manual, porque transcribir no cambia quien responde - HUMAN afirmacion de una persona, incluida la lectura que alguien hace de algo no institucional - DERIVED calculado por nosotros a partir de otras evidencias. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO.",
+      "examples": [
+        "PUBLIC_CHAIN",
+        "INSTITUTION"
+      ]
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "deterministic",
+        "authenticated",
+        "documentary",
+        "unverified",
+        "UNKNOWN"
+      ],
+      "description": "COMO se puede verificar. deterministic reproducible por cualquiera sin confiar en nadie - authenticated verificable contra la institucion emisora - documentary verificable contra el documento - unverified afirmado, no verificado. Una transcripcion manual de un documento baja a 'documentary' aunque la autoridad siga siendo INSTITUTION_DOCUMENT. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "UNKNOWN"
+      ],
+      "description": "Cuantos de los cuatro criterios de la rubrica se cumplen (ver SPEC 4.4): high exige los cuatro; un fallo -> medium; dos o mas -> low. No es una ponderacion ni un score. K1 (reproducible) es NO cuando capture_method incluye un paso que un tercero no puede repetir (transcripcion manual, tecleo, testimonio): una transcripcion manual NUNCA alcanza 'high'. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO. Y un respaldo INCITABLE —'raw_reference' vale el centinela porque el artefacto no se puede localizar (v0.6.0/B5)— es un hueco MATERIAL: techa la ficha en 'medium' o menos, nunca 'high'. 'Valida' significa 'conforme al sobre', no 'usable como evidencia'. Y un hueco MATERIAL EN LA CIFRA O SU UNIDAD ('quantity' o 'instrument.symbol' en 'unknown') techa la ficha en 'low' AUNQUE lo demas este bien (v0.7.0: era la cuarta fila de la rubrica de la prosa y faltaba aqui).",
+      "examples": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "raw_reference": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "examples": [
+            "/ruta/al/informe.md (sha256 d9ee4197...)",
+            "Ethereum mainnet, bloque 26037286, eth_getBalance(0xb1e1...)",
+            "https://eth.blockscout.com/api/v2/addresses/0x5c78.../token-balances",
+            "Contenedor cifrado del ejemplo 02 (sha256 1b2ae02e...)"
+          ]
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "Referencia Citable y reproducible al artefacto crudo. Sin esto no hay evidencia. La forma valida depende del TIPO DE ARTEFACTO: ARCHIVO -> ruta absoluta o URI; ESTADO DE CADENA -> cadena + numero de bloque (+ direccion/contrato); RESPUESTA DE API -> endpoint completo + la consulta; DOCUMENTO CON DUENO -> ruta Y hash. No toda la evidencia es un archivo. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO. FORMAS VALIDAS POR TIPO DE ARTEFACTO: ARCHIVO -> ruta absoluta o URI; ESTADO DE CADENA -> cadena + numero de bloque (+ direccion/contrato); RESPUESTA DE API -> endpoint completo + la consulta; DOCUMENTO CON DUENO -> ruta Y hash; TESTIMONIO ORAL -> quien lo declara + fecha + donde o como se recibio. Con esa ultima forma, MANUAL_ASSERTION ('una afirmacion sin documento detras') deja de ser insatisfacible: un testimonio SI tiene referencia (v0.5.0/X5). CASO DECLARADO (v0.6.0/B5): si el artefacto SE CONOCE pero NO ES LOCALIZABLE —se sabe como se llama y se tiene su hash, pero no su ubicacion—, 'raw_reference' vale el centinela 'UNKNOWN' y el motivo explica que el artefacto existe, como se llama y por que no se puede localizar. El contrato NO obliga a inventar una referencia falsa. CONSECUENCIA, que hay que asumir: esa ficha es CONFORME al sobre pero su respaldo NO ES CITABLE, y eso es un hueco MATERIAL para 'confidence' => no puede ser 'high' (ver la descripcion de confidence)."
+    },
+    "evidence_hash": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^(sha256|keccak256):[0-9a-f]{64}$",
+          "examples": [
+            "sha256:1b2ae02e32ed9d75a3b9a9b8815e38b52911d444039240fce2565117a892b0e1",
+            "keccak256:18cb45db9bba0ee85f72997b51c5ab7dee89d8c8cea8be9efa71ebb26eb1c965"
+          ],
+          "description": "Hash del artefacto crudo, con ALGORITMO DECLARADO: <algoritmo>:<hex>. Algoritmos admitidos: sha256 (archivos) y keccak256 (bloques de Ethereum). Se declara el algoritmo de verdad —el hash de bloque de Ethereum es keccak256, NO sha256— porque etiquetar mal un dato para que quepa en la casilla es el pecado que este contrato combate (v0.5.0/X7). ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+        },
+        {
+          "const": "UNKNOWN"
+        }
+      ],
+      "description": "Hash del artefacto crudo, con ALGORITMO DECLARADO: <algoritmo>:<hex> (sha256 o keccak256). Detecta alteracion posterior: si el archivo cambia, el hash deja de coincidir y la ficha queda cuestionada sin volver a leerla. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "reconciliation_status": {
+      "type": "string",
+      "enum": [
+        "unreconciled",
+        "reconciled",
+        "disputed",
+        "UNKNOWN"
+      ],
+      "description": "Grado de reconciliacion frente a otras evidencias del mismo sujeto y contenedor. unreconciled aun no contrastada - reconciled contrastada y coincide - disputed contrastada y NO coincide: la contradiccion se preserva, no se resuelve por inferencia. ADMITE EL CENTINELA 'UNKNOWN': es un CAMPO DEL HECHO."
+    },
+    "known": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "claim_id",
+          "subject",
+          "container",
+          "instrument",
+          "quantity",
+          "source_type",
+          "source_reference",
+          "capture_method",
+          "observed_at",
+          "effective_at",
+          "freshness",
+          "authority",
+          "verification_status",
+          "confidence",
+          "raw_reference",
+          "evidence_hash",
+          "reconciliation_status",
+          "known",
+          "unknown",
+          "unknown_reason",
+          "producer",
+          "schema_version"
+        ]
+      },
+      "description": "Los campos de ESTA afirmacion que quedaron establecidos (regla C8: todo campo cuyo valor no sea el centinela 'UNKNOWN' y que la ficha si identifique). La particion es sobre los 22 campos: 'unknown_detail' NO es uno de ellos y NO entra aqui (C7/C9)."
+    },
+    "unknown": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "claim_id",
+          "subject",
+          "container",
+          "instrument",
+          "quantity",
+          "source_type",
+          "source_reference",
+          "capture_method",
+          "observed_at",
+          "effective_at",
+          "freshness",
+          "authority",
+          "verification_status",
+          "confidence",
+          "raw_reference",
+          "evidence_hash",
+          "reconciliation_status",
+          "known",
+          "unknown",
+          "unknown_reason",
+          "producer",
+          "schema_version"
+        ]
+      },
+      "description": "Los campos de ESTA afirmacion que permanecen AUN NO ESTABLECIDOS (regla C8). UNKNOWN != 0 (A1) y la ausencia de evidencia no constituye evidencia (A3). Si esta lista no esta vacia, unknown_reason es OBLIGATORIO. La particion es sobre los 22 campos: 'unknown_detail' NO entra aqui."
+    },
+    "unknown_reason": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "OBLIGATORIO como campo (es uno de los 22) y NO VACIO cuando 'unknown' no esta vacio. Cuando 'unknown' esta vacio, este campo queda como objeto VACIO {} — es la declaracion honesta de que no hay nada sin establecer, no ruido. Un UNKNOWN sin motivo es casi tan inutil como un dato inventado, y por eso el esquema lo impone con if/then."
+    },
+    "unknown_detail": {
+      "type": "object",
+      "description": "APENDICE OPCIONAL de unknown_reason: NO es uno de los 22 campos y NO es obligatorio. Existe cuando hay huecos ANIDADOS — es decir, cuando un campo esta establecido pero algo dentro de el no lo esta. Recoge esos huecos con notacion de punto ('container.chain_id', 'freshness.valid_until', 'subject.subject_id'). Cuando no hay huecos anidados, SE OMITE. Si aparece, no puede estar vacio.",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minProperties": 1
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "QUE emitio el claim, con CONVENCION: <APARATO>[/<componente>][@<version>], donde APARATO es un slug estable EN MAYUSCULAS (A-Z, 0-9, guiones) que identifica el aparato emisor. El mismo aparato escribe SIEMPRE el mismo APARATO, para que dos fichas se puedan agrupar por autor. El APARATO DEBE coincidir con el primer segmento de 'claim_id'. No es prosa por ficha. EL CODIGO LO ELIGE QUIEN EMITE: no hay registro central al que pedir permiso ni que consultar. Un emisor nuevo elige su APARATO, lo declara aqui, y arranca su secuencia en 0001. No es un dato sobre el mundo: es un identificador asignado y declarado, como la etiqueta LOCAL (v0.5.0/I2)."
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": [
+        "0.2.0"
+      ],
+      "description": "Version del sobre que esta afirmacion declara cumplir. Debe ser exactamente el contenido del archivo VERSION."
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "REGLA BLOQUEANTE (A1/A3): si la lista de campos no establecidos no esta vacia, el motivo es obligatorio y no puede estar vacio. Expresada aqui de forma comprobable mecanicamente, no solo en prosa.",
+      "if": {
+        "properties": {
+          "unknown": {
+            "type": "array",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "unknown"
+        ]
+      },
+      "then": {
+        "required": [
+          "unknown_reason"
+        ],
+        "properties": {
+          "unknown_reason": {
+            "type": "object",
+            "minProperties": 1
+          }
+        }
+      }
+    },
+    {
+      "$comment": "PARTICION EXACTA (C7/C8): cada uno de los 22 campos esta en 'known' o en 'unknown', y en EXACTAMENTE una de las dos. Un 'oneOf' por campo da a la vez cobertura (ningun campo fuera de las listas) y exclusion mutua (ninguno en las dos).",
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "claim_id"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "claim_id"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "subject"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "subject"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "container"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "container"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "instrument"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "instrument"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "quantity"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "quantity"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "source_type"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "source_type"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "source_reference"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "source_reference"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "capture_method"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "capture_method"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "observed_at"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "observed_at"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "effective_at"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "effective_at"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "freshness"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "freshness"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "authority"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "authority"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "verification_status"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "verification_status"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "confidence"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "confidence"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "raw_reference"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "raw_reference"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "evidence_hash"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "evidence_hash"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "reconciliation_status"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "reconciliation_status"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "known"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "known"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "unknown_reason"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "unknown_reason"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "producer"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "producer"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "known": {
+                  "contains": {
+                    "const": "schema_version"
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "unknown": {
+                  "contains": {
+                    "const": "schema_version"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

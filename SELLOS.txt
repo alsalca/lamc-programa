@@ -1,0 +1,28 @@
+# SELLOS — SHA-256 de los archivos publicados
+#
+# Comprobar:   sha256sum -c SELLOS.txt
+#
+# Generado sobre los archivos ya definitivos del paquete.
+# Si algo no coincide, el paquete fue alterado despues de sellarse.
+#
+# Evidencia Envelope 0.2.0 — LAMC — Apache-2.0
+665737364c65a861650d1831a6374dba66c7413152f672f2d33ff2e96de07b0b  .gitignore
+853de813edd5d81899d1369e1353311f9e220a23b5a570b9babb54d273eb2918  CHANGELOG.md
+8fcd131d076323e74e41dc9bbd4017c73f508b8fda0e52f93a849d93384e5984  CONTRIBUIR.md
+8876eb66ba2c071e5b91dbe86545a8ab128612d7e37aa40bd57dac6294e012a2  LICENSE
+fddb706d891c0c3853172c3c99315611ecc0dbaf86814ea1ee62d3d48d550e89  PORQUE.md
+d5fe2a5ba963e1862681200e9b41c027d57e63ea74bf16060bed344fdbca540e  README.en.md
+5adc3bbcf880209d406c429f5f74075a3906d04a1dfc647bf66e720ca84d4c45  README.md
+1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9  VERSION
+8876eb66ba2c071e5b91dbe86545a8ab128612d7e37aa40bd57dac6294e012a2  entregables/LICENSE
+f9b2e451cb83a2f210a7d394ee6e11301ee9d70c9414bf53a31e34f7c6ef085a  entregables/SPEC.md
+1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9  entregables/VERSION
+1b2ae02e32ed9d75a3b9a9b8815e38b52911d444039240fce2565117a892b0e1  entregables/adjuntos/02-extracto-ejemplo.pdf.enc
+26b546df30671a0a2b64201502c884e0fa27a0c0e5de14f4433dc5bcf29d71e7  entregables/adjuntos/03-informe-ejemplo.txt
+fa70903450f0d9fa569a31bb4e049e0e718f28e72b32b92a9a4e3686afd5b769  entregables/evidence-envelope.schema.json
+7321e059aee9c50bea3c926b07f614e795cc395c7dd5df91a2e87c265cc49b0f  entregables/examples/01-public-chain.json
+20abc765dbe0cf679f361428d7ec5acb7b91d83cc938fe91b66c3e911fb6823d  entregables/examples/02-institution-document.json
+309bccabd1fd6cc1ef33b2223d31595528eafbbc5f039652fc7de47e1ed6979d  entregables/examples/03-derived.json
+ddc646a21ff616681a72d748252ac30d66830699dbb03aabe6f68f54b3a08029  entregables/examples/04-institution-api.json
+8fcb681e39d5917a8f557f456eefb2afee9d2be069c13b4f9fb349cc55f1c1df  herramientas/comprobar_coincidencia.py
+2e30fab704c576e1698c9e41a36e3ac46a948dd3b94f99b76ea48fffad2b2f78  herramientas/validar_evidencia.py

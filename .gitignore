@@ -1,0 +1,10 @@
+# Basura de sistema
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp

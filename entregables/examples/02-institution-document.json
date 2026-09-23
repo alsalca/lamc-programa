@@ -1,0 +1,80 @@
+{
+  "_example": {
+    "file": "02-institution-document.json",
+    "covers_authority": "INSTITUTION_DOCUMENT",
+    "what_it_demonstrates": "A5 en accion: alta autoridad institucional con reproducibilidad publica NULA. Y una demostracion del centinela en el campo mas importante: la CIFRA esta 'UNKNOWN' con su motivo, en vez de rellenarse con un cero o con una suposicion. Es la ficha que el sobre debe saber emitir cuando todavia no sabe cuanto. El contenedor SI se publica, para que cualquiera pueda comprobar su hash; la contrasena no, que es lo que reproduce el caso.",
+    "source_of_record": "Contenedor cifrado publicado en este repositorio como adjuntos/02-extracto-ejemplo.pdf.enc. Su contenido es SINTETICO: no es el extracto de ninguna persona.",
+    "anonymization": "El documento de este ejemplo es SINTETICO: se genero para el ejemplo y no describe a ninguna persona ni entidad real. No hay ningun dato de nadie aqui. El contenedor se publica cifrado para que el hash sea verificable y el contenido no."
+  },
+  "claim_id": "LAMC-P1-2026-0002",
+  "subject": {
+    "type": "NATURAL_PERSON",
+    "subject_id": "LOCAL:SUBJ-NP-0002",
+    "label": "Titular de la cuenta (anonimizado)"
+  },
+  "container": {
+    "type": "BANK_ACCOUNT",
+    "container_id": "ENTIDAD-EJEMPLO-XXXX-XXXX-XXXX",
+    "operator": "ENTIDAD-EJEMPLO"
+  },
+  "instrument": {
+    "kind": "FIAT_BALANCE",
+    "symbol": "USD"
+  },
+  "quantity": "UNKNOWN",
+  "source_type": "BANK_STATEMENT",
+  "source_reference": "Contenedor cifrado publicado en este repositorio: adjuntos/02-extracto-ejemplo.pdf.enc (1280 bytes). Dentro hay un extracto de ejemplo. La contrasena NO se publica: sin ella el contenido no se puede leer, que es exactamente el caso que esta ficha documenta.",
+  "capture_method": "Documento de EJEMPLO, generado y almacenado como fuente cruda dentro de un contenedor cifrado. Su contenido no se transcribe aqui: se deja cifrado para reproducir el caso de un documento que existe y no se puede leer.",
+  "observed_at": "2026-09-21T15:00:51Z",
+  "effective_at": "UNKNOWN",
+  "freshness": {
+    "status": "UNKNOWN",
+    "valid_until": "UNKNOWN",
+    "policy": "Extracto bancario: se considerara vigente hasta el cierre del periodo siguiente, una vez establecido el periodo de corte del documento."
+  },
+  "authority": "INSTITUTION_DOCUMENT",
+  "verification_status": "documentary",
+  "confidence": "low",
+  "raw_reference": "adjuntos/02-extracto-ejemplo.pdf.enc — 1280 bytes, entidad de ejemplo. Contenedor cifrado con contrasena no publicada. Verificacion de integridad: sha256 1b2ae02e32ed9d75a3b9a9b8815e38b52911d444039240fce2565117a892b0e1",
+  "evidence_hash": "sha256:1b2ae02e32ed9d75a3b9a9b8815e38b52911d444039240fce2565117a892b0e1",
+  "reconciliation_status": "unreconciled",
+  "unknown": [
+    "quantity",
+    "effective_at"
+  ],
+  "unknown_reason": {
+    "quantity": "El contenedor esta CIFRADO y no se publica su contrasena: el contenido existe y se puede comprobar su integridad por el hash, pero NO se puede leer. La cifra esta dentro, pero no quedo establecida para nosotros. Se declara como hueco en vez de estimarla, y no se escribe cero (axioma A1).",
+    "effective_at": "La fuente no declara su periodo de corte, y una fecha de captura no es una fecha de efecto economico. No se infiere del nombre del archivo ni de la entidad."
+  },
+  "unknown_detail": {
+    "container.container_id": "El identificador se publica enmascarado POR COMPLETO —no se conserva ningun digito— para no publicar un numero de cuenta. El contenedor crudo esta publicado y se puede comprobar su hash, pero no su contenido.",
+    "freshness.valid_until": "Se deriva del periodo de corte, que esta sin establecer. Sin periodo no hay fecha de vencimiento.",
+    "subject.label": "El sujeto se referencia con la etiqueta local 'LOCAL:SUBJ-NP-0002': esta marcada con el prefijo LOCAL: precisamente para que no se confunda con un identificador real de una fuente. Ningun identificador de persona esta establecido en esta ficha, ni hace falta: el ejemplo no describe a nadie.",
+    "freshness.status": "El campo 'freshness' SI esta establecido (por eso figura en known): lo que se establecio es que no hay politica de vigencia aplicable, y su propio valor es el centinela UNKNOWN. Lo que no esta establecido es el periodo de corte del que depende la vigencia.",
+    "subject.subject_id": "Etiqueta LOCAL asignada por nosotros para poder hablar del sujeto: NO es un dato sobre el mundo ni un identificador de una fuente. El identificador real del sujeto no esta establecido."
+  },
+  "producer": "LAMC-P1/manual-entry",
+  "schema_version": "0.2.0",
+  "known": [
+    "claim_id",
+    "subject",
+    "container",
+    "instrument",
+    "source_type",
+    "source_reference",
+    "capture_method",
+    "observed_at",
+    "freshness",
+    "authority",
+    "verification_status",
+    "confidence",
+    "raw_reference",
+    "evidence_hash",
+    "reconciliation_status",
+    "known",
+    "unknown",
+    "unknown_reason",
+    "producer",
+    "schema_version"
+  ]
+}

@@ -1,0 +1,43 @@
+INFORME INTERNO DE EJEMPLO — DOCUMENTO SINTETICO
+================================================
+
+Este documento NO es un informe real. Se genera para el ejemplo 03 del
+contrato Evidence Envelope (LAMC) y no describe el patrimonio de nadie.
+
+Todos los importes, fechas, cadenas y activos que aparecen aqui son
+SUSTITUCIONES de un caso real ya anonimizado.
+
+--------------------------------------------------------------------
+SECCION A — PROPOSITO
+--------------------------------------------------------------------
+Consolidar en un unico total el capital observado sobre las posiciones
+incluidas en el snapshot. El resultado se cita en la seccion D.
+
+--------------------------------------------------------------------
+SECCION D — TOTAL DE CAPITAL OBSERVADO
+--------------------------------------------------------------------
+Capital total valorado ....... 24817.43 USD
+Posiciones incluidas ......... (se cuenta, no se detalla)
+Fecha de corte ............... 2025-11-19
+Cadenas declaradas como prioritarias: Arbitrum, Polygon, Base, Optimism.
+Nota: el informe NO declara cuales entraron efectivamente en el total.
+
+--------------------------------------------------------------------
+SECCION H — DISCREPANCIAS DETECTADAS
+--------------------------------------------------------------------
+H.1  El mismo dia, y sobre el mismo total, otra seccion de este informe
+     recoge la cifra OPUESTA: cero.
+
+     Las dos se generaron por el mismo proceso, con minutos de diferencia.
+     Ninguna de las dos es un error de transcripcion.
+
+     No se resuelve por inferencia: se deja constancia de las dos y se
+     marca la contradiccion. Resolverla inventando cual es la buena seria
+     exactamente lo que este contrato existe para impedir.
+
+--------------------------------------------------------------------
+SECCION Z — LIMITES DECLARADOS
+--------------------------------------------------------------------
+- No hay tipo de cambio aplicado por activo.
+- No hay periodo de corte declarado por la entidad de origen.
+- La vigencia del total es una convencion nuestra, no de la fuente.

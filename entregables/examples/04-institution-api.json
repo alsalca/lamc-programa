@@ -1,0 +1,76 @@
+{
+  "_example": {
+    "file": "04-institution-api.json",
+    "covers_authority": "INSTITUTION",
+    "what_it_demonstrates": "Una institucion que responde por el dato: no somos nosotros midiendo la cadena, es un tercero que la indexa y responde por su lectura. Responde a la pregunta 'que autoridad tiene un dato que no medimos nosotros' sin ser un documento en papel. Y lleva la cifra en UNIDADES MINIMAS, como entero en texto: el formato no la convierte a numero decimal, asi que no puede redondear una posicion fraccionaria a cero.",
+    "source_of_record": "API publica de Blockscout para Ethereum (eth.blockscout.com). Endpoint exacto en 'source_reference'.",
+    "anonymization": "La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi para que el ejemplo no identifique a ninguna persona. El contrato del token es infraestructura publica de Ethereum. El sujeto se referencia con una etiqueta local."
+  },
+  "claim_id": "LAMC-P1-2026-0004",
+  "subject": {
+    "type": "NATURAL_PERSON",
+    "subject_id": "LOCAL:SUBJ-NP-0001",
+    "label": "Titular de la wallet observada (anonimizado)"
+  },
+  "container": {
+    "type": "BLOCKCHAIN_WALLET",
+    "container_id": "0x5c783b720f42b7b0b2d6ad78c34c6e2b8de9dde9",
+    "operator": "SELF_CUSTODY",
+    "chain": "ethereum-mainnet",
+    "chain_id": 1
+  },
+  "instrument": {
+    "kind": "ERC20",
+    "symbol": "XAUT",
+    "contract_address": "0x68749665FF8D2d112Fa859AA293F07A622782F38"
+  },
+  "quantity": "0.000000",
+  "source_type": "PUBLIC_API",
+  "source_reference": "https://eth.blockscout.com/api?module=account&action=tokenbalance&contractaddress=0x68749665FF8D2d112Fa859AA293F07A622782F38&address=0x5c783b720f42b7b0b2d6ad78c34c6e2b8de9dde9 — campo 'result'. El valor viene en unidades minimas: 0 con 6 decimales => 0 / 10^6 = 0.000000. Estado de la cadena al bloque 26037286.",
+  "capture_method": "Consulta HTTP a la API publica del explorador, leyendo el campo 'result'. Respuesta literal: {\"message\":\"OK\",\"result\":\"0\",\"status\":\"1\"}. El valor NO se convierte a numero decimal en ninguna etapa: viaja como entero en texto.",
+  "observed_at": "2026-09-23T02:48:26Z",
+  "effective_at": "2026-09-23T02:45:23Z",
+  "freshness": {
+    "status": "fresh",
+    "valid_until": "2026-09-23T03:48:26Z",
+    "policy": "Saldo puntual de cadena: vigencia 60 minutos desde la observacion. Despues sigue siendo cierto PARA AQUEL BLOQUE, pero no describe el presente."
+  },
+  "authority": "INSTITUTION",
+  "verification_status": "authenticated",
+  "confidence": "medium",
+  "raw_reference": "Respuesta de la API publica de Blockscout para la direccion y el contrato citados. Verificable repitiendo la consulta y contrastable contra la cadena en el bloque 26037286.",
+  "evidence_hash": "keccak256:32860fdfa4efc1f5d5073e767dd1bc858833916a8903f20d9862c7c63006e40a",
+  "reconciliation_status": "unreconciled",
+  "unknown": [],
+  "unknown_reason": {},
+  "unknown_detail": {
+    "freshness.valid_until": "La politica de 60 minutos es nuestra, no de la institucion: la API no publica politica de vigencia. Se declara para que un lector sepa de quien es la regla.",
+    "subject.subject_id": "Etiqueta LOCAL asignada por nosotros para poder hablar del sujeto: NO es un dato sobre el mundo ni un identificador de una fuente. El identificador real del sujeto no esta establecido."
+  },
+  "producer": "LAMC-P1/blockscout",
+  "schema_version": "0.2.0",
+  "known": [
+    "claim_id",
+    "subject",
+    "container",
+    "instrument",
+    "quantity",
+    "source_type",
+    "source_reference",
+    "capture_method",
+    "observed_at",
+    "effective_at",
+    "freshness",
+    "authority",
+    "verification_status",
+    "confidence",
+    "raw_reference",
+    "evidence_hash",
+    "reconciliation_status",
+    "known",
+    "unknown",
+    "unknown_reason",
+    "producer",
+    "schema_version"
+  ]
+}
