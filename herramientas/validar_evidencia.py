@@ -134,30 +134,48 @@ def buscar(carpeta, nombre):
 
 def buscar_esquema(carpeta):
     """Busca el esquema. Primero en la carpeta dada; si no, SUBIENDO desde donde
-    vive este script. Así funciona igual en cualquier máquina y en cualquier
-    disposición de carpetas, sin depender de ninguna ruta escrita a mano.
+    vive este script y mirando unos pocos niveles hacia abajo.
 
     CORRECCIÓN 2026-09-21: antes solo miraba la carpeta dada, así que al validar
     una carpeta que solo contenía fichas (por ejemplo una prueba de suficiencia)
     decía «no encontré ningún archivo *.schema.json» y el bloque [1] fallaba sin
     que la ficha tuviera culpa. Lo detectó un agente de prueba ciega.
 
-    CORRECCIÓN 2026-09-23: el respaldo era una ruta fija al proyecto interno del
-    autor. Publicada, esa ruta no existe en la máquina de nadie más —y revela la
-    estructura privada del programa—. Ahora se sube por el árbol de directorios,
-    que es lo que se quería desde el principio.
+    CORRECCIÓN 2026-09-23 (1): el respaldo era una ruta fija al proyecto interno
+    del autor. Publicada, esa ruta no existe en la máquina de nadie más —y revela
+    la estructura privada del programa—. Se cambió por subir por el árbol.
+
+    CORRECCIÓN 2026-09-23 (2): **y al hacerlo se rompió.** Subir por el árbol no
+    basta: el esquema canónico vive dentro de una carpeta de proyecto, a dos
+    niveles de profundidad, y el respaldo no miraba hacia abajo. Validar
+    cualquier proyecto del programa —P2, por ejemplo— decía «no encontré ningún
+    archivo *.schema.json» y el fallo parecía de la ficha. Lo encontró el Chat
+    Jefe al preparar el traspaso de P2, no una prueba.
+
+    Ahora se busca por PATRÓN a profundidad acotada, sin nombrar ninguna carpeta:
+    así encuentra el esquema en cualquier disposición, y sigue sin llevar dentro
+    ni una ruta del programa.
     """
     for base in (carpeta, carpeta / "entregables"):
         if base.exists():
             for p in base.glob("*.schema.json"):
                 return p
-    # Respaldo: subir desde la ubicación de este script
+    # Respaldo: subir desde la ubicación de este script, mirando unos niveles
+    # hacia abajo por PATRÓN. Nunca por nombre: un nombre escrito a mano envejece
+    # o delata; un patrón, no.
+    patrones = (
+        "*.schema.json",
+        "entregables/*.schema.json",
+        "*/entregables/*.schema.json",
+        "*/*/entregables/*.schema.json",
+    )
     aqui = Path(__file__).resolve().parent
     for base in (aqui, *aqui.parents):
-        for candidata in (base, base / "entregables"):
-            if candidata.exists():
-                for p in candidata.glob("*.schema.json"):
-                    return p
+        if not base.exists():
+            continue
+        for patron in patrones:
+            for p in sorted(base.glob(patron)):
+                return p
     return None
 
 
