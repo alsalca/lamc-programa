@@ -1,0 +1,474 @@
+[
+  {
+    "claim_id": "LAMC-P2-2026-0001",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "LOCAL:AHAB-SAFE-AAVE-DAO",
+      "label": "Aave DAO AHAB Safe"
+    },
+    "container": {
+      "type": "BLOCKCHAIN_WALLET",
+      "container_id": "0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e",
+      "operator": "Aave DAO published AHAB Safe",
+      "chain": "ethereum-mainnet",
+      "chain_id": 1
+    },
+    "instrument": {
+      "kind": "NATIVE",
+      "symbol": "USD_BASED_ACCOUNT_DATA"
+    },
+    "quantity": "24783691.41188819",
+    "source_type": "ONCHAIN",
+    "source_reference": "Ethereum block 26040185 (0x18d5779), Tenderly public JSON-RPC eth_call to 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2, selector getUserAccountData(address)=0xbf92857c.",
+    "capture_method": "Block-pinned eth_call. First returned word is totalCollateralBase in Aave base USD units with 8 decimals.",
+    "observed_at": "2026-09-23T16:05:25Z",
+    "effective_at": "2026-09-23T16:05:25Z",
+    "freshness": {
+      "status": "fresh",
+      "valid_until": "UNKNOWN",
+      "policy": "Valid for the pinned block; current state not established."
+    },
+    "authority": "PUBLIC_CHAIN",
+    "verification_status": "deterministic",
+    "confidence": "high",
+    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.aave_getUserAccountData.response.",
+    "evidence_hash": "UNKNOWN",
+    "reconciliation_status": "unreconciled",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "reconciliation_status",
+      "producer",
+      "schema_version",
+      "known",
+      "unknown",
+      "unknown_reason"
+    ],
+    "unknown": [
+      "evidence_hash"
+    ],
+    "unknown_reason": {
+      "evidence_hash": "No cryptographic hash generated; the exact call, endpoint, block and response are preserved."
+    },
+    "producer": "LAMC-P2/ethereum-aave-rpc",
+    "schema_version": "0.2.0"
+  },
+  {
+    "claim_id": "LAMC-P2-2026-0002",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "LOCAL:AHAB-SAFE-AAVE-DAO",
+      "label": "Aave DAO AHAB Safe"
+    },
+    "container": {
+      "type": "BLOCKCHAIN_WALLET",
+      "container_id": "0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e",
+      "operator": "Aave DAO published AHAB Safe",
+      "chain": "ethereum-mainnet",
+      "chain_id": 1
+    },
+    "instrument": {
+      "kind": "TOKEN",
+      "symbol": "AAVE_ACCOUNT_DEBT_BASE_USD"
+    },
+    "quantity": "2369837.79237062",
+    "source_type": "ONCHAIN",
+    "source_reference": "Ethereum block 26040185 (0x18d5779), Tenderly public JSON-RPC eth_call to 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2, selector getUserAccountData(address)=0xbf92857c. Second word is totalDebtBase.",
+    "capture_method": "Block-pinned eth_call.",
+    "observed_at": "2026-09-23T16:05:25Z",
+    "effective_at": "2026-09-23T16:05:25Z",
+    "freshness": {
+      "status": "fresh",
+      "valid_until": "UNKNOWN",
+      "policy": "Valid for the pinned block; current state not established."
+    },
+    "authority": "PUBLIC_CHAIN",
+    "verification_status": "deterministic",
+    "confidence": "high",
+    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.aave_getUserAccountData.response.",
+    "evidence_hash": "UNKNOWN",
+    "reconciliation_status": "unreconciled",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "reconciliation_status",
+      "producer",
+      "schema_version",
+      "known",
+      "unknown",
+      "unknown_reason"
+    ],
+    "unknown": [
+      "evidence_hash"
+    ],
+    "unknown_reason": {
+      "evidence_hash": "No cryptographic hash generated."
+    },
+    "producer": "LAMC-P2/ethereum-aave-rpc",
+    "schema_version": "0.2.0"
+  },
+  {
+    "claim_id": "LAMC-P2-2026-0003",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "LOCAL:AHAB-SAFE-AAVE-DAO",
+      "label": "Aave DAO AHAB Safe"
+    },
+    "container": {
+      "type": "BLOCKCHAIN_WALLET",
+      "container_id": "0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e",
+      "operator": "Aave DAO published AHAB Safe",
+      "chain": "ethereum-mainnet",
+      "chain_id": 1
+    },
+    "instrument": {
+      "kind": "TOKEN",
+      "symbol": "rETH"
+    },
+    "quantity": "51.6282",
+    "source_type": "ONCHAIN",
+    "source_reference": "Ethereum block 26040185 (0x18d5779), Tenderly public JSON-RPC eth_call balanceOf(AHAB_SAFE) on rETH 0xae78736Cd615f374D3085123A210448E74Fc6393, selector 0x70a08231.",
+    "capture_method": "Block-pinned balanceOf with 18 decimals. Recorded as token holding; no Rocket Pool deposit inferred.",
+    "observed_at": "2026-09-23T16:05:25Z",
+    "effective_at": "2026-09-23T16:05:25Z",
+    "freshness": {
+      "status": "fresh",
+      "valid_until": "UNKNOWN",
+      "policy": "Valid for the pinned block; current state not established."
+    },
+    "authority": "PUBLIC_CHAIN",
+    "verification_status": "deterministic",
+    "confidence": "high",
+    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.balanceOf_rETH.response.",
+    "evidence_hash": "UNKNOWN",
+    "reconciliation_status": "unreconciled",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "reconciliation_status",
+      "producer",
+      "schema_version",
+      "known",
+      "unknown",
+      "unknown_reason"
+    ],
+    "unknown": [
+      "evidence_hash"
+    ],
+    "unknown_reason": {
+      "evidence_hash": "No cryptographic hash generated."
+    },
+    "producer": "LAMC-P2/ethereum-token-rpc",
+    "schema_version": "0.2.0"
+  },
+  {
+    "claim_id": "LAMC-P2-2026-0004",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "LOCAL:AHAB-SAFE-AAVE-DAO",
+      "label": "Aave DAO AHAB Safe"
+    },
+    "container": {
+      "type": "BLOCKCHAIN_WALLET",
+      "container_id": "0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e",
+      "operator": "Aave DAO published AHAB Safe",
+      "chain": "base-mainnet",
+      "chain_id": 8453
+    },
+    "instrument": {
+      "kind": "NATIVE",
+      "symbol": "USD_BASED_ACCOUNT_DATA"
+    },
+    "quantity": "14985.87931525",
+    "source_type": "ONCHAIN",
+    "source_reference": "Base block 51691143 (0x314be87), Tenderly public JSON-RPC eth_call to 0xA238Dd80C259a72e81d7e4664a9801593F98d1c5, selector getUserAccountData(address)=0xbf92857c.",
+    "capture_method": "Block-pinned eth_call. First returned word is totalCollateralBase in Aave base USD units with 8 decimals.",
+    "observed_at": "2026-09-23T16:05:25Z",
+    "effective_at": "2026-09-23T16:05:25Z",
+    "freshness": {
+      "status": "fresh",
+      "valid_until": "UNKNOWN",
+      "policy": "Valid for the pinned block; current state not established."
+    },
+    "authority": "PUBLIC_CHAIN",
+    "verification_status": "deterministic",
+    "confidence": "high",
+    "raw_reference": "Raw response in /tmp/p2_capture.json chains.base.calls.aave_getUserAccountData.response.",
+    "evidence_hash": "UNKNOWN",
+    "reconciliation_status": "unreconciled",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "reconciliation_status",
+      "producer",
+      "schema_version",
+      "known",
+      "unknown",
+      "unknown_reason"
+    ],
+    "unknown": [
+      "evidence_hash"
+    ],
+    "unknown_reason": {
+      "evidence_hash": "No cryptographic hash generated."
+    },
+    "producer": "LAMC-P2/base-aave-rpc",
+    "schema_version": "0.2.0"
+  },
+  {
+    "claim_id": "LAMC-P2-2026-0005",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "LOCAL:AHAB-SAFE-AAVE-DAO",
+      "label": "Aave DAO AHAB Safe"
+    },
+    "container": {
+      "type": "BLOCKCHAIN_WALLET",
+      "container_id": "0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e",
+      "operator": "Aave DAO published AHAB Safe",
+      "chain": "base-mainnet",
+      "chain_id": 8453
+    },
+    "instrument": {
+      "kind": "TOKEN",
+      "symbol": "AAVE_HEALTH_FACTOR"
+    },
+    "quantity": "UNKNOWN",
+    "source_type": "ONCHAIN",
+    "source_reference": "Base block 51691143 (0x314be87), same Aave V3 getUserAccountData(address) response as the Base collateral record.",
+    "capture_method": "Block-pinned eth_call. Aave returned healthFactor = 2^256-1 and totalDebtBase = 0; HF does not apply.",
+    "observed_at": "2026-09-23T16:05:25Z",
+    "effective_at": "2026-09-23T16:05:25Z",
+    "freshness": {
+      "status": "fresh",
+      "valid_until": "UNKNOWN",
+      "policy": "Valid for the pinned block; current state not established."
+    },
+    "authority": "PUBLIC_CHAIN",
+    "verification_status": "deterministic",
+    "confidence": "high",
+    "raw_reference": "Raw response in /tmp/p2_capture.json chains.base.calls.aave_getUserAccountData.response.",
+    "evidence_hash": "UNKNOWN",
+    "reconciliation_status": "unreconciled",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "reconciliation_status",
+      "producer",
+      "schema_version",
+      "known",
+      "unknown",
+      "unknown_reason"
+    ],
+    "unknown": [
+      "quantity",
+      "evidence_hash"
+    ],
+    "unknown_reason": {
+      "quantity": "No HF applies: Aave returned uint256 max while totalDebtBase was zero.",
+      "evidence_hash": "No cryptographic hash generated."
+    },
+    "producer": "LAMC-P2/base-aave-rpc",
+    "schema_version": "0.2.0"
+  },
+  {
+    "claim_id": "LAMC-P2-2026-0006",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "LOCAL:AHAB-SAFE-AAVE-DAO",
+      "label": "Aave DAO AHAB Safe"
+    },
+    "container": {
+      "type": "BLOCKCHAIN_WALLET",
+      "container_id": "0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e",
+      "operator": "Aave DAO published AHAB Safe",
+      "chain": "ethereum-mainnet",
+      "chain_id": 1
+    },
+    "instrument": {
+      "kind": "TOKEN",
+      "symbol": "wstETH"
+    },
+    "quantity": "0",
+    "source_type": "ONCHAIN",
+    "source_reference": "Ethereum block 26040185 (0x18d5779), Tenderly public JSON-RPC eth_call balanceOf(AHAB_SAFE) on wstETH 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0, selector 0x70a08231.",
+    "capture_method": "Block-pinned balanceOf with 18 decimals. Returns measured zero.",
+    "observed_at": "2026-09-23T16:05:25Z",
+    "effective_at": "2026-09-23T16:05:25Z",
+    "freshness": {
+      "status": "fresh",
+      "valid_until": "UNKNOWN",
+      "policy": "Valid for the pinned block; current state not established."
+    },
+    "authority": "PUBLIC_CHAIN",
+    "verification_status": "deterministic",
+    "confidence": "high",
+    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.balanceOf_wstETH_direct_check.response.",
+    "evidence_hash": "UNKNOWN",
+    "reconciliation_status": "unreconciled",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "reconciliation_status",
+      "producer",
+      "schema_version",
+      "known",
+      "unknown",
+      "unknown_reason"
+    ],
+    "unknown": [
+      "evidence_hash"
+    ],
+    "unknown_reason": {
+      "evidence_hash": "No cryptographic hash generated."
+    },
+    "producer": "LAMC-P2/ethereum-token-rpc",
+    "schema_version": "0.2.0"
+  },
+  {
+    "claim_id": "LAMC-P2-2026-0007",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "LOCAL:AHAB-SAFE-AAVE-DAO",
+      "label": "Aave DAO AHAB Safe"
+    },
+    "container": {
+      "type": "BLOCKCHAIN_WALLET",
+      "container_id": "0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e",
+      "operator": "Aave DAO published AHAB Safe",
+      "chain": "ethereum-mainnet",
+      "chain_id": 1
+    },
+    "instrument": {
+      "kind": "OTHER",
+      "label": "PUBLICATION_OF_ENTITY_ADDRESS"
+    },
+    "quantity": "UNKNOWN",
+    "source_type": "SIGNED_DOCUMENT",
+    "source_reference": "Aave ecosystem address book, src/MiscEthereum.sol: https://github.com/bgd-labs/aave-address-book/blob/main/src/MiscEthereum.sol, constant AHAB_SAFE.",
+    "capture_method": "Documentary read of the organization-published address book.",
+    "observed_at": "2026-09-23T16:05:25Z",
+    "effective_at": "UNKNOWN",
+    "freshness": {
+      "status": "fresh",
+      "valid_until": "UNKNOWN",
+      "policy": "Publication record; no expiry policy established."
+    },
+    "authority": "INSTITUTION_DOCUMENT",
+    "verification_status": "documentary",
+    "confidence": "high",
+    "raw_reference": "Public source URL in source_reference.",
+    "evidence_hash": "UNKNOWN",
+    "reconciliation_status": "unreconciled",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "reconciliation_status",
+      "producer",
+      "schema_version",
+      "known",
+      "unknown",
+      "unknown_reason"
+    ],
+    "unknown": [
+      "quantity",
+      "effective_at",
+      "evidence_hash"
+    ],
+    "unknown_reason": {
+      "quantity": "The address book establishes the entity/address relationship, not a balance.",
+      "effective_at": "The publication date is not established.",
+      "evidence_hash": "No cryptographic hash generated."
+    },
+    "producer": "LAMC-P2/institution-document",
+    "schema_version": "0.2.0"
+  }
+]
