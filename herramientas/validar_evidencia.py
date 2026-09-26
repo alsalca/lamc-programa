@@ -12,11 +12,49 @@ USO:
 Ejemplo (desde la raíz del repositorio, donde está este archivo en
 `herramientas/`):
 
-    python3 herramientas/validar_evidencia.py .
+    python3 herramientas/validar_evidencia.py proyectos/P2_DEMO_RECONSTRUCCION
+
+La carpeta tiene que ser la del PROYECTO (o su `entregables/`), no la raíz del
+repositorio: la herramienta mira dentro de la carpeta que se le da, y en la raíz
+no hay fichas que mirar. Antes esta ayuda sugería pasar `.`, que no encontraba
+nada y parecía un fallo de las fichas.
 
 El esquema se busca primero en la carpeta indicada y en su subcarpeta
 `entregables/`. Si no aparece ahí, y existe el proyecto P1 de este programa en
 su ubicación canónica, se usa el esquema de ahí.
+
+QUÉ EXIGE A QUIÉN — CORRECCIÓN 2026-09-25
+-----------------------------------------
+Este validador aplicaba a CUALQUIER carpeta tres mínimos que en realidad eran
+requisitos del CHARTER DE P1 sobre SUS EJEMPLOS:
+
+    «3 ejemplos reales»                      (CHARTER de P1, E-P1-03)
+    «los ejemplos cubren >= 2 autoridades»   (CHARTER de P1, §8.4)
+
+Al generalizarlos, la herramienta SUSPENDÍA proyectos completos: P7 tiene una
+sola autoridad POR DISEÑO —es un dominio nuevo, no una demostración de que el
+sobre generaliza— y P3 no tiene ni un archivo JSON, porque sus entregables son
+documentos de texto. El fallo parecía del entregable y era del instrumento.
+
+Y era grave: la regla del programa es que un nivel no se pasa sin pasar su
+prueba. Si la prueba dice «falla» sobre algo bien hecho, lo roto es la prueba.
+
+Ahora los mínimos se DECLARAN por proyecto en `registro/entregables.json`:
+
+    "validacion": {"ejemplos_min": 3, "fichas_min": 0, "autoridades_min": 2,
+                   "_fuente": "CHARTER.md §8.4 y E-P1-03"}
+
+Un mínimo que nadie declara se informa como «no exigido» —NO se aprueba en
+silencio— para que se vea la diferencia entre «cumple» y «no se le pedía».
+
+CÓDIGOS DE SALIDA:
+    0  APROBADO        — todo lo aplicable pasa
+    1  PROBLEMAS       — hay algo que corregir
+    2  ERROR DE USO    — falta la carpeta o el argumento
+    3  NO APLICA       — no hay nada que este validador pueda comprobar aquí
+                         (por ejemplo un proyecto de documentos de texto)
+
+El 3 existe para que «no se comprobó nada» NUNCA se lea como «está bien».
 """
 
 import json
@@ -179,6 +217,132 @@ def buscar_esquema(carpeta):
     return None
 
 
+def cargar_registro():
+    """Lo que cada proyecto declara. Devuelve {} si no se encuentra.
+
+    Se busca en `registro/entregables.json` subiendo desde donde vive este
+    script. En el paquete publicado no existe, y no pasa nada: sin registro no
+    hay mínimos declarados, y entonces los mínimos se reportan como «no
+    exigido» en vez de inventarse. Es la diferencia entre no comprobar y
+    aprobar: aquí se dice cuál de las dos cosas está pasando.
+    """
+    for base in (Path(__file__).resolve().parent, *Path(__file__).resolve().parent.parents):
+        p = base / "registro" / "entregables.json"
+        if p.exists():
+            try:
+                d = json.loads(p.read_text(encoding="utf-8"))
+                return {k: v for k, v in d.items()
+                        if not k.startswith("_") and isinstance(v, dict)}
+            except Exception:
+                return {}
+    return {}
+
+
+def proyecto_de(carpeta, registro):
+    """Qué proyecto del registro es esta carpeta, si lo es.
+
+    Se mira la carpeta y sus padres: así funciona tanto si se le pasa la raíz
+    del proyecto como si se le pasa `entregables/` o `entregables/bundle/`.
+    Si no coincide con ninguno, devuelve (None, {}) — y entonces no se exige
+    ningún mínimo, en vez de aplicar los de otro.
+
+    ── CORRECCIÓN 2026-09-25 (auditoría, revisión 2, hallazgo 3) ──
+    Identificar al proyecto **solo por el nombre de su carpeta** dejaba un hueco
+    silencioso: P4 recortado a 1 ficha y copiado como `P4_RENOMBRADO` daba
+    **APROBADO (exit 0)**, porque con otro nombre no se le exigía su mínimo. Una
+    copia, un ZIP o un checkout con otro nombre se aprobaban sin sus mínimos.
+
+    Un proyecto no se reconoce solo por cómo se llama su carpeta: se reconoce
+    **por lo que él mismo declara**. Así que, si el nombre no coincide, se lee su
+    `CHARTER.md` y se busca qué proyecto se nombra en él. Se elige el que más
+    veces aparece, para que una mención de pasada a otro proyecto no confunda.
+    """
+    for p in (carpeta, *carpeta.parents):
+        if p.name in registro:
+            return p.name, registro[p.name]
+
+    for p in (carpeta, *carpeta.parents):
+        charter = p / "CHARTER.md"
+        if not charter.exists():
+            continue
+        try:
+            texto = charter.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        cuenta = {k: texto.count(k) for k in registro}
+        mejor = max(cuenta, key=cuenta.get) if cuenta else None
+        if mejor and cuenta[mejor] > 0:
+            return mejor, registro[mejor]
+    return None, {}
+
+
+def _props_permitidas(esq):
+    """Nombres de propiedad que un esquema admite, mirando también sus ramas."""
+    props = dict(esq.get("properties", {}))
+    for rama in esq.get("anyOf", []) + esq.get("allOf", []) + esq.get("oneOf", []):
+        if isinstance(rama, dict):
+            props.update(_props_permitidas(rama))
+    return props
+
+
+def _subesquema(esq, clave):
+    """El subesquema que describe `clave`, buscando también en las ramas."""
+    if clave in esq.get("properties", {}):
+        return esq["properties"][clave]
+    for rama in esq.get("anyOf", []) + esq.get("allOf", []) + esq.get("oneOf", []):
+        if isinstance(rama, dict):
+            r = _subesquema(rama, clave)
+            if r:
+                return r
+    return None
+
+
+def claves_prohibidas(instancia, esq, ruta=""):
+    """Claves que el contrato NO admite, allí donde declara `additionalProperties: false`.
+
+    POR QUÉ ESTA COMPROBACIÓN FALTABA (2026-09-25)
+    ----------------------------------------------
+    El esquema publicado prohíbe claves no declaradas en 5 sitios. El validador
+    **no lo comprobaba**, así que decía APROBADO sobre:
+      - los 4 ejemplos publicados, que llevaban `_example` en la raíz
+      - los bundles de P7, P8, P4 y N8, que llevaban `_meta` dentro de cada ficha
+
+    Lo encontró una auditoría independiente, no la herramienta. Es L-02 y L-15
+    otra vez: **un validador más laxo que el contrato no valida, aprueba.**
+    Y era peor que un fallo aislado: los ejemplos son el modelo que un tercero
+    copia, y no pasaban su propio contrato.
+
+    `additionalProperties` solo mira las propiedades declaradas EN EL MISMO
+    objeto del esquema —no las de las ramas `allOf`/`anyOf`, que es la trampa
+    clásica—, así que para las ramas se usa la unión de lo que admiten: una
+    clave se tolera si alguna rama la declara, y se reporta si no la declara
+    ninguna.
+    """
+    problemas = []
+    if not isinstance(esq, dict) or not isinstance(instancia, (dict, list)):
+        return problemas
+
+    if isinstance(instancia, dict):
+        ramas = [r for r in (esq.get("anyOf", []) + esq.get("allOf", [])
+                             + esq.get("oneOf", [])) if isinstance(r, dict)]
+        prohibe = (esq.get("additionalProperties") is False
+                   or any(r.get("additionalProperties") is False for r in ramas))
+        if prohibe:
+            admitidas = _props_permitidas(esq)
+            for k in instancia:
+                if k not in admitidas:
+                    problemas.append(f"{ruta}.{k}" if ruta else str(k))
+        for k, v in instancia.items():
+            sub = _subesquema(esq, k)
+            if sub:
+                problemas += claves_prohibidas(v, sub, f"{ruta}.{k}" if ruta else k)
+    else:
+        items = esq.get("items", {})
+        for i, v in enumerate(instancia):
+            problemas += claves_prohibidas(v, items, f"{ruta}[{i}]")
+    return problemas
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -189,9 +353,24 @@ def main():
         print(f"ERROR: no existe {carpeta}")
         return 2
 
+    registro = cargar_registro()
+    proyecto, info = proyecto_de(carpeta, registro)
+    val = info.get("validacion", {}) if isinstance(info.get("validacion"), dict) else {}
+    ejemplos_min = val.get("ejemplos_min", 0)
+    fichas_min = val.get("fichas_min", 0)
+    autoridades_min = val.get("autoridades_min", 0)
+    fuente_min = val.get("_fuente", "sin declarar")
+
     errores = 0
     print(f"\nVALIDADOR DE EVIDENCIA — {carpeta.name}")
     print("=" * 60)
+    if proyecto:
+        print(f"  proyecto declarado: {proyecto} "
+              f"(mínimos: ejemplos={ejemplos_min} fichas={fichas_min} "
+              f"autoridades={autoridades_min} · {fuente_min})")
+    else:
+        print("  carpeta no declarada en registro/entregables.json: "
+              "no se exige ningún mínimo; solo se comprueba lo que hay")
 
     # ── 1. El esquema es un archivo legible y declara los 22 campos ──
     print("\n[1] ESQUEMA")
@@ -246,9 +425,20 @@ def main():
                 break
 
     if not ejemplos:
-        errores += fallo("no encontré ejemplos (*.json)")
+        if ejemplos_min:
+            errores += fallo(f"no encontré ejemplos (*.json) y {proyecto or 'este proyecto'} "
+                             f"declara un mínimo de {ejemplos_min} ({fuente_min})")
+        else:
+            print("  — no aplica: esta carpeta no contiene ejemplos (*.json) y "
+                  "ningún proyecto declarado exige que los haya")
     else:
         ok(f"encontré {len(ejemplos)} archivo(s) de ejemplo")
+        if ejemplos_min and len(ejemplos) < ejemplos_min:
+            errores += fallo(f"{len(ejemplos)} ejemplo(s); {proyecto} declara un mínimo "
+                             f"de {ejemplos_min} ({fuente_min})")
+        elif ejemplos_min:
+            ok(f"{len(ejemplos)} ejemplo(s) — cumple el mínimo de {ejemplos_min} "
+               f"({fuente_min})")
         autoridades = set()
         total_fichas = 0
 
@@ -283,6 +473,14 @@ def main():
             problemas = []
             for i, f in enumerate(fichas, 1):
                 etq = f"{p.name} ficha {i}" if len(fichas) > 1 else p.name
+
+                # (0) El contrato prohíbe claves no declaradas. Se comprueba.
+                if esquema is not None:
+                    sobrantes_esq = claves_prohibidas(f, esquema)
+                    if sobrantes_esq:
+                        problemas.append(
+                            f"{etq}: claves que el contrato NO admite "
+                            f"(`additionalProperties: false`): {sobrantes_esq}")
 
                 # (1) TODOS los 22 campos deben existir y ser no vacíos.
                 #     El centinela "UNKNOWN" ES contenido válido (§ regla central).
@@ -425,31 +623,60 @@ def main():
                 ok(f"{p.name}: {len(fichas)} ficha(s) correcta(s)")
 
         # ── 3. Número mínimo de fichas ──
-        # El charter exige 3. Un archivo puede traer varias fichas dentro.
+        # Un archivo puede traer varias fichas dentro. El mínimo es un requisito
+        # del proyecto, no una regla del sobre: se declara, no se supone.
         print("\n[3] NÚMERO DE FICHAS")
-        if total_fichas >= 3:
-            ok(f"{total_fichas} fichas en total")
+        if not fichas_min:
+            print(f"  — no exigido: {proyecto or 'esta carpeta'} no declara mínimo de "
+                  f"fichas. Hay {total_fichas}.")
+        elif total_fichas >= fichas_min:
+            ok(f"{total_fichas} fichas en total — cumple el mínimo de {fichas_min} ({fuente_min})")
         else:
             errores += fallo(
-                f"solo {total_fichas} ficha(s). El charter exige al menos 3. "
-                "Un archivo con varias fichas dentro también cuenta.")
+                f"solo {total_fichas} ficha(s); {proyecto} declara un mínimo de "
+                f"{fichas_min} ({fuente_min}). Un archivo con varias fichas dentro también cuenta.")
 
         # ── 4. Diversidad de autoridades ──
+        # P1 exigía >= 2 para demostrar que el sobre generaliza. NO es una regla
+        # universal: P7 tiene una sola autoridad por diseño, porque es UN dominio
+        # nuevo, no una muestra de que el sobre sirva en varios.
         print("\n[4] DIVERSIDAD DE AUTORIDADES")
-        if len(autoridades) >= 2:
-            ok(f"{len(autoridades)} autoridades distintas: {sorted(autoridades)}")
+        if not autoridades_min:
+            print(f"  — no exigido: {proyecto or 'esta carpeta'} no declara mínimo de "
+                  f"autoridades. Hay {len(autoridades)}: {sorted(autoridades)}")
+        elif len(autoridades) >= autoridades_min:
+            ok(f"{len(autoridades)} autoridades distintas: {sorted(autoridades)} "
+               f"— cumple el mínimo de {autoridades_min} ({fuente_min})")
         else:
             errores += fallo(f"solo {len(autoridades)} autoridad(es): {sorted(autoridades)}. "
-                             "Se esperan al menos 2 para demostrar que el sobre generaliza")
+                             f"{proyecto} declara un mínimo de {autoridades_min} ({fuente_min})")
 
     # ── Resultado ──
+    #
+    # AVISO OBLIGATORIO (revisión 2, hallazgo 3): si hay fichas pero la carpeta no
+    # se reconoce como un proyecto declarado, NO se comprobaron sus mínimos — y el
+    # código de salida sigue siendo 0, porque lo que sí se comprobó está bien. Eso
+    # puede leerse como «todo bien» cuando en realidad **falta una comprobación**.
+    # Así que se dice en voz alta, justo antes del resultado: la diferencia entre
+    # «no se le pedía» y «no se miró» tiene que verse.
+    if ejemplos and not proyecto and not (fichas_min or autoridades_min or ejemplos_min):
+        print("\n  ⚠️  NO COMPROBADO: los mínimos de este proyecto (nº de fichas, diversidad")
+        print("      de autoridades). La carpeta no se reconoce como un proyecto declarado")
+        print("      —ni por su nombre ni por lo que declara su CHARTER.md—, así que no se")
+        print("      le exige ninguno. Lo que SÍ se comprobó, ficha por ficha: las 22")
+        print("      casillas, los valores permitidos y las claves de más.")
+
     print("\n" + "=" * 60)
     if errores == 0:
-        print("RESULTADO: APROBADO — los 3 bloques pasan")
-    else:
-        print(f"RESULTADO: {errores} PROBLEMA(S) — hay que corregir antes de reportar")
-    print("=" * 60 + "\n")
-    return 0 if errores == 0 else 1
+        if not ejemplos:
+            print("RESULTADO: NO APLICA — no hay ninguna ficha del sobre que comprobar "
+                  "en esta carpeta. NO significa que esté bien: significa que este "
+                  "validador no la ha mirado.")
+            return 3
+        print("RESULTADO: APROBADO — todo lo aplicable pasa")
+        return 0
+    print(f"RESULTADO: {errores} PROBLEMA(S) — hay que corregir antes de reportar")
+    return 1
 
 
 if __name__ == "__main__":

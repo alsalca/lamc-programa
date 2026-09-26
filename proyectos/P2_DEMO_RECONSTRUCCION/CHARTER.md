@@ -1,6 +1,6 @@
 # CHARTER — P2 `DEMO_RECONSTRUCCION`
 
-**Estado:** ACTIVO — **el único proyecto activo** (D-013, ejecución en serie)
+**Estado:** ✅ **PUBLICADO** · **Nivel:** **N1–N2**
 **Ola:** 1 · **Coste estimado:** 3–4 días
 **Chat responsable:** quien construye el entregable P2 · **Checker:** la revisión independiente · **Aprobado:** 2026-09-21 (D-001)
 **Abierto:** 2026-09-23, al cerrarse y publicarse P1

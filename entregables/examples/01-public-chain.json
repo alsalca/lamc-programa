@@ -1,11 +1,4 @@
 {
-  "_example": {
-    "file": "01-public-chain.json",
-    "covers_authority": "PUBLIC_CHAIN",
-    "what_it_demonstrates": "El camino mas fuerte: un saldo nativo leido en vivo por RPC, anclado a un NUMERO DE BLOQUE y a su hash. Cualquiera con un nodo repite la consulta y obtiene la misma cifra: eso es verificacion deterministica. La cantidad va en 'quantity', no en prosa.",
-    "source_of_record": "Consulta JSON-RPC en vivo. Endpoint y bloque exactos en 'source_reference'. El bloque se puede leer en cualquier explorador por su hash.",
-    "anonymization": "La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi precisamente para que el ejemplo no identifique a ninguna persona. El sujeto se referencia con una ETIQUETA LOCAL (prefijo LOCAL:), no con un dato personal."
-  },
   "claim_id": "LAMC-P1-2026-0001",
   "subject": {
     "type": "NATURAL_PERSON",

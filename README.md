@@ -106,7 +106,21 @@ parezca a tu caso. El verificador te dirá qué falta.
 - Que cada valor de la lista "establecido" sea realmente un valor, y cada hueco tenga motivo
 - Que las dos listas cubran las 22 casillas sin solaparse y sin dejar ninguna fuera
 - Que los valores cerrados (autoridad, estado de verificación, confianza) sean de la lista
-- Que haya al menos **tres fichas y dos autoridades distintas** — una ficha sola no demuestra nada
+- Que **no haya ninguna casilla de más**: el contrato declara `additionalProperties: false`,
+  así que una clave que el esquema no define —en la raíz o dentro de `subject`, `container`,
+  `instrument` o `freshness`— hace fallar la comprobación
+
+> **CORRECCIÓN 2026-09-25 (auditoría, revisión 2, hallazgo 2).** Aquí decía, como algo que la
+> herramienta comprueba, «que haya al menos **tres fichas y dos autoridades distintas**».
+> **Era verdad con la versión anterior y dejó de serlo con la corregida**, que declara esos
+> mínimos por proyecto en un registro interno que **este paquete no lleva**. La línea se
+> sustituye por la comprobación que sí hace —y que antes **no** hacía: la de las casillas de
+> más, que es la que faltaba y la que motivó la corrección.
+>
+> **Los mínimos, tal como salen hoy en este paquete:** la herramienta los informa como
+> **«no exigido»** y dice cuántos hay. Es deliberado: prefiere decir **«no se le pedía»** a
+> aprobar en silencio. **Lo que este paquete SÍ trae, y puedes contar tú mismo:** 4 ejemplos
+> y 4 autoridades distintas (`PUBLIC_CHAIN`, `INSTITUTION_DOCUMENT`, `INSTITUTION`, `DERIVED`).
 
 ---
 

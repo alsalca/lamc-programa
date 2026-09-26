@@ -93,3 +93,14 @@ Same `balanceOf` call pattern. Result: measured zero. No direct Lido position is
 - Constant: `AHAB_SAFE = 0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e`
 
 That record establishes the public entity/address relationship. It does not establish a balance; its `quantity` is therefore `UNKNOWN`.
+
+---
+
+## Nota de conformidad — `instrument.label`
+
+La ficha `LAMC-P2-2026-0007` llevaba `instrument.label: "PUBLICATION_OF_ENTITY_ADDRESS"`, un texto libre dentro del objeto
+`instrument`. **El contrato no lo admite**: `instrument` declara `additionalProperties: false` y no tiene campo de texto libre, a propósito
+(si no se sabe el tipo, el objeto entero vale `UNKNOWN`; no se anota al lado).
+
+El significado no se pierde: la ficha ya lo dice en sus propios campos — `instrument.kind: OTHER`, `source_type: SIGNED_DOCUMENT` y `capture_method` («lectura documental del libro de direcciones publicado por
+la organización») —, y el `unknown_reason` de `quantity` explica que el documento establece la relación entidad-dirección, no un saldo.

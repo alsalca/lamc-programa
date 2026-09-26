@@ -1,11 +1,4 @@
 {
-  "_example": {
-    "file": "02-institution-document.json",
-    "covers_authority": "INSTITUTION_DOCUMENT",
-    "what_it_demonstrates": "A5 en accion: alta autoridad institucional con reproducibilidad publica NULA. Y una demostracion del centinela en el campo mas importante: la CIFRA esta 'UNKNOWN' con su motivo, en vez de rellenarse con un cero o con una suposicion. Es la ficha que el sobre debe saber emitir cuando todavia no sabe cuanto. El contenedor SI se publica, para que cualquiera pueda comprobar su hash; la contrasena no, que es lo que reproduce el caso.",
-    "source_of_record": "Contenedor cifrado publicado en este repositorio como adjuntos/02-extracto-ejemplo.pdf.enc. Su contenido es SINTETICO: no es el extracto de ninguna persona.",
-    "anonymization": "El documento de este ejemplo es SINTETICO: se genero para el ejemplo y no describe a ninguna persona ni entidad real. No hay ningun dato de nadie aqui. El contenedor se publica cifrado para que el hash sea verificable y el contenido no."
-  },
   "claim_id": "LAMC-P1-2026-0002",
   "subject": {
     "type": "NATURAL_PERSON",

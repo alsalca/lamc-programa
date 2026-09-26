@@ -1,11 +1,4 @@
 {
-  "_example": {
-    "file": "03-derived.json",
-    "covers_authority": "DERIVED",
-    "what_it_demonstrates": "Tres cosas: (1) una cifra CALCULADA por nosotros a partir de otras evidencias; (2) reconciliation_status = disputed porque dos fuentes del mismo pipeline se contradicen sobre el mismo total, y la contradiccion se PRESERVA en vez de resolverse por inferencia; (3) freshness = expired sin borrar el dato. Y una cuarta: `container` tiene valor —es una etiqueta nuestra, marcada LOCAL:— asi que el campo va a `known`; lo que NO esta establecido es QUE CADENAS entran en el agregado, y ese hueco anidado vive en `unknown_detail` con su ruta (container.chain). Y una quinta: effective_at es una FECHA SIN HORA, porque la fuente solo dio la fecha — no se anade la precision que la fuente no dio (v0.5.0/I1).",
-    "source_of_record": "Informe interno de EJEMPLO, publicado en este repositorio como adjuntos/03-informe-ejemplo.txt. Su contenido es SINTETICO: no es el informe de ninguna persona.",
-    "anonymization": "Ejemplo ANONIMIZADO por completo. Se han SUSTITUIDO las cifras, la fecha de corte, las cadenas y los activos: el caso original describia el patrimonio real de una persona. El informe que se cita es un documento SINTETICO que se publica con el paquete, para que su hash sea comprobable. Nada de esta ficha procede de datos de nadie."
-  },
   "claim_id": "LAMC-P1-2026-0003",
   "subject": {
     "type": "NATURAL_PERSON",

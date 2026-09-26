@@ -417,8 +417,7 @@
       "chain_id": 1
     },
     "instrument": {
-      "kind": "OTHER",
-      "label": "PUBLICATION_OF_ENTITY_ADDRESS"
+      "kind": "OTHER"
     },
     "quantity": "UNKNOWN",
     "source_type": "SIGNED_DOCUMENT",

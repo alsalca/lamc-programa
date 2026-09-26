@@ -1347,3 +1347,44 @@ la herramienta del programa**. Hace **nueve** cosas:
 **Y un efecto secundario que importa:** la comprobación encontró **dos defectos reales** en
 el ejemplo 03 que la herramienta oficial **no detectaba** (F-4). Eso mide, mejor que ninguna
 afirmación, para qué sirve tener dos comprobaciones distintas.
+
+---
+
+## Anexo — Los cuatro ejemplos, explicados
+
+> Estas notas estaban dentro de los ejemplos, en una clave `_example`.
+> **El contrato no las admite**: el esquema declara `additionalProperties: false`,
+> así que los cuatro ejemplos NO validaban contra su propio esquema. El texto es el
+> mismo; solo ha dejado de viajar en un sitio donde estaba prohibido.
+
+### `01-public-chain.json`
+
+- **file** — 01-public-chain.json
+- **covers_authority** — PUBLIC_CHAIN
+- **what_it_demonstrates** — El camino mas fuerte: un saldo nativo leido en vivo por RPC, anclado a un NUMERO DE BLOQUE y a su hash. Cualquiera con un nodo repite la consulta y obtiene la misma cifra: eso es verificacion deterministica. La cantidad va en 'quantity', no en prosa.
+- **source_of_record** — Consulta JSON-RPC en vivo. Endpoint y bloque exactos en 'source_reference'. El bloque se puede leer en cualquier explorador por su hash.
+- **anonymization** — La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi precisamente para que el ejemplo no identifique a ninguna persona. El sujeto se referencia con una ETIQUETA LOCAL (prefijo LOCAL:), no con un dato personal.
+
+### `02-institution-document.json`
+
+- **file** — 02-institution-document.json
+- **covers_authority** — INSTITUTION_DOCUMENT
+- **what_it_demonstrates** — A5 en accion: alta autoridad institucional con reproducibilidad publica NULA. Y una demostracion del centinela en el campo mas importante: la CIFRA esta 'UNKNOWN' con su motivo, en vez de rellenarse con un cero o con una suposicion. Es la ficha que el sobre debe saber emitir cuando todavia no sabe cuanto. El contenedor SI se publica, para que cualquiera pueda comprobar su hash; la contrasena no, que es lo que reproduce el caso.
+- **source_of_record** — Contenedor cifrado publicado en este repositorio como adjuntos/02-extracto-ejemplo.pdf.enc. Su contenido es SINTETICO: no es el extracto de ninguna persona.
+- **anonymization** — El documento de este ejemplo es SINTETICO: se genero para el ejemplo y no describe a ninguna persona ni entidad real. No hay ningun dato de nadie aqui. El contenedor se publica cifrado para que el hash sea verificable y el contenido no.
+
+### `03-derived.json`
+
+- **file** — 03-derived.json
+- **covers_authority** — DERIVED
+- **what_it_demonstrates** — Tres cosas: (1) una cifra CALCULADA por nosotros a partir de otras evidencias; (2) reconciliation_status = disputed porque dos fuentes del mismo pipeline se contradicen sobre el mismo total, y la contradiccion se PRESERVA en vez de resolverse por inferencia; (3) freshness = expired sin borrar el dato. Y una cuarta: `container` tiene valor —es una etiqueta nuestra, marcada LOCAL:— asi que el campo va a `known`; lo que NO esta establecido es QUE CADENAS entran en el agregado, y ese hueco anidado vive en `unknown_detail` con su ruta (container.chain). Y una quinta: effective_at es una FECHA SIN HORA, porque la fuente solo dio la fecha — no se anade la precision que la fuente no dio (v0.5.0/I1).
+- **source_of_record** — Informe interno de EJEMPLO, publicado en este repositorio como adjuntos/03-informe-ejemplo.txt. Su contenido es SINTETICO: no es el informe de ninguna persona.
+- **anonymization** — Ejemplo ANONIMIZADO por completo. Se han SUSTITUIDO las cifras, la fecha de corte, las cadenas y los activos: el caso original describia el patrimonio real de una persona. El informe que se cita es un documento SINTETICO que se publica con el paquete, para que su hash sea comprobable. Nada de esta ficha procede de datos de nadie.
+
+### `04-institution-api.json`
+
+- **file** — 04-institution-api.json
+- **covers_authority** — INSTITUTION
+- **what_it_demonstrates** — Una institucion que responde por el dato: no somos nosotros midiendo la cadena, es un tercero que la indexa y responde por su lectura. Responde a la pregunta 'que autoridad tiene un dato que no medimos nosotros' sin ser un documento en papel. Y lleva la cifra en UNIDADES MINIMAS, como entero en texto: el formato no la convierte a numero decimal, asi que no puede redondear una posicion fraccionaria a cero.
+- **source_of_record** — API publica de Blockscout para Ethereum (eth.blockscout.com). Endpoint exacto en 'source_reference'.
+- **anonymization** — La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi para que el ejemplo no identifique a ninguna persona. El contrato del token es infraestructura publica de Ethereum. El sujeto se referencia con una etiqueta local.

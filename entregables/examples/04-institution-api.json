@@ -1,11 +1,4 @@
 {
-  "_example": {
-    "file": "04-institution-api.json",
-    "covers_authority": "INSTITUTION",
-    "what_it_demonstrates": "Una institucion que responde por el dato: no somos nosotros midiendo la cadena, es un tercero que la indexa y responde por su lectura. Responde a la pregunta 'que autoridad tiene un dato que no medimos nosotros' sin ser un documento en papel. Y lleva la cifra en UNIDADES MINIMAS, como entero en texto: el formato no la convierte a numero decimal, asi que no puede redondear una posicion fraccionaria a cero.",
-    "source_of_record": "API publica de Blockscout para Ethereum (eth.blockscout.com). Endpoint exacto en 'source_reference'.",
-    "anonymization": "La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi para que el ejemplo no identifique a ninguna persona. El contrato del token es infraestructura publica de Ethereum. El sujeto se referencia con una etiqueta local."
-  },
   "claim_id": "LAMC-P1-2026-0004",
   "subject": {
     "type": "NATURAL_PERSON",

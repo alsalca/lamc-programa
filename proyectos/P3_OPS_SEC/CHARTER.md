@@ -1,6 +1,6 @@
 # CHARTER — P3 `OPS_SEC`
 
-**Estado:** ACTIVO · **Ola:** 1 · **Coste estimado:** 4–6 días
+**Estado:** ✅ **PUBLICADO** · **Ola:** 1 · **Coste estimado:** 4–6 días
 **Chat responsable:** quien construye el entregable P3 · **Checker:** la revisión independiente · **Aprobado:** 2026-09-21 (D-001)
 
 ---
