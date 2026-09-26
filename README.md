@@ -229,7 +229,7 @@ distintos: los de aquí son de uso, los de allí son del contrato.
 | `entregables/adjuntos/03-informe-ejemplo.txt` | El documento **sintético** que cita el ejemplo 03. Se publica **entero** para que su hash y su contenido sean comprobables |
 | `herramientas/validar_evidencia.py` | El verificador. Sin dependencias |
 | `herramientas/comprobar_coincidencia.py` | Comprueba que el manual y el esquema no se contradigan. Es una **heurística**, no una garantía |
-| `proyectos/` | **Los cinco proyectos publicados** (P2, P3, P7, P8 y P4), cada uno con su `CHARTER.md` y sus entregables: el contrato aplicado fuera de P1, en cinco sujetos y dos industrias |
+| `proyectos/` | **Los seis proyectos publicados** (P2, P3, P7, P8, P4 y N8), cada uno con su `CHARTER.md`, sus entregables **y —en el caso de N8— los programas que comprueban sus números** |
 | `README.en.md` | Resumen en inglés de este `README.md`; ante cualquier diferencia, **manda el español** |
 | `SELLOS.txt` | El SHA-256 de cada archivo publicado. Se comprueba con `sha256sum -c SELLOS.txt` |
 | `CHANGELOG.md` | Qué cambió en cada versión y por qué |
@@ -342,6 +342,7 @@ su encargo, su procedencia y sus huecos declarados.
 | **`P7_SEGUNDO_DOMINIO`** | El mismo contrato, **sin cambiarle una letra**, sobre la contabilidad de un ayuntamiento. Es la prueba de que el método **no va de criptomonedas** |
 | **`P8_RECONCILIACION`** | Las dos series anteriores **en un solo registro, sin fusionarlas**: dice qué **no** se pudo unir y por qué |
 | **`P4_CAPA_CONTROLES`** | Los **52 controles de P3 aplicados a tres protocolos públicos** (Aave, Uniswap y Liquity). De 52 controles se pudieron observar **5, 4 y 5**; **casi todo lo demás es «no observable desde fuentes públicas»**. **No es una auditoría ni una certificación: no mide seguridad y no acusa a nadie** |
+| **`N8_ORS`** | Convierte esas mediciones en **un número por protocolo** — y **enseña a no leerlo como un veredicto**. Cada puntuación viaja con **su intervalo**: lo que no se pudo observar **no se reparte dentro del número**. Salen bajas porque **casi nada se puede ver desde fuera**, no porque falte dentro. **No es una nota de seguridad**, y el modelo **se niega a puntuar cuando no tiene datos** |
 
 En `P7` y `P8` el lector puede ir más lejos que en ningún otro sitio de este repositorio:
 **descargar el documento oficial, buscar la página y la línea que la ficha cita, y encontrar la
@@ -361,6 +362,7 @@ puede fallar**, y no se sube al siguiente sin pasarla.
 | **4** | **Un segundo dominio** ✅ — `P7` | ¿El mismo contrato sirve **sin modificarse** en una industria que no es la cripto? **Sí** |
 | **5** | **Conciliar** ✅ — `P8` | ¿Dos series de mundos distintos caben en un registro, declarando lo que **no** se puede unir? |
 | **6** | **Comparar** ✅ — `P4` | ¿Se puede comparar a dos instituciones **sin afirmar que una es mejor**? **Sí, y de 52 controles la mayoría quedan en «no observable» — que es la respuesta honesta, no la cómoda** |
+| **7** | **Puntuar** ✅ — `N8_ORS` | ¿Se puede convertir una medición en un número **sin esconder lo que no se sabe**? **Sí: el número es un suelo, la duda viaja aparte, y el modelo se niega a puntuar sin datos.** Y **un tercero sin contexto lo reproduce** — el programa que lo comprueba va en este paquete |
 
 **Nada de esto se publica como recomendación.** El repositorio declara lo que hay y lo que no se
 pudo establecer; **no dice a quién comprar ni qué es seguro.** Un peldaño que necesite afirmarlo

@@ -307,3 +307,65 @@ acaba de hacer con una de ellas.
 - **La prueba de ataque del verificador**: 57 casos.
 - **La prueba de los patrones de la puerta**: 10 casos.
 - **La huella del esquema, recalculada**: idéntica.
+
+---
+
+## Quinta publicación — 2026-09-26
+
+**El contrato sigue sin cambiar** —huella `fa709034…`, `VERSION` `0.2.0`—. Entra el último trabajo
+construido hasta hoy, y entra con algo que este repositorio no había publicado nunca: **el programa
+que comprueba sus propios números.**
+
+### Qué se añade
+
+| Proyecto | Qué es |
+|---|---|
+| **`N8_ORS`** | Un modelo que convierte las mediciones de `P4` en **una puntuación por protocolo**: qué parte de los 52 controles del estándar de `P3` está **verificada como presente**. Y, más importante que la puntuación, **cómo se publica la duda**: lo que no se pudo observar **no se reparte dentro del número**, se publica **aparte**, como un intervalo y como un eje de completitud. |
+
+### Por qué un número así es peligroso, y qué se hizo al respecto
+
+Una puntuación de 11,36 sobre 100 **se lee como un veredicto** aunque no lo sea, y **los tres
+números de este trabajo son bajos**. La tentación de publicarlos solos, como titular, era real.
+
+**No se hizo.** En el modelo y en el informe:
+
+- **La primera línea es una regla bloqueante:** el ORS **no es una nota de seguridad**, no dice si un
+  protocolo es «seguro» ni «más seguro».
+- **Ningún número viaja solo:** cada puntuación va acompañada de su **techo** y de su **completitud**.
+- **Se dice qué NO mide**, en siete puntos: no mide riesgo de contratos, ni de mercado, ni
+  regulatorio, ni la calidad de los controles, ni la ausencia de lo no observado.
+- **Se dice por qué salen bajos:** porque **casi nada se puede observar desde fuera**. Un número bajo
+  aquí mide, sobre todo, **lo poco que se puede ver** — no es un juicio sobre quien está dentro.
+- Y **el modelo se niega a puntuar cuando no tiene datos**: no devuelve 0 ni 100, dice que no se
+  puede.
+
+### La prueba, y por qué va dentro del paquete
+
+Antes de publicarlo, **un verificador independiente sin contexto** —al que solo se le dio el modelo
+y las mediciones, con prohibición de abrir el archivo de resultados— **reprodujo los seis valores y
+el orden**. La verificación encontró **tres huecos del modelo** (una fuente equivocada, un valor sin
+definir que cambiaba un número publicado, y un caso no escrito), y los tres están corregidos.
+
+**Y la prueba viaja con el trabajo:** `proyectos/N8_ORS/prueba_reproducibilidad.py` recalcula la
+puntuación **desde la matriz publicada**, comprueba los tres ejes contra `P4`, verifica la
+sensibilidad declarada, comprueba que el modelo **se niega a puntuar sin datos** y que **ningún
+texto afirma seguridad**. Cualquiera puede ejecutarlo. Un modelo que dice «es reproducible» y no
+deja con qué comprobarlo **pide que se le crea**; este no.
+
+### Un detalle que dice cómo trabaja este programa
+
+Al preparar esta publicación se corrigió en `P4` una marca que su propia evidencia desmentía. Esa
+corrección **cambió dos números de `N8`** —la completitud de un protocolo, de 9,62 a 7,69, y su
+techo, de 98,08 a 100,00—. **Se descubrió leyendo los documentos, no comprobándolos**, porque la
+prueba solo miraba la puntuación. Desde hoy la prueba **verifica los tres ejes contra `P4`**, y se
+comprobó que la comprobación caza: se rompió un número a propósito y saltó nombrando el valor y el
+archivo. **Una corrección tiene que poder propagarse sola, o alguien tiene que acordarse** — y
+acordarse no es un método.
+
+### La comprobación, esta vez
+
+- **La puerta de salida**: fidelidad byte a byte, sellos, cero credenciales, cero datos personales,
+  cero rutas de la máquina, historial de git revisado.
+- **La prueba de ataque del verificador**: 57 casos · **patrones de la puerta**: 10 casos.
+- **Las huellas citadas**: comprobadas contra los archivos que nombran.
+- **La huella del esquema, recalculada**: idéntica.
