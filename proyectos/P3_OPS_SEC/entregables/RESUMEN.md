@@ -256,7 +256,7 @@ cumple) dentro de su celda de tabla. **Prohibido:** "considerar", "evaluar", "te
 | 5 | Coste estimado del incidente | No se cuantificó formalmente |
 | 6 | Impacto operacional no cuantificado | Sin métricas de downtime |
 | 7 | Efectividad de políticas derivadas | No se ha medido aún |
-| 8 | Estado de rotación de credenciales | Acción pendiente: no consta que se haya rotado |
+| 8 | Estado de rotación de credenciales | **Telegram: sin rotación necesaria — el emisor rechaza el token (verificado 2026-09-26).** Clave de finanzas: **aplazada por decisión del operador**, que declara no usarla |
 | 9 | Cobertura actual de observabilidad | Implementación parcial, no medida |
 | 10 | **Localización actual del token de Telegram** (su existencia está establecida) | No se ha inventariado dónde sigue vivo el valor (historial, respaldos, cachés) |
 
@@ -334,8 +334,8 @@ acción del operador: **no consta que se haya hecho** (`UNKNOWN`).
 
 | Acción | Estado | Detalle |
 |--------|--------|---------|
-| Rotar la API key comprometida | ⛔ PENDIENTE / no consta | El valor hardcodeado sigue presente en el corpus crudo (ver §HALLAZGOS) |
-| Rotar el token de Telegram | ⛔ PENDIENTE / no consta | Token **real y comprometido**: el registro interno el registro interno (no publicado) lo confirma y el patrón reaparece en 2 commits del historial del corpus. La **localización actual del valor** es `UNKNOWN` (ver §HALLAZGOS) |
+| Rotar la API key comprometida | 🟡 **APLAZADA por decisión del operador** (2026-09-26) | **El valor ya NO está en el corpus** (marcador; 46.244 archivos barridos, cero apariciones). Está en un **repositorio privado**, nunca estuvo en sitio público, y **no hay servicio usándola** |
+| Rotar el token de Telegram | ✅ **NO HACE FALTA** (verificado 2026-09-26) | El emisor **rechaza el token**: se pidió a Telegram que identificara al bot con cada token encontrado y respondió «no autorizado» a los dos. Un token que el emisor rechaza **no abre nada** — no hay nada que rotar. Su texto sigue en un repositorio **sin remoto** y en uno privado: retirarlo es limpieza, no seguridad |
 
 > **CORRECCIÓN 2026-09-25:** esta sección llevaba un título interno y dos autorizaciones
 > internas numeradas. Se retiran el título y los códigos porque este documento se publica
@@ -367,7 +367,7 @@ crudo:
 5. `finanzas/__pycache__/api.py.cpython-313.pyc` (bytecode)
 6. `finanzas/__pycache__/api_FUNCIONANDO.cpython-313.pyc` (bytecode)
 
-La rotación de esa API key es **pendiente** y **no consta** que se haya hecho.
+La rotación de esa API key está **aplazada por decisión del operador** (2026-09-26), con el motivo escrito: no la usa. **El valor ya no está en el corpus** (lleva un marcador) y nunca estuvo en un sitio público.
 
 > **CORRECCIÓN 2026-09-25:** antes decía que la clave estaba hardcodeada como *fallback*
 > (`os.environ.get("API_KEY", "…")`) en `finanzas/api.py`, **línea 10 del archivo
@@ -400,16 +400,29 @@ quedó comprometido. Verificado el 2026-09-26, sin exponer el valor:
   `CAMBIA_ESTE_CHAT_ID`, y el patrón devuelve **0** sobre el árbol de trabajo (2026-09-25).
   Eso prueba que el árbol está limpio, **no** que el token no existiera.
 
-**`UNKNOWN`:** el **inventario actual completo de dónde sigue vivo el valor** (historial,
-respaldos, cachés). El `UNKNOWN` es de **localización**, **no de existencia**. La rotación de
-este token **sigue siendo obligatoria** y permanece en la rotación de credenciales **pendiente**: **no consta** que se haya
-hecho.
+**Inventario CERRADO y estado verificado (2026-09-26).** El `UNKNOWN` de «localización
+actual del valor» se cierra: se buscó **el valor real** en el disco entero —**46.244 archivos,
+cero apariciones**— y donde está es en el **repositorio privado** del sistema de finanzas.
+**Y el token está MUERTO: el emisor lo rechaza.** Se pidió a Telegram que identificara al bot
+con **cada token encontrado** y respondió «no autorizado» (`HTTP 401`) a los dos. **Un token
+que el emisor rechaza no abre nada**, así que **la rotación deja de ser necesaria**: no hay
+nada que proteger. Lo que sigue existiendo es su **texto**, en el historial de un repositorio
+**sin remoto** —nunca publicado— y en uno privado: retirarlo es **limpieza, no seguridad**.
 
 > **CORRECCIÓN 2026-09-26:** la versión anterior daba la afirmación por «no reproducible
 > contra el archivo citado» y **retiraba «token de Telegram» del alcance de rotación**. Era
 > A3 al revés —«no lo encontré» → «no hace falta»— y podía llevar a **no rotar una credencial
 > real**. Se corrige: existencia establecida, valor no reproducido, `UNKNOWN` reubicado en la
-> localización actual y rotación restituida a la rotación de credenciales **pendiente**.
+> localización actual y rotación restituida al alcance pendiente.
+>
+> **ACTUALIZACIÓN 2026-09-26, más tarde — y esto es lo que faltaba.** El estado de rotación se
+> quedó escrito como «pendiente / no consta» **cuando ya se había comprobado**, contra el
+> emisor, que **el token está muerto**. Ese desfase hizo que la **auditoría independiente de la
+> Revisión 5 diera `NO PUBLICABLE`**: leyó este documento, leyó el registro interno —que decía
+> «verificado muerto»— y concluyó, con razón, que **dos documentos oficiales se contradecían**.
+> **El fallo era nuestro y era de forma, no de fondo: el hecho estaba comprobado y no se había
+> escrito donde el lector lo busca.** Los documentos publicados son ahora los que llevan el
+> estado verificado, con su método y su fecha.
 
 ---
 

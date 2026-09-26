@@ -80,8 +80,21 @@ Se reconoció que:
 - **Ubicación verificada (2026-09-25):** un valor literal hardcodeado en `finanzas/api.py.bak` (línea 6), `finanzas/api_FUNCIONANDO.py` (línea 6), `finanzas/start.sh` (línea 5), `filesfinanzaspersonales/start.sh` (línea 5) y dos archivos `.pyc`. `finanzas/api.py` (línea 10) ya está en forma remediada, sin fallback.
 - **`UNKNOWN`:** qué contenía la «línea 10 original» de `finanzas/api.py`. El estado original del archivo no está en el corpus y no puede comprobarse.
 - **Violación:** la política de LAMC establece que "Los secretos JAMÁS deben quedar: hardcodeados; en GitHub; en documentación pública" (`LAMC_Master_Architecture_Document.md` §6)
-- **Estado actual:** REMEDIADO en `finanzas/api.py` (lee `os.environ.get("API_KEY")` y falla si no está definida).
-- **Nota:** el corpus crudo (copias `.bak`, scripts de inicio, bytecode) aún contiene ese valor; requiere la rotación de la credencial antes de publicar. **No consta** que se haya hecho.
+- **Estado actual (verificado 2026-09-26):** REMEDIADO en `finanzas/api.py` (lee
+  `os.environ.get("API_KEY")` y falla si no está definida) **y el corpus ya no contiene el valor**:
+  los archivos citados llevan hoy un **marcador** («cambia este valor»), no la credencial.
+  La comprobación se hizo **buscando el valor real, no la forma del campo**: **46.244 archivos
+  recorridos, cero apariciones**. Donde sí está es en el **repositorio privado del sistema de
+  finanzas**, y no se ha cambiado desde el 2026-05-03.
+- **Decisión del operador (2026-09-26), registrada con su motivo:** **no usa esa clave** y
+  **aplaza su rotación** para cuando el proyecto termine. El riesgo queda acotado por **hechos
+  comprobados**, no por un arreglo: **nunca estuvo en un sitio público** (los seis repositorios de
+  la cuenta, revisados archivo por archivo), el repositorio donde está es **privado**, y **no hay
+  servicio usándola**. **No se declara resuelto: se declara decidido.**
+  *(Esta frase sustituye a «requiere la rotación antes de publicar. **No consta** que se haya
+  hecho», que describía el estado del 2026-09-25 y quedó caducada. La contradicción la encontró la
+  auditoría independiente de la Revisión 5: tenía razón, y era este documento el que estaba
+  atrás.)*
 
 #### ❌ **Token de Telegram real, comprometido en el corpus**
 - Se encontró un token completo de Telegram en `safefactorbot.md` y el valor **quedó en el
@@ -103,10 +116,21 @@ Se reconoció que:
   real y quedó comprometido.
 - **Violación:** la política de LAMC establece que "Los secretos JAMÁS deben quedar:
   hardcodeados; en GitHub; en documentación pública" (`LAMC_Master_Architecture_Document.md` §6).
-- **Estado:** la rotación de este token **sigue siendo obligatoria** y forma parte de la rotación de credenciales **pendiente**
-  (registro interno, **no publicado**: el riesgo de rotación aplazada y la autorización pendiente del operador). **No consta** que se haya
-  rotado. Retirarlo del alcance de rotación sería A3 al revés: «no lo encontré» → «no hace
-  falta».
+- **Estado (verificado 2026-09-26): el token está MUERTO.** La comprobación se hizo **contra el
+  emisor**, que es lo único que puede decirlo: se pidió a Telegram que identificara al bot usando
+  **cada token encontrado** —el del historial del corpus y el del repositorio privado del sistema
+  de finanzas— y **respondió «no autorizado» (`HTTP 401`) a los dos**. Un token que el emisor
+  rechaza **no abre nada**: da igual en cuántos archivos, commits o respaldos siga escrito.
+- **Por eso la rotación ya no es necesaria para este token: no queda nada que proteger.** Lo que
+  sigue existiendo es su **texto**, en el historial de un repositorio que **no tiene remoto** —nunca
+  se publicó, y ninguna versión suya está en el repositorio público— y en el repositorio privado
+  citado. Retirarlo de ahí es **limpieza, no seguridad**.
+- **`UNKNOWN` que se cierra:** el «inventario actual completo de dónde sigue vivo el valor» era
+  `UNKNOWN` **mientras el token sirviera**. Ya no sirve, así que deja de ser material. Se deja
+  constancia de dónde está su texto, **sin reproducir el valor**.
+  *(Sustituye a «la rotación sigue siendo obligatoria… **No consta** que se haya rotado», que era
+  correcto el 2026-09-25 y quedó caducado tres días después. La contradicción con el registro la
+  encontró la auditoría independiente de la Revisión 5.)*
 
 > **CORRECCIÓN 2026-09-26:** esta sección degradaba el token a `UNKNOWN` y **lo sacaba del
 > alcance de rotación** —«no hay token que rotar»— porque el `grep` del archivo citado daba

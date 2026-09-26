@@ -369,3 +369,56 @@ acordarse no es un método.
 - **La prueba de ataque del verificador**: 57 casos · **patrones de la puerta**: 10 casos.
 - **Las huellas citadas**: comprobadas contra los archivos que nombran.
 - **La huella del esquema, recalculada**: idéntica.
+
+---
+
+## Sexta publicación — 2026-09-26
+
+**El contrato no cambió** —misma huella, `VERSION` `0.2.0`—. Cambia **`P3`**, y cambia por lo que
+encontró **una auditoría independiente**: dos documentos publicados decían cosas distintas sobre el
+mismo hecho.
+
+### Qué pasaba
+
+El **post-mortem** (`P3`) decía, sobre las credenciales del incidente, que su rotación *«sigue
+pendiente… **no consta** que se haya rotado»*. El registro interno del programa decía *«verificado
+muerto»*. **Dos documentos oficiales, dos verdades.** El auditor lo leyó, lo marcó como bloqueante, y
+**tenía razón**: cuando dos documentos se contradicen, **el lector no puede decidir** — y el que
+lea primero decide por él.
+
+Además, de ese mismo desfase salió una afirmación falsa: el auditor concluyó que **las copias de
+seguridad del corpus seguían conteniendo la clave**. No era cierto —llevan un marcador desde hace
+días—, pero **no podía comprobarlo** desde la copia que audita, así que se creyó lo que decía
+nuestro documento. **Un documento caducado hace mentir a quien lo lee con buena fe.**
+
+### Qué dice ahora, y con qué método
+
+**Las dos credenciales del incidente quedan con su estado verificado, escrito donde el lector lo
+busca, con el método y la fecha:**
+
+- **El token de Telegram está muerto.** La comprobación se hizo **contra el emisor**, que es lo
+  único que puede decirlo: se pidió a Telegram que identificara al bot con cada token encontrado y
+  respondió «no autorizado». **Un token que el emisor rechaza no abre nada**, así que **la rotación
+  dejó de ser necesaria**: no queda nada que proteger.
+- **La clave del sistema de finanzas ya no está en el corpus**: los archivos que la contenían llevan
+  un marcador. Se comprobó **buscando el valor real, no la forma del campo** — **46.244 archivos
+  recorridos, cero apariciones**. Está en un repositorio **privado**, nunca estuvo en un sitio
+  público, y **no hay servicio usándola**. Su rotación **está aplazada por decisión del operador**,
+  con el motivo escrito. **No se declara resuelto: se declara decidido.**
+
+### Lo que este episodio deja dicho, y vale más que la corrección
+
+**Un hecho comprobado y no escrito donde el lector lo busca es un hecho que no existe.** La
+comprobación estaba hecha desde el 26 por la mañana; el documento publicado no lo supo hasta que un
+auditor lo preguntó. **La credibilidad no se defiende con un matiz: se defiende con el hecho escrito
+donde toca, con su método y su fecha.**
+
+Y una segunda: **el auditor encontró lo que nadie miraba porque nadie tenía por qué mirarlo.** Por
+eso la auditoría es de fuera.
+
+### La comprobación, esta vez
+
+- **La puerta de salida**: fidelidad byte a byte, sellos, cero credenciales, cero datos personales,
+  cero rutas de la máquina, historial de git revisado.
+- **Las tres comprobaciones del programa**: 57 casos de ataque · 10 de patrones · huellas citadas.
+- **La huella del esquema, recalculada**: idéntica.
