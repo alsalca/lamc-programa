@@ -4,8 +4,10 @@
 
 - **Entidad pública documentada:** Aave DAO / AHAB Safe.
 - **Dirección pública:** `0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e`
-- **Fuente de publicación de la dirección:** libro de direcciones del ecosistema Aave, `src/MiscEthereum.sol`, donde aparece como `AHAB_SAFE`. Fuente pública: https://github.com/bgd-labs/aave-address-book/blob/main/src/MiscEthereum.sol
+- **Fuente de publicación de la dirección:** libro de direcciones del ecosistema Aave, `src/MiscEthereum.sol`, donde aparece como `AHAB_SAFE`. Fuente pública: https://github.com/bgd-labs/aave-address-book/blob/dd8bd67401e9c656061c0ac4dff777da25bca884/src/MiscEthereum.sol (commit `dd8bd67401e9c656061c0ac4dff777da25bca884`)
 - **Fuente de contexto de gobernanza:** repositorio público de propuestas del DAO de Aave: https://github.com/aave-dao/aave-proposals-v3
+
+> **CORRECCIÓN 2026-09-26:** la URL de la fuente de publicación citaba la rama `blob/main`, que se mueve. Se fija al commit `dd8bd67401e9c656061c0ac4dff777da25bca884`, el mismo que usa la ficha `LAMC-P2-2026-0007`.
 
 No se incluyen nombres, direcciones ni datos de las personas que puedan firmar o administrar el Safe. El sujeto de este bundle es el Safe y la entidad pública que publicó la dirección.
 

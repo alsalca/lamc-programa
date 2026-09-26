@@ -140,9 +140,15 @@ puede comprobar.**
 
 | Afirmación | Cifra | Fuente | Estado |
 |---|---|---|---|
-| Pérdidas en **abril de 2026** | **641,67 M** — el peor mes del año. Kelp DAO (293 M) + Drift (285 M) ≈ 88% | **Global Ledger**, 6-may-2026 *(primaria)* | ✅ **Confirmada** |
+| Pérdidas en **abril de 2026** | **641,67 M** — el peor mes del año. Kelp DAO (293 M) + Drift (285 M) ≈ **90%** | **Global Ledger**, 6-may-2026 *(primaria)* | ✅ **Confirmada** |
 | Pérdidas acumuladas en **protocolos DeFi**, 2020 → sep-2026 | **9.016 M** en 802 incidentes | **DeFiLlama**, cómputo directo *(primaria)* | ✅ **Confirmada, con el filtro declarado** |
 | Compromiso de **clave privada** como vector | **8.500 M** — «casi la mitad de todos los hackeos de los últimos 10 años» | **DL News** citando DeFiLlama, 22-abr-2026 | ⚠️ **Parcial** — es *todo cripto*, no solo DeFi |
+
+> **CORRECCIÓN 2026-09-25 · una operación mal hecha.** La fila de abril decía «Kelp DAO (293 M)
+> + Drift (285 M) ≈ **88%**». **(293 + 285) / 641,67 = 90,1%**, no 88%. Corregido a **≈90%**.
+> Se revisaron además las demás operaciones del documento: `123,5/83.050 = 0,149%`,
+> `116,94/96.404 = 0,121%` y `132,5/96.404 = 0,137%` (las tres de la tabla de Nexus Mutual)
+> están bien; las demás filas no llevan un porcentaje calculado que comprobar.
 
 **Nota sobre la tercera.** Se repite que la clave privada es el vector número uno y el phishing
 a multisigs el número dos. **El segundo no se sostiene** al clasificar solo protocolos DeFi: por
@@ -226,8 +232,8 @@ entrevista por correo con Hugh Karp.**
 
 **Los artículos de KuCoin, BingX y MEXC que repiten esas cifras no son fuentes independientes:**
 son resúmenes generados automáticamente de ese mismo artículo. **Se citan aquí las fuentes
-originales, no sus copias.** Es la regla L-01 de este programa: *se verifica contra la fuente,
-nunca contra la copia.*
+originales, no sus copias.** Es la regla que sostiene todo este documento: *se verifica contra la
+fuente, nunca contra la copia.*
 
 ---
 

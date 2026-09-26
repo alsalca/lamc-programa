@@ -100,7 +100,7 @@
 
 ---
 
-## 7. SUPERFICIE DE ATaque
+## 7. SUPERFICIE DE ATAQUE
 
 | # | Ítem | ✓/✗/? | Evidencia requerida |
 |---|------|-------|---------------------|
@@ -182,6 +182,12 @@
 - [ ] **CONDICIONAL:** ≤3 ✗ en total, con plan de remediación en <30 días
 - [ ] **NO APROBADO:** >3 ✗ o ✗ en secciones críticas — requiere remediación antes de operar
 
+> **NOTA 2026-09-25:** estas 3 casillas son de **decisión**, no de verificación. No cuentan
+> como ítems auditables: los ítems de verificación de esta checklist son los **52** de las
+> tablas (4+4+5+6+5+6+5+5+5+7), que coinciden con los 52 de `STANDARD.md`. El total de
+> casillas de la checklist es 52 + 3 = **55**. El comando `grep -c "^- \[ \]" CHECKLIST.md`
+> da 3 porque solo ve estas tres, que no son ítems.
+
 **Auditor:** _________________________
 **Fecha:** _________________________
 **Operación auditada:** _________________________
@@ -190,7 +196,7 @@
 
 ## NOTA SOBRE UNKNOWN
 
-Los ítems marcados con `?` (UNKNOWN) representan **riesgos no cuantificados**. Según el axioma A3 del Programa LAMC: *"La ausencia de evidencia no constituye evidencia"*. Un UNKNOWN no es un ✓ implícito; es un hueco que debe resolverse.
+Los ítems marcados con `?` (UNKNOWN) representan **riesgos no cuantificados**. Según el axioma A3: *"La ausencia de evidencia no constituye evidencia"*. Un UNKNOWN no es un ✓ implícito; es un hueco que debe resolverse.
 
 **UNKNOWN en secciones críticas (1,3,5,8) = BLOCK hasta que se establezca la verificación.**
 

@@ -47,19 +47,35 @@ fichas.
 *(Eso es lo que un agente ciego tuvo que adivinar en la quinta prueba, y no debería tener que
 adivinar: aquí está dicho.)*
 
+> **Nota para el lector de fuera — qué es y qué no es comprobable aquí.**
+> Los identificadores `HG-…` (autorizaciones del operador), `D-…` (decisiones), `R-…` (riesgos)
+> y `L-…` (lecciones y limitaciones) son **registros internos del autor que NO se publican**.
+> Se citan para poder rastrear de dónde viene cada regla —esa trazabilidad es deliberada—,
+> pero **un lector externo no puede abrirlos: para él, ese tramo es `UNKNOWN`**. Lo mismo vale
+> para los documentos internos que se citan por su nombre o su sección: **no viajan en este
+> repositorio** (cuando aparezcan, van marcados «documento interno, no publicado»). Y lo mismo
+> para las menciones a «la prueba ciega», «la revisión independiente» o «el charter»: son
+> procesos y documentos internos del programa, no artefactos que este paquete entregue.
+
 ### (v0.4.0/C1) El origen de una obligación es OTRA afirmación, y por tanto OTRA ficha
 
 **No hay campo para «desde cuándo existe la deuda», y no hace falta.** El sobre registra
 **una** afirmación con **una** fecha de efecto. Si necesitas dos hechos —«la deuda es de
-4.750.000 USD al 31 de agosto» y «la deuda se originó el 12 de marzo»—, son **dos fichas**,
+123.456 USD al 30 de junio» y «la deuda se originó el 12 de febrero»—, son **dos fichas**,
 cada una con su `effective_at`, su `raw_reference` y su autoridad. La segunda puede no
 existir: entonces el origen es simplemente **un hecho que no hemos afirmado**, que es
 distinto de un hueco de esta ficha.
 
 > **Esto aclara la regla de §4.3, y era el origen de la confusión:** la fecha de corte
-> describe **el saldo**, no el nacimiento de la obligación. Un saldo al 31-08 tiene
-> `effective_at` el 31-08 **aunque la obligación sea de marzo**. Y si lo que quieres
-> registrar es marzo, **eso no es un campo que falte: es una ficha que no has emitido**.
+> describe **el saldo**, no el nacimiento de la obligación. Un saldo al 30-06 tiene
+> `effective_at` el 30-06 **aunque la obligación sea de febrero**. Y si lo que quieres
+> registrar es febrero, **eso no es un campo que falte: es una ficha que no has emitido**.
+
+> **CORRECCIÓN 2026-09-26:** el ejemplo de esta sección usaba un importe que **no era real**
+> —cifra inflada por el sistema— y una fecha de corte que **señalaba a una persona**.
+> Se sustituyen por un importe neutro y un mes neutro, **en todas sus apariciones del
+> documento**. **La regla que el ejemplo ilustra no cambia:** un saldo y una deuda son
+> **DOS fichas distintas**, cada una con su fecha de efecto y su autoridad.
 
 **El esquema no se toca por esto.** El principio ya estaba en el contrato; lo que faltaba era
 decirlo aquí.
@@ -85,7 +101,7 @@ El contrato está construido para que estos cinco sean **comprobables**, no aspi
 | Notación | Significado |
 |---|---|
 | `date-time` | RFC 3339 con zona horaria explícita. Ejemplo: `2026-01-15T09:30:00Z`. |
-| **`UNKNOWN`** | **Centinela.** Cadena literal, en mayúsculas. Significa «aún no establecido» (axioma A1). En qué campos se admite lo declara **el esquema**, campo por campo: es **16 del hecho sí y 6 del registro nunca** (§3). **NO vale en los 22.** |
+| **`UNKNOWN`** | **Centinela.** Cadena literal, en mayúsculas. Significa «aún no establecido» (axioma A1). En qué campos se admite lo declara **el esquema**: **16 campos del hecho sí y 6 del registro nunca** (§3). **NO vale en los 22.** La cobertura del esquema no es uniforme: de los 6 del registro, `claim_id` y `schema_version` lo rechazan por patrón y `known`/`unknown`/`unknown_reason` por su tipo, pero **`producer` es una cadena libre y el esquema, solo, no impide `"UNKNOWN"`**: lo cubre la herramienta del programa, que lo rechaza en los seis campos del registro (R6, y hueco declarado y acotado en §5). |
 | `UNKNOWN` (lista) | Cuando el campo `unknown` contiene el nombre de un campo, ese campo **no quedó establecido**. |
 | Obligatorio | Los **22 campos** son obligatorios en toda ficha. No hay campos opcionales **entre los 22** (`unknown_detail` no es uno de los 22: es el cuerpo del motivo, apéndice **opcional** de `unknown_reason`, ver §4.6). |
 
@@ -136,7 +152,7 @@ los demás con algo — y ese algo era una invención.
 ### Dos cosas que NO son lo que parecen
 
 **(v0.3.0/B3) Una ilustración no es un valor por defecto.**
-Los ejemplos de esta spec y del esquema (`"4750000"`, `"saldo on-chain: 60 minutos"`,
+Los ejemplos de esta spec y del esquema (`"0.123456789012345678"`, `"saldo on-chain: 60 minutos"`,
 `"extracto bancario: cierre de mes"`) son **ilustraciones del formato**, nunca valores que se
 puedan copiar a una ficha. Copiar uno cuando **la fuente no lo declara** es **inferencia**, y
 está prohibido por A1/A3. Si no tienes el valor, va el centinela o se omite, y el hueco se
@@ -160,7 +176,7 @@ omitir**. La frontera correcta:
 ## 4. LOS 22 CAMPOS
 
 El sobre se llamó «de 14 campos» en documentos anteriores (HG-004). **La fuente original
-—`documento interno de propuesta` §5— enumera 21.**
+—(documento interno, no publicado) §5— enumera 21.**
 
 **A esos 21 se añade uno: `quantity`, en v0.2.0.** La fuente describía la procedencia de un
 importe **sin tener dónde poner el importe**. Lo detectó la prueba ciega de N0 y lo autorizó
@@ -388,7 +404,7 @@ derivación, aquí se describe la derivación.
 La cantidad de `instrument.symbol` que la afirmación sostiene.
 
 ```
-"quantity": "4750000"                  ← 4.750.000 USD
+"quantity": "123456"                   ← 123.456 USD
 "quantity": "0.123456789012345678"     ← ETH, con 18 decimales exactos
 "quantity": "UNKNOWN"                  ← no se estableció, y hay motivo abajo
 ```
@@ -402,10 +418,10 @@ La cantidad de `instrument.symbol` que la afirmación sostiene.
 2. **No lleva la moneda.** La unidad ya está en `instrument.symbol` (`USD`, `ETH`, `EUR`).
    Duplicarla permitiría que las dos se contradijeran.
 3. **No lleva la fecha.** Para un saldo a una fecha de corte, la fecha de corte **es**
-   `effective_at` (§4.3): un saldo al 31-08 rige desde el 31-08, no desde que lo leímos.
+   `effective_at` (§4.3): un saldo al 30-06 rige desde el 30-06, no desde que lo leímos.
 
 **Nunca es negativa.** Un pasivo se escribe con su valor absoluto y `instrument.kind = DEBT`.
-Un `-4750000` no diría si el sujeto debe o le deben.
+Un `-123456` no diría si el sujeto debe o le deben.
 
 > **El importe no va en prosa — CUANDO LA CIFRA SE CONOCE.** Escribirla dentro de
 > `capture_method` —como hizo la prueba ciega de N0 con la v0.1.0, que no tenía este campo— la deja
@@ -433,8 +449,16 @@ Un `-4750000` no diría si el sujeto debe o le deben.
 > no es prueba de fecha de efecto (la regla del programa: *no inferir verdad presente de
 > registros históricos*).
 
-> **El caso del saldo a una fecha de corte.** Si el extracto dice «saldo al 31 de agosto»,
-> entonces `effective_at = "2026-01-31"` y `observed_at` es el día que lo leímos.
+> **El caso del saldo a una fecha de corte.** Si el extracto dice «saldo al 30 de junio»,
+> entonces `effective_at = "2025-06-30"` y `observed_at` es el día que lo leímos.
+>
+> **CORRECCIÓN 2026-09-26:** el ejemplo usaba una fecha de corte que no era neutra, y una
+> nota explicaba en público de dónde procedía. **Esa explicación se retira** —un ejemplo
+> público no describe de dónde sale su fecha— y el mes se sustituye por uno neutro,
+> coherente en todo el documento. Se conserva la corrección aritmética que ya constaba:
+> aquí decía `effective_at = "2026-01-31"`, un mes que **no** era el del corte, y la fecha
+> de efecto tiene que ser **la del corte**; el propio documento lo dice unas líneas antes
+> y en §4.3.
 > La cifra **rige** desde el corte. Para un saldo puntual de cadena, `effective_at` es el
 > instante del bloque. Y si no se conoce la fecha de corte, `effective_at = "UNKNOWN"` con
 > su motivo: **no se copia `observed_at` para rellenar.**
@@ -448,7 +472,7 @@ Un `-4750000` no diría si el sujeto debe o le deben.
 > **Regla (v0.5.0/I1): NO SE AÑADE PRECISIÓN QUE LA FUENTE NO DIO.**
 
 El defecto que esto corrige era grave y silencioso: la fuente daba **sólo una fecha de corte**
-(`2026-01-31`), el esquema exigía un instante con hora y zona, y el emisor **fabricaba** las dos
+(`2025-06-30`), el esquema exigía un instante con hora y zona, y el emisor **fabricaba** las dos
 —`23:59:59` por convención y un **desplazamiento horario inferido de la moneda del instrumento**—. **Inventó
 precisión horaria y una zona que nadie le había dado**, que es exactamente lo que el centinela
 existe para no tener que hacer.
@@ -459,8 +483,8 @@ escribe hora, **la zona es obligatoria** — nunca una hora local suelta.
 ```
 instante de sistema o de cadena   ->  UTC           2026-01-15T09:30:00Z
 corte de una fuente con zona      ->  zona DE LA FUENTE
-                                      banco: 2026-01-31T23:59:59+02:00
-fecha sola, que es lo que la fuente dio ->  2026-01-31   (SIN hora y SIN zona)
+                                      banco: 2025-06-30T23:59:59+02:00
+fecha sola, que es lo que la fuente dio ->  2025-06-30   (SIN hora y SIN zona)
 ```
 
 **No se convierte en silencio.** El corte de un banco se escribe en el desplazamiento que ese banco usa, que
@@ -488,8 +512,14 @@ omite**: no se rellena con un ejemplo.
 > `"UNKNOWN"` y el hueco se declara — no se rellena con el ejemplo de la spec (B3, §3).
 
 > **La consecuencia de `expired` es dura:** el dato no se borra, pero **no puede sostener
-> una conclusión**. Ver `examples/03-derived.json`: una cifra de junio de 2026 conserva su
-> valor y su fecha, y aun así queda marcada `expired` en septiembre de 2026.
+> una conclusión**. Ver `examples/03-derived.json`: una cifra de **noviembre de 2025** conserva
+> su valor y su fecha, y aun así queda marcada `expired` en **noviembre de 2025** —su
+> `valid_until` es `2025-11-20`, el día siguiente a la observación—.
+>
+> **CORRECCIÓN 2026-09-25:** aquí decía «una cifra de junio de 2026 … queda marcada `expired`
+> en septiembre de 2026». **Era falso:** en el ejemplo 03, `observed_at` y `effective_at` son
+> `2025-11-19` y `valid_until` es `2025-11-20`. Los dos meses y los dos años estaban mal; la
+> fecha se corrige contra el archivo.
 
 ### 4.4 Con qué fuerza
 
@@ -801,7 +831,7 @@ Amplía un motivo hacia **dentro** de un campo compuesto, con notación de punto
 > **v0.4.0/T1 · Estas reglas se llaman `R1`–`R10`, no `A1`–`A10`.** Antes chocaban con los **axiomas
 > `A1`–`A5`** de §2: el mismo nombre para dos cosas distintas dentro del mismo documento, de
 > modo que una cita a «A3» no se sabía de cuál hablaba. **Los axiomas conservan la letra A**
-> porque están citados así en `esquema interno`; **las reglas pasan a R.**
+> porque están citados así en (documento interno, no publicado); **las reglas pasan a R.**
 > *(R2 vive en la tabla de coherencia, como B7: se reclasificó al comprobar que el esquema no
 > la imponía.)*
 >
@@ -817,7 +847,7 @@ Amplía un motivo hacia **dentro** de un campo compuesto, con notación de punto
 | R3 | `authority`, `verification_status`, `confidence`, `reconciliation_status`, `source_type`, `subject.type`, `container.type`, `instrument.kind` y `freshness.status` toman valores de su lista cerrada. |
 | R4 | `subject` referencia exactamente **un** sujeto. |
 | R5 | `container` e `instrument` son objetos distintos y ambos obligatorios (axioma A4). |
-| R6 | **El centinela se admite en los 16 campos del HECHO y NUNCA en los 6 del REGISTRO.** Cuáles son unos y otros, y qué nodo lo admite, **lo declara el esquema**. |
+| R6 | **El centinela se admite en los 16 campos del HECHO y NUNCA en los 6 del REGISTRO.** Cuáles son unos y otros, y qué nodo lo admite, **lo declara el esquema**. Pero la cobertura no es uniforme: `claim_id` y `schema_version` lo rechazan **por patrón** y `known`/`unknown`/`unknown_reason` **por su tipo**; **`producer` es `string` sin patrón, y el esquema, solo, no impide `"UNKNOWN"`**; **la herramienta del programa sí lo rechaza**, en los seis campos del registro, y aplica los patrones del esquema. El hueco está declarado y acotado en §5. |
 | R7 | **Bloqueante:** `unknown` no vacío exige `unknown_reason` no vacío. |
 | R8 | `subject_id` admite **las cuatro formas** de §4.1 y su patrón está en el esquema: el identificador de la fuente, una etiqueta `LOCAL:` nuestra, una forma **enmascarada** —con `X`, no con `*` (v0.5.0/X1)— o el centinela. Si el identificador real no queda establecido, se declara en `unknown_detail` con la clave `subject.subject_id`. |
 | R9 | `quantity`, cuando tiene valor, es una cadena decimal no negativa (`^(0\|[1-9][0-9]*)(\.[0-9]+)?$`) o el centinela `"UNKNOWN"`. **Nunca un número negativo**: el pasivo va con `instrument.kind = DEBT` y valor absoluto. |
@@ -850,13 +880,35 @@ Amplía un motivo hacia **dentro** de un campo compuesto, con notación de punto
 > esa coletilla **contradice a C11** —un campo que no aplica no va a `unknown`— y **contradice a §4.6**,
 > que ya la había retirado. **La regla vigente está en §4.6**, y es exacta: a `unknown` **si y solo si**
 > el valor es el centinela. Se deja constancia del hueco para que una cita antigua a C8 se sepa muerta.
-| C9 | `known`, `unknown` y `unknown_reason` **van a `known`** — son establecidos por construcción: los escribe el emisor y **no valen el centinela**. Si algún día valen `"UNKNOWN"` (la regla central lo permite), **van a `unknown` como cualquier otro campo**, y entonces la partición no se puede evaluar: el emisor habrá renunciado a su propia contabilidad. **`unknown_detail` NO va a ninguna de las dos listas**: no es uno de los 22 campos, es el cuerpo del motivo (axioma A1/C7). |
+| C9 | `known`, `unknown` y `unknown_reason` **van a `known`** — son establecidos por construcción: los escribe el emisor y **no valen el centinela**. La regla central **no admite el centinela en los 6 campos del registro** (§3), así que el caso contrario no puede darse; si alguna vez se diera, la partición no se podría evaluar y el emisor habría renunciado a su propia contabilidad. **`unknown_detail` NO va a ninguna de las dos listas**: no es uno de los 22 campos, es el cuerpo del motivo (axioma A1/C7). |
 | C11 | **«No aplica» vive en dos niveles (v0.5.0/S5).** En **los 22 campos**, «no aplica» se expresa **con el centinela** — ninguno se omite. En los **subcampos opcionales**, se **omiten** y no se declaran hueco. Es la frontera frente al **axioma A3** (§3). |
+
+> **CORRECCIÓN 2026-09-25 · C9.** La fila C9 decía «Si algún día valen `"UNKNOWN"` (la regla
+> central lo permite)». **Era falso:** la regla central admite el centinela en los **16 campos
+> del hecho** y **nunca** en los **6 del registro**, y para `known`/`unknown` la herramienta lo
+> rechaza de forma expresa. El paréntesis contradecía a §3 y a R6, unas líneas más arriba.
 
 > **C10 YA NO EXISTE** (v0.4.0/S2). Era la lista de «qué campos admiten el centinela», y era **la
 > causa raíz de tres rondas de fallos**. Con la regla central (§3) **no hay tal lista**: el
 > centinela vale en los 22. Se deja constancia del hueco en la numeración para que una cita
 > antigua a C10 se sepa muerta, en vez de apuntar a otra regla.
+
+> **HUECO DECLARADO Y ACOTADO (2026-09-25) · El esquema, solo, no impide el centinela en `producer`.**
+> La regla dice que ninguno de los 6 campos del registro admite `"UNKNOWN"`. El esquema la
+> impone **campo por campo, pero no en todos**: `claim_id` y `schema_version` lo rechazan por
+> patrón, y `known`, `unknown` y `unknown_reason` por su tipo. **`producer` es
+> `{"type":"string","minLength":1}`**: `"UNKNOWN"` cumple el mínimo y **el esquema, por sí
+> solo, lo admite**. Quien valide **solo** con el esquema —un validador JSON Schema estándar—
+> puede escribirlo.
+>
+> **Lo verificado ejecutando la herramienta del programa el 2026-09-25:** la herramienta **sí
+> lo rechaza**, en los seis campos del registro, y además **aplica los patrones del esquema**
+> (un `claim_id` que no cumpla el suyo se rechaza). El hueco queda **declarado, acotado y
+> cubierto**: es un hueco **del esquema**, y el esquema no se toca; **la herramienta lo
+> cubre**. No es «nadie lo comprueba»: es «el esquema solo, no lo comprueba; la herramienta,
+> sí». Hasta el 2026-09-25 la herramienta tampoco lo comprobaba —una ficha con
+> `producer: "UNKNOWN"` declarado en `unknown` pasaba `APROBADO`—; ese día se encontró y se
+> cerró.
 
 ---
 
@@ -893,7 +945,7 @@ esta spec y el esquema, sin hablar con el autor.**
 
 4. quantity   ← el campo que faltaba
    CUÁNTO. Cadena decimal, sin moneda y sin fecha:
-      "quantity": "4750000"
+      "quantity": "123456"
    La UNIDAD la pone instrument.symbol (USD, ETH...). La FECHA la pone effective_at.
    Nunca negativa: un pasivo va con instrument.kind = "DEBT" y valor absoluto.
    Si no la sabes, escribe "UNKNOWN" y da el motivo abajo. NUNCA un cero, y NUNCA
@@ -986,11 +1038,11 @@ sobre obliga a decir cuál es cuál.
 ## 9. COMPATIBILIDAD Y VERSIONADO
 
 **v0.1.0 fue la primera versión.** Cubría solo lo ya implementado más lo definido en el
-charter de P1 (R-007: límite duro contra el sobrediseño).
+charter de P1 —documento interno, no publicado— (R-007: límite duro contra el sobrediseño).
 
 **v0.2.0 añade un campo obligatorio: `quantity`.** La v0.1.0 describía **la procedencia de
 un importe sin tener dónde poner el importe**: podía decir «hay una deuda en USD
-documentada por este extracto» y no «la deuda es de 4.750.000 USD». Lo detectó la prueba
+documentada por este extracto» y no «la deuda es de 123.456 USD». Lo detectó la prueba
 ciega de N0, no nosotros. Por la regla 2 de abajo, añadir un campo obligatorio **rompe
 compatibilidad**, y por eso sube la versión menor.
 
@@ -1062,10 +1114,10 @@ Nada de esto se resuelve por inferencia. Se declara.
 ### Hallazgos
 
 **F-1 · El sobre se llama «de 14 campos» y tiene 21.**
-La fuente original (`documento interno de propuesta` §5,
-líneas 162–197) enumera **21** campos. La cifra «14» viajó a siete documentos y a la
+La fuente original —documento interno, no publicado— §5,
+líneas 162–197 enumera **21** campos. La cifra «14» viajó a siete documentos y a la
 herramienta de verificación sin contrastarse con la fuente (caso que motivó la regla
-9.quater de `esquema interno`). **La v0.2.0 implementa 22**, y el esquema marca los 22 como
+9.quater de un documento interno no publicado). **La v0.2.0 implementa 22**, y el esquema marca los 22 como
 `required`: los 21 de la fuente más `quantity` (F-5).
 **Estado:** la revisión independiente corrigió la herramienta y los rótulos el 2026-09-21 (F-3). La
 versión inicial de `validar_evidencia.py` solo exigía 14 campos y **no comprobaba 7**
@@ -1074,7 +1126,7 @@ versión inicial de `validar_evidencia.py` solo exigía 14 campos y **no comprob
 herramienta, no del contrato.
 **Residuo:** quedan **dos** referencias obsoletas — la contradicción interna de
 una página de síntesis interna (dice 14 en la línea 256 y 21 en las
-líneas 37, 53 y 238) y una entrada histórica de `registro interno`, que **no se edita** porque el
+líneas 37, 53 y 238) y una entrada histórica de un registro interno no publicado, que **no se edita** porque el
 log es append-only.
 
 **F-5 · El sobre no tenía campo para el IMPORTE — defecto arquitectónico.**
@@ -1095,16 +1147,17 @@ crédito (§4.2), `subject_id` sin centinela (v0.3.0/A8), C4 generalizada a camp
 `unknown_detail` como cuerpo del motivo (§4.6) y la regla C8 para `freshness.status = UNKNOWN`.
 
 **F-8 · Segunda prueba ciega: 15 correcciones (5 contradicciones, 9 ambigüedades, 1 hueco).**
-La segunda ronda de correcciones (`orden de corrección interna v0.3.0`) encontró **cinco contradicciones
+La segunda ronda de correcciones (orden de corrección interna v0.3.0 — documento interno, no publicado) encontró **cinco contradicciones
 internas** —el documento diciendo dos cosas a la vez—, **nueve ambigüedades** que obligaban a
 inventar o a juzgar sin regla, y **un hueco de diseño** que se resolvió **sin añadir campo**
-(C1). La lección de método: **el contrato crecía en campos mientras seguía contradiciéndose
+(v0.4.0/C1). La lección de método: **el contrato crecía en campos mientras seguía contradiciéndose
 por dentro**, y fue un agente sin contexto quien lo vio. Tabla de resoluciones y líneas
-exactas: `estado interno`, sección «Tabla L-10».
+exactas: documento interno no publicado, sección «Tabla L-10».
 
 **F-7 · Tres defectos propios, encontrados por la comprobación independiente al pasar a v0.2.0.**
 (1) La ficha `02` tenía `freshness` en `unknown`, cuando su valor **no** es el centinela sino un
-objeto establecido: por la regla C8 que la propia v0.2.0 define, iba a `known`. (2) Al moverlo,
+objeto establecido: por la regla de la partición que la propia v0.2.0 define —hoy en §4.6; la
+numeración **C8 quedó declarada MUERTA** (v0.6.0/A2)—, iba a `known`. (2) Al moverlo,
 quedó un **motivo huérfano** en `unknown_reason` —violando C2— que la herramienta del programa
 **no detecta** y sí detectó la comprobación independiente. (3) El apartado 6 de esa misma
 comprobación usaba una ficha con `unknown` vacío, de modo que **la regla bloqueante no se
@@ -1136,7 +1189,7 @@ esquema, y la prosa explica y remite.
 **Y una segunda lección:** un **borde** declarado (no puedo decir «sé que es una cuenta pero no
 de qué clase») **no es una contradicción** — es una limitación, y se escribe (L-7).
 
-**F-2 · El `contrato interno del proyecto` §8 se contradice.** Dice «Comprueba: 1…2…3…4» y a continuación
+**F-2 · El contrato interno del proyecto —documento interno, no publicado— §8 se contradice.** Dice «Comprueba: 1…2…3…4» y a continuación
 «los **6** pasos» y «los 6 comandos de validación», cuando el comando real es **uno**.
 Se reporta; no se corrige sin autorización, porque es texto de gobernanza.
 
@@ -1145,7 +1198,7 @@ Cuando este chat empezó a trabajar, `herramientas/validar_evidencia.py` exigía
 terminaba su salida con «los 3 bloques pasan» pese a tener 4. A mitad de sesión fue
 sustituida: ahora exige los **21**, cuenta **fichas** (no archivos), admite varias fichas
 dentro de un archivo y añade un bloque 4. **Este entregable se validó contra la versión
-corregida.** El archivo concreto que validó queda identificado por su hash en `estado interno`,
+corregida.** El archivo concreto que validó queda identificado por su hash en un estado interno no publicado,
 no por su fecha ni su tamaño: una fecha de modificación no dice nada sobre lo que el programa
 hace.
 **Consecuencia declarada:** el resultado `APROBADO` de esta sesión pertenece a esa versión
@@ -1158,12 +1211,19 @@ del programa: lee el esquema, extrae su condicional `if/then` y lo evalúa por s
 (1) `examples/03-derived.json` listaba `instrument` en `known` **y** en `unknown` a la vez:
 una contradicción interna que la herramienta del programa **no** detectaba. (2) El mismo
 ejemplo usaba notación de punto (`container.container_id`) dentro de `unknown_reason`, donde
-la regla C2 solo admite nombres de primer nivel. Ambos se corrigieron, y de ahí nacieron las
+la regla C6 solo admite nombres de primer nivel. Ambos se corrigieron, y de ahí nacieron las
 reglas C6 y C7.
+
+> **CORRECCIÓN 2026-09-26:** tres citas internas del SPEC. (a) La cita `(C1)` de F-8 se
+> escribe con su ronda —`v0.4.0/C1`—, como el resto del documento. (b) F-7 citaba «la regla
+> C8 que la propia v0.2.0 define»; la numeración C8 está declarada MUERTA en §5 (v0.6.0/A2),
+> así que ahora remite a la regla viva de la partición, que está en §4.6. (c) F-4 atribuía a
+> la regla C2 la prohibición de nombres anidados en `unknown`; la regla que lo prohíbe es la
+> **C6** (§5). Se corrige la cita, no la regla.
 
 ### Limitaciones declaradas
 
-> **L-7, L-8 y L-9 se consolidaron** en la sección siguiente como **C4, C2 y C5** (v0.6.0): eran las mismas limitaciones dichas en dos sitios.
+> **L-7, L-8 y L-9 se consolidaron** en la sección siguiente como **LIM-4, LIM-2 y LIM-5** (v0.6.0): eran las mismas limitaciones dichas en dos sitios.
 
 **L-1 · CORREGIDA: la red a RPC público no está bloqueada.** (v0.2.0)
 En v0.1.0 se declaró que la red saliente a RPC público respondía **HTTP 403**. **La
@@ -1184,17 +1244,26 @@ que recoge el hueco anidado sin debilitar la regla bloqueante, que sigue anclada
 
 **L-6 · `quantity` no dice si la cifra es un saldo o un flujo.** (NUEVA en v0.2.0)
 El campo expresa una cantidad **a una fecha** (un saldo, un valor), no un movimiento entre
-dos fechas. Para un flujo harían falta dos fechas. No se añade: el charter de P1 es N0 y
+dos fechas. Para un flujo harían falta dos fechas. No se añade: el charter de P1 —documento interno, no publicado— es N0 y
 la prueba ciega no lo pidió. **Marcar para cuando aparezca un caso real.**
 
-**L-3 · `known` y `unknown` no los valida la herramienta del programa.**
-`validar_evidencia.py` comprueba que los 22 campos existan y que `unknown` no vaya sin
-motivo, pero **no** comprueba C2 (que todo motivo corresponda a un campo de `unknown`),
-C5 (sin elementos compartidos), C6 (sin rutas anidadas en `unknown`) ni C7 (partición exacta
-de los 22 campos). En esta sesión esas **cuatro** reglas las
-verificó la **comprobación independiente** descrita en §12, que no forma parte de la
-herramienta oficial. **Es el candidato natural a incorporarse a la herramienta**, y mientras
-no se incorpore, C5/C6/C7 dependen de esa comprobación auxiliar.
+**L-3 · CORREGIDA — `known` y `unknown` SÍ los valida la herramienta del programa.** (2026-09-23)
+`validar_evidencia.py` comprueba hoy **C2** (todo motivo corresponde a un campo de `unknown`),
+**C5** (sin elementos compartidos), **C6** (sin rutas anidadas en `unknown`) y **C7** (partición
+exacta de los 22 campos), además de que los 22 campos existan y que `unknown` no vaya sin
+motivo. La comprobación se hizo **ejecutando la herramienta del programa** sobre estos ejemplos;
+los bloques de código que la implementan están en `herramientas/validar_evidencia.py` y sus
+comentarios citan cada regla (`C2`, `C5`, `C6`, `C7`). Según los propios comentarios del archivo,
+el bloque se incorporó el **2026-09-21** y el hueco de «fallar abierto» se cerró el
+**2026-09-23**. La **comprobación independiente** de §12 midió esas mismas reglas antes de que
+la herramienta las incorporara, y sigue existiendo como segunda comprobación: su valor nunca
+fue sustituir a la herramienta, sino no depender de ella.
+
+> **CORRECCIÓN 2026-09-25:** esta limitación decía que `validar_evidencia.py` **no** comprobaba
+> C2, C5, C6 ni C7 y que, «mientras no se incorpore», C5/C6/C7 dependían de la comprobación
+> auxiliar. **Era falso, y además dañino:** describía la herramienta como más débil de lo que
+> es, engañando al lector que no la usa y al que confía en ella. La herramienta las comprueba;
+> lo verifiqué ejecutándola.
 
 **L-4 · Los cuatro ejemplos son fichas individuales, no un conjunto reconciliado.**
 El contrato se demuestra sobre fichas sueltas. La reconstrucción de un portafolio es N1–N2
@@ -1230,33 +1299,42 @@ alineados está escrita en §9.**
 
 ### Limitaciones conocidas de v0.2.0
 
-**Estas NO son errores: son bordes conocidos.** Van escritas para que **nadie las descubra por
-sorpresa**. *(Las que ya estaban declaradas como L-7, L-8 y L-9 se consolidaron aquí como C4,
-C2 y C5: eran las mismas, dichas dos veces.)*
+> **CORRECCIÓN 2026-09-25 · De `C1…C5` a `LIM-1…LIM-5`.** Estas cinco limitaciones se numeraban
+> `C1`–`C5`, **el mismo identificador que las reglas C de §5** (`C1`…`C11`), con significados
+> **completamente distintos**: la `C2` de §5 es «todo motivo corresponde a un campo de
+> `unknown`» y la `C2` de aquí era «las cifras aproximadas no tienen campo propio». **Cualquier
+> cita a «C2» era ambigua.** Se renombran a **`LIM-1`…`LIM-5`** («LIM», de limitación) para que
+> una cita apunte a un solo sitio. **No se usó `K`** —que también sería mnemónico— porque
+> `K1`–`K4` ya son los cuatro criterios de la rúbrica de `confidence` (§4.4): habría cambiado
+> una colisión por otra.
 
-**C1 · «Válida» significa «conforme al sobre». NO significa «usable como evidencia».**
+**Estas NO son errores: son bordes conocidos.** Van escritas para que **nadie las descubra por
+sorpresa**. *(Las que ya estaban declaradas como L-7, L-8 y L-9 se consolidaron aquí como LIM-4,
+LIM-2 y LIM-5: eran las mismas, dichas dos veces.)*
+
+**LIM-1 · «Válida» significa «conforme al sobre». NO significa «usable como evidencia».**
 Una ficha puede ser **conforme al sobre** y tener un respaldo **incitable** —el caso en que el
 artefacto se conoce pero no se puede localizar, con `raw_reference` en el centinela (v0.6.0/B5)—.
 **`confidence` debe reflejarlo** y no puede ser `high`. **El contrato garantiza la FORMA de la
 evidencia, no su FUERZA.**
 
-**C2 · Las cifras aproximadas no tienen campo propio.**
+**LIM-2 · Las cifras aproximadas no tienen campo propio.**
 Si la fuente dice «como dos millones», **no hay forma de escribir la cifra sin afirmar una
 exactitud que la fuente no dio**. **La aproximación va en el motivo del hueco, no en el valor:**
 `quantity = "UNKNOWN"` + *«la fuente dijo aproximadamente 2.000.000 USD»*. **No se añade campo**:
 si algún día un caso real lo exige, se añade entonces.
 
-**C3 · No hay campo para la CONTRAPARTE de una deuda sin contenedor.**
+**LIM-3 · No hay campo para la CONTRAPARTE de una deuda sin contenedor.**
 En una deuda oral, **el acreedor no tiene dónde ir**: su único alojamiento posible era
 `container.operator`, y **no hay contenedor**. Se declara en vez de forzar un contenedor falso.
 
-**C4 · Conocimiento parcial DENTRO de un objeto compuesto.**
+**LIM-4 · Conocimiento parcial DENTRO de un objeto compuesto.**
 Si no sabes **de qué tipo** es el contenedor, **el objeto entero vale `"UNKNOWN"`** — no un
 objeto con el tipo sin establecer. **No se puede declarar «sé el número pero no el tipo».**
 *(`freshness.status` es un caso declarado y distinto: su `"UNKNOWN"` significa «no se estableció
 la política de vigencia», que es una afirmación útil, no conocimiento parcial del tipo.)*
 
-**C5 · `schema_version` no lo puede verificar un tercero ciego.**
+**LIM-5 · `schema_version` no lo puede verificar un tercero ciego.**
 La prueba prohíbe leer `VERSION`, así que el emisor lo toma de la prosa. **Es un límite de la
 PRUEBA, no del contrato.** Se anota para que no se confunda con un defecto del documento.
 
@@ -1274,37 +1352,45 @@ RECONCILIATION_RULES                 = OPEN   (el contrato registra el estado, n
 
 ## 11. PROCEDENCIA DE CADA CAMPO
 
-> **Nota para el lector de fuera.** Varias fuentes de esta tabla —`plan interno`,
-> `contrato interno del proyecto`, `esquema interno`, `encargo interno`, la *el documento interno de propuesta*— son documentos
-> internos del programa LAMC y **no se publican**. Se citan igualmente porque cada regla de
-> este contrato puede rastrearse hasta el documento y la línea que la originaron: **la
-> trazabilidad es lo que permite auditar el contrato en vez de tener que creer en él.**
-> Que una fuente no sea pública no la vuelve invisible: la vuelve **no comprobable por el
-> lector**, y eso se declara aquí en vez de disimularse.
+> **Nota para el lector de fuera.** Varias fuentes de esta tabla son documentos internos del
+> programa LAMC y **no se publican**: se citan como **(documento interno, no publicado)** más
+> la sección y la línea, porque cada regla de este contrato puede rastrearse hasta el documento
+> que la originó. **La trazabilidad es lo que permite auditar el contrato en vez de tener que
+> creer en él.** Que una fuente no sea pública no la vuelve invisible: la vuelve **no
+> comprobable por el lector**, y eso se declara aquí en vez de disimularse.
+> **Para un lector externo, cada una de esas referencias es `UNKNOWN`.**
 
 Tabla de trazabilidad (misión M-P1-01: campo → fuente).
 
 | Campo | Fuente autoritativa |
 |---|---|
-| Los **21** campos y su orden | `documento interno de propuesta` §5, líneas 162–197 |
+| Los **21** campos y su orden | (documento interno, no publicado) §5, líneas 162–197 |
 | El **22.º**, `quantity` | **No viene de la fuente: se añadió en v0.2.0.** Propuesta de la revisión independiente en HG-010, simplificada por el operador (D-014) a un campo plano; defecto detectado por la prueba ciega de N0 (F-5) |
-| Las 22 como `required` | `plan interno` §2.1 · `contrato interno del proyecto` §3 · `encargo interno` (bloque del sobre), con `quantity` añadido en v0.2.0 |
-| `authority` (5 valores) | el documento interno de propuesta §5 (líneas 201–219) · `contrato interno del proyecto` §5 |
-| `verification_status` (4 valores) | el documento interno de propuesta §5 · `contrato interno del proyecto` §5 |
-| `source_type` (11 valores) | el documento interno de propuesta §6 (líneas 223–255) · `contrato interno del proyecto` §5 |
-| `subject` (3 tipos) | `plan interno` §2.2 · `contrato interno del proyecto` §4 |
-| `container` (9 subtipos) | el documento interno de propuesta §4, líneas 127–156 |
-| `container ≠ instrument` (A4) | `plan interno` §1 · el documento interno de propuesta §4, línea 147 |
-| `observed_at ≠ effective_at` | `contrato interno del proyecto` §3 · `encargo interno` |
-| `freshness` vencida no sostiene conclusión | `contrato interno del proyecto` §3 · `encargo interno` |
-| `reconciliation_status` (3 valores) | `encargo interno` |
-| `unknown_reason` obligatorio | `plan interno` §2.1 · `contrato interno del proyecto` §6 · A1/A3 de `esquema interno` §1.bis |
-| Axiomas A1–A5 | `esquema interno` §1.bis · `plan interno` §1 |
-| Datos de los ejemplos 01 y 03 | Informe interno de observabilidad del programa LAMC (§D, §H.1, §C, §E, §G) — **documento privado, no publicado** |
-| Documento crudo del ejemplo 02 | Extracto bancario privado — **no publicado**; el ejemplo lo referencia por su hash |
+| Las 22 como `required` | (documento interno, no publicado) §2.1 · §3 · (bloque del sobre), con `quantity` añadido en v0.2.0 |
+| `authority` (5 valores) | (documento interno, no publicado) §5 (líneas 201–219) · §5 |
+| `verification_status` (4 valores) | (documento interno, no publicado) §5 · §5 |
+| `source_type` (11 valores) | (documento interno, no publicado) §6 (líneas 223–255) · §5 |
+| `subject` (3 tipos) | (documento interno, no publicado) §2.2 · §4 |
+| `container` (9 subtipos) | (documento interno, no publicado) §4, líneas 127–156 |
+| `container ≠ instrument` (A4) | (documento interno, no publicado) §1 · §4, línea 147 |
+| `observed_at ≠ effective_at` | (documento interno, no publicado) §3 |
+| `freshness` vencida no sostiene conclusión | (documento interno, no publicado) §3 |
+| `reconciliation_status` (3 valores) | (documento interno, no publicado) |
+| `unknown_reason` obligatorio | (documento interno, no publicado) §2.1 · §6 · A1/A3 §1.bis |
+| Axiomas A1–A5 | (documento interno, no publicado) §1.bis · §1 |
+| Datos de los ejemplos 01 y 03 | Informe interno de observabilidad del programa LAMC (§D, §H.1, §C, §E, §G) — **documento interno, no publicado**. El documento que la ficha 03 **cita y publica** es otro: `entregables/adjuntos/03-informe-ejemplo.txt`, un **documento SINTÉTICO** con las cifras, fechas y activos sustituidos (ver el anexo final) |
+| Documento crudo del ejemplo 02 | **Documento SINTÉTICO**, no el extracto de nadie: se publica **cifrado** en `entregables/adjuntos/02-extracto-ejemplo.pdf.enc` y el ejemplo lo referencia por su ruta y su hash (ver el anexo final) |
+
+> **CORRECCIÓN 2026-09-25 · la procedencia de los ejemplos 01–03.** Esta tabla decía del ejemplo
+> 02 «Extracto bancario **privado** — **no publicado**» y del 03 «Informe interno … documento
+> **privado, no publicado**». **Era falso:** los dos documentos son **SINTÉTICOS** —no son de
+> nadie—, el del 02 **se publica cifrado** en `entregables/adjuntos/02-extracto-ejemplo.pdf.enc`
+> y el del 03 **se publica entero** en `entregables/adjuntos/03-informe-ejemplo.txt`. Lo dicen
+> así el anexo final de este documento y el `README`. Un documento que se contradice consigo
+> mismo es peor que uno incompleto.
 
 **Huecos de procedencia declarados:** `known` / `unknown` / `unknown_reason` como **listas
-de nombres de campo** aparecen en `plan interno` §2.1 y en el charter como campos del
+de nombres de campo** aparecen en (documento interno, no publicado) §2.1 y en el charter del proyecto (documento interno, no publicado) como campos del
 sobre, pero **ningún documento del programa define su estructura interna**. La estructura
 adoptada aquí (listas de nombres de campo + objeto de motivos) es una **decisión de
 implementación**, no una transcripción. Queda marcada para que el checker la revise.
@@ -1319,9 +1405,12 @@ La validación determinística oficial es una sola:
 python3 herramientas/validar_evidencia.py .        # desde la raíz del repositorio
 ```
 
-**Esa comprobación tiene un límite conocido** (L-3): no verifica C5, C6 ni C7, y no
-comprueba que la regla bloqueante esté realmente **expresada en el esquema** — se conforma
+**Esa comprobación verifica hoy C2, C5, C6 y C7** (L-3, corregida). Su límite real es otro:
+**no comprueba que la regla bloqueante esté realmente expresada en el esquema** — se conforma
 con comprobar los datos.
+
+> **CORRECCIÓN 2026-09-25:** aquí decía que la comprobación oficial «no verifica C5, C6 ni C7».
+> **Era falso:** los comprueba desde que se corrigió L-3; lo verifiqué ejecutándola.
 
 Por eso este entregable se sometió además a una **comprobación independiente**, que **no usa
 la herramienta del programa**. Hace **nueve** cosas:
@@ -1329,13 +1418,13 @@ la herramienta del programa**. Hace **nueve** cosas:
 | # | Comprueba |
 |---|---|
 | 1 | `required` ⊆ `properties`, 22 campos obligatorios, y `unknown_detail` como único no-obligatorio (A4) |
-| 2 | Que las enumeraciones del esquema coinciden con las del charter (authority, verification_status, confidence, reconciliation_status, subject.type) |
+| 2 | Que las enumeraciones del esquema coinciden con las del charter del proyecto —documento interno, no publicado— (authority, verification_status, confidence, reconciliation_status, subject.type) |
 | 3 | Que el condicional `if/then` **existe en el esquema** y exige `unknown_reason` no vacío |
 | 4 | Que ese condicional **se dispara** sobre las cuatro fichas reales, evaluándolo sin usar el validador |
 | 5 | Que el esquema **rechaza** una ficha con `unknown` y sin motivo, y otra con motivo vacío |
 | 6 | Centinelas, `schema_version` = `VERSION`, C5, C6 y C7 sobre cada ficha |
 | 7 | **La partición del centinela, derivada recorriendo el esquema**: los **16 campos del hecho lo admiten** y los **6 del registro NO** (v0.5.0/S1 y S2), derivado del propio esquema y no de una lista escrita a mano |
-| 8 | **Los 6 subcampos opcionales lo admiten** (`chain`, `chain_id`, `contract_address`, `token_id`, `label`, `policy`) y **los 3 enums obligatorios NO** (v0.5.0/S3 y S4) |
+| 8 | **Los subcampos que el esquema declare —y solo esos— admiten el centinela**, y **los 3 enums obligatorios NO** (v0.5.0/S3 y S4). Contados recorriendo el esquema el 2026-09-25: **12 nodos anidados** — `subject.subject_id`, `subject.label`, `container.container_id`, `container.operator`, `container.chain`, `container.chain_id`, `instrument.symbol`, `instrument.contract_address`, `instrument.token_id`, `freshness.status`, `freshness.valid_until`, `freshness.policy` |
 | 9 | **Que `known`/`unknown` del esquema son exactamente los 22 campos** y que `unknown_detail` no está en ninguno. Y las convenciones: `LOCAL:` declarado, prefijo de `claim_id` = aparato de `producer`, máscara con `X` (no `*`), y las fechas con la precisión que la fuente dio (v0.5.0/X1 e I1) |
 
 **Resultado: `APROBADO — contrato coherente`.**
@@ -1345,8 +1434,16 @@ la herramienta del programa**. Hace **nueve** cosas:
 > como evidencia de que las reglas están donde se dice que están — no como `PASS`.
 
 **Y un efecto secundario que importa:** la comprobación encontró **dos defectos reales** en
-el ejemplo 03 que la herramienta oficial **no detectaba** (F-4). Eso mide, mejor que ninguna
-afirmación, para qué sirve tener dos comprobaciones distintas.
+el ejemplo 03 que la herramienta oficial **de entonces** no detectaba (F-4). Eso mide, mejor
+que ninguna afirmación, para qué sirve tener dos comprobaciones distintas.
+
+> **CORRECCIÓN 2026-09-25 · la lista de subcampos del punto 8.** Decía «**Los 6 subcampos
+> opcionales** lo admiten (`chain`, `chain_id`, `contract_address`, `token_id`, `label`,
+> `policy`)». **La lista se había copiado a mano y se quedó corta:** contados en el esquema son
+> **12** los nodos anidados que admiten el centinela, y entre los omitidos están
+> `subject.subject_id`, `container.container_id`, `container.operator`, `instrument.symbol` y
+> `freshness.valid_until`. La frase ya no repite una cifra copiada: **remite al esquema**, que
+> es la fuente, y la lista se cuenta ahí y se fecha.
 
 ---
 
@@ -1361,30 +1458,30 @@ afirmación, para qué sirve tener dos comprobaciones distintas.
 
 - **file** — 01-public-chain.json
 - **covers_authority** — PUBLIC_CHAIN
-- **what_it_demonstrates** — El camino mas fuerte: un saldo nativo leido en vivo por RPC, anclado a un NUMERO DE BLOQUE y a su hash. Cualquiera con un nodo repite la consulta y obtiene la misma cifra: eso es verificacion deterministica. La cantidad va en 'quantity', no en prosa.
+- **what_it_demonstrates** — El camino más fuerte: un saldo nativo leído en vivo por RPC, anclado a un NÚMERO DE BLOQUE y a su hash. Cualquiera con un nodo repite la consulta y obtiene la misma cifra: eso es verificación determinística. La cantidad va en 'quantity', no en prosa.
 - **source_of_record** — Consulta JSON-RPC en vivo. Endpoint y bloque exactos en 'source_reference'. El bloque se puede leer en cualquier explorador por su hash.
-- **anonymization** — La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi precisamente para que el ejemplo no identifique a ninguna persona. El sujeto se referencia con una ETIQUETA LOCAL (prefijo LOCAL:), no con un dato personal.
+- **anonymization** — La dirección del ejemplo NO es de nadie: se generó al azar y se comprobó contra la cadena que no tiene saldo, ni transacciones, ni código. Se eligió así precisamente para que el ejemplo no identifique a ninguna persona. El sujeto se referencia con una ETIQUETA LOCAL (prefijo LOCAL:), no con un dato personal.
 
 ### `02-institution-document.json`
 
 - **file** — 02-institution-document.json
 - **covers_authority** — INSTITUTION_DOCUMENT
-- **what_it_demonstrates** — A5 en accion: alta autoridad institucional con reproducibilidad publica NULA. Y una demostracion del centinela en el campo mas importante: la CIFRA esta 'UNKNOWN' con su motivo, en vez de rellenarse con un cero o con una suposicion. Es la ficha que el sobre debe saber emitir cuando todavia no sabe cuanto. El contenedor SI se publica, para que cualquiera pueda comprobar su hash; la contrasena no, que es lo que reproduce el caso.
-- **source_of_record** — Contenedor cifrado publicado en este repositorio como adjuntos/02-extracto-ejemplo.pdf.enc. Su contenido es SINTETICO: no es el extracto de ninguna persona.
-- **anonymization** — El documento de este ejemplo es SINTETICO: se genero para el ejemplo y no describe a ninguna persona ni entidad real. No hay ningun dato de nadie aqui. El contenedor se publica cifrado para que el hash sea verificable y el contenido no.
+- **what_it_demonstrates** — A5 en acción: alta autoridad institucional con reproducibilidad pública NULA. Y una demostración del centinela en el campo más importante: la CIFRA está 'UNKNOWN' con su motivo, en vez de rellenarse con un cero o con una suposición. Es la ficha que el sobre debe saber emitir cuando todavía no sabe cuánto. El contenedor SÍ se publica, para que cualquiera pueda comprobar su hash; la contraseña no, que es lo que reproduce el caso.
+- **source_of_record** — Contenedor cifrado publicado en este repositorio como adjuntos/02-extracto-ejemplo.pdf.enc. Su contenido es SINTÉTICO: no es el extracto de ninguna persona.
+- **anonymization** — El documento de este ejemplo es SINTÉTICO: se generó para el ejemplo y no describe a ninguna persona ni entidad real. No hay ningún dato de nadie aquí. El contenedor se publica cifrado para que el hash sea verificable y el contenido no.
 
 ### `03-derived.json`
 
 - **file** — 03-derived.json
 - **covers_authority** — DERIVED
-- **what_it_demonstrates** — Tres cosas: (1) una cifra CALCULADA por nosotros a partir de otras evidencias; (2) reconciliation_status = disputed porque dos fuentes del mismo pipeline se contradicen sobre el mismo total, y la contradiccion se PRESERVA en vez de resolverse por inferencia; (3) freshness = expired sin borrar el dato. Y una cuarta: `container` tiene valor —es una etiqueta nuestra, marcada LOCAL:— asi que el campo va a `known`; lo que NO esta establecido es QUE CADENAS entran en el agregado, y ese hueco anidado vive en `unknown_detail` con su ruta (container.chain). Y una quinta: effective_at es una FECHA SIN HORA, porque la fuente solo dio la fecha — no se anade la precision que la fuente no dio (v0.5.0/I1).
-- **source_of_record** — Informe interno de EJEMPLO, publicado en este repositorio como adjuntos/03-informe-ejemplo.txt. Su contenido es SINTETICO: no es el informe de ninguna persona.
-- **anonymization** — Ejemplo ANONIMIZADO por completo. Se han SUSTITUIDO las cifras, la fecha de corte, las cadenas y los activos: el caso original describia el patrimonio real de una persona. El informe que se cita es un documento SINTETICO que se publica con el paquete, para que su hash sea comprobable. Nada de esta ficha procede de datos de nadie.
+- **what_it_demonstrates** — Tres cosas: (1) una cifra CALCULADA por nosotros a partir de otras evidencias; (2) reconciliation_status = disputed porque dos fuentes del mismo pipeline se contradicen sobre el mismo total, y la contradicción se PRESERVA en vez de resolverse por inferencia; (3) freshness = expired sin borrar el dato. Y una cuarta: `container` tiene valor —es una etiqueta nuestra, marcada LOCAL:— así que el campo va a `known`; lo que NO está establecido es QUÉ CADENAS entran en el agregado, y ese hueco anidado vive en `unknown_detail` con su ruta (container.chain). Y una quinta: effective_at es una FECHA SIN HORA, porque la fuente solo dio la fecha — no se añade la precisión que la fuente no dio (v0.5.0/I1).
+- **source_of_record** — Informe interno de EJEMPLO, publicado en este repositorio como adjuntos/03-informe-ejemplo.txt. Su contenido es SINTÉTICO: no es el informe de ninguna persona.
+- **anonymization** — Ejemplo ANONIMIZADO por completo. Se han SUSTITUIDO las cifras, la fecha de corte, las cadenas y los activos: el caso original describía el patrimonio real de una persona. El informe que se cita es un documento SINTÉTICO que se publica con el paquete, para que su hash sea comprobable. Nada de esta ficha procede de datos de nadie.
 
 ### `04-institution-api.json`
 
 - **file** — 04-institution-api.json
 - **covers_authority** — INSTITUTION
-- **what_it_demonstrates** — Una institucion que responde por el dato: no somos nosotros midiendo la cadena, es un tercero que la indexa y responde por su lectura. Responde a la pregunta 'que autoridad tiene un dato que no medimos nosotros' sin ser un documento en papel. Y lleva la cifra en UNIDADES MINIMAS, como entero en texto: el formato no la convierte a numero decimal, asi que no puede redondear una posicion fraccionaria a cero.
-- **source_of_record** — API publica de Blockscout para Ethereum (eth.blockscout.com). Endpoint exacto en 'source_reference'.
-- **anonymization** — La direccion del ejemplo NO es de nadie: se genero al azar y se comprobo contra la cadena que no tiene saldo, ni transacciones, ni codigo. Se eligio asi para que el ejemplo no identifique a ninguna persona. El contrato del token es infraestructura publica de Ethereum. El sujeto se referencia con una etiqueta local.
+- **what_it_demonstrates** — Una institución que responde por el dato: no somos nosotros midiendo la cadena, es un tercero que la indexa y responde por su lectura. Responde a la pregunta 'qué autoridad tiene un dato que no medimos nosotros' sin ser un documento en papel. Y lleva la cifra en UNIDADES MÍNIMAS, como entero en texto: el formato no la convierte a número decimal, así que no puede redondear una posición fraccionaria a cero.
+- **source_of_record** — API pública de Blockscout para Ethereum (eth.blockscout.com). Endpoint exacto en 'source_reference'.
+- **anonymization** — La dirección del ejemplo NO es de nadie: se generó al azar y se comprobó contra la cadena que no tiene saldo, ni transacciones, ni código. Se eligió así para que el ejemplo no identifique a ninguna persona. El contrato del token es infraestructura pública de Ethereum. El sujeto se referencia con una etiqueta local.

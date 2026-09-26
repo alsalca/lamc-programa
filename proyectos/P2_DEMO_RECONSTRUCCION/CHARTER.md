@@ -2,7 +2,7 @@
 
 **Estado:** ✅ **PUBLICADO** · **Nivel:** **N1–N2**
 **Ola:** 1 · **Coste estimado:** 3–4 días
-**Chat responsable:** quien construye el entregable P2 · **Checker:** la revisión independiente · **Aprobado:** 2026-09-21 (D-001)
+**Autoría:** quien construye el entregable P2 · **Verificación:** independiente (ajena a la autoría) · **Aprobado:** 2026-09-21
 **Abierto:** 2026-09-23, al cerrarse y publicarse P1
 
 ---
@@ -33,26 +33,24 @@ resultado**. Y es lo que hará que P5 (la calculadora) tenga a dónde atraer tr�
 
 ## 3. RESTRICCIÓN DE ENTORNO — LEER ANTES DE EMPEZAR
 
-**Verificado:** el repositorio `lamc-observability-v5` **no existe en este entorno**.
-`[directorio del operador]/` no está disponible. Solo está el corpus documental en ``.
+**Verificado:** el repositorio interno de observabilidad **no existe en este entorno**.
+El directorio de trabajo del operador no está disponible. Solo está el corpus documental en (ruta interna omitida).
 
-Esto obliga a elegir un camino. **La elección es del la revisión independiente, no del Maker:**
+Esto obliga a elegir un camino. **La elección corresponde al verificador independiente, no a quien construye:**
 
 | Camino | Descripción | Coste | Requiere |
 |---|---|---|---|
-| **A — Reconstrucción desde fuentes públicas** | El Maker consulta RPC/exploradores públicos (curl) y construye el bundle a mano, aplicando el esquema de P1 | 3–4 días | Nada. Autocontenido |
-| **B — Pipeline real** | Se ejecuta en el Core Node, donde vive el repo | Depende de acceso | Acceso al Core Node + HG-005 |
+| **A — Reconstrucción desde fuentes públicas** | Quien construye consulta RPC/exploradores públicos (curl) y arma el bundle a mano, aplicando el esquema de P1 | 3–4 días | Nada. Autocontenido |
+| **B — Pipeline real** | Se ejecuta en la infraestructura interna, donde vive el repositorio | Depende de acceso | Acceso a la infraestructura interna + autorización humana expresa |
 
 **Camino por defecto: A.** Es autocontenido, no depende de infraestructura y demuestra
 mejor el método (porque el esfuerzo de procedencia queda a la vista).
-Cambiar a B requiere **Human Gate**.
+Cambiar a B requiere **autorización humana expresa**.
 
 ---
 
 ## 4. ENTREGABLE
 
-| # | Artefacto | Descripción |
-|---|---|---|
 Todos los entregables van en `proyectos/P2_DEMO_RECONSTRUCCION/entregables/`.
 
 | # | Artefacto | Descripción |
@@ -129,11 +127,12 @@ python3 herramientas/validar_evidencia.py \
 
 La herramienta **encuentra sola el esquema de P1**: no hay que copiarlo aquí ni
 indicarle dónde está. Comprueba que cada posición tiene las **22 casillas**
-completas, que los valores están en las listas permitidas, que la partición
-`known`/`unknown` cubre las 22 sin solaparse y sin dejar ninguna fuera, y que
-**ningún `unknown` va sin su `unknown_reason`** (regla bloqueante).
+completas, que los valores están en las listas permitidas, que ninguna ficha lleva
+claves que el contrato no admite, que la partición `known`/`unknown` cubre las 22
+sin solaparse y sin dejar ninguna fuera, y que **ningún `unknown` va sin su
+`unknown_reason`** (regla bloqueante).
 
-**Criterio:** los cinco pasos pasan, y el informe declara al menos **un** hueco `UNKNOWN`
+**Criterio:** los cuatro bloques del validador pasan, y el informe declara al menos **un** hueco `UNKNOWN`
 (una reconstrucción sin huecos es sospechosa, no perfecta).
 
 ---
@@ -142,7 +141,7 @@ completas, que los valores están en las listas permitidas, que la partición
 
 - ❌ Tocar wallets propias o del operador
 - ❌ Exponer información atribuible a personas identificables
-- ❌ Publicar (requiere HG-001)
+- ❌ Publicar (requiere autorización humana expresa)
 - ❌ Construir infraestructura de observabilidad permanente
 - ❌ Ejecutar cualquier transacción
 - ❌ Interactuar con contratos (solo lectura)
@@ -153,11 +152,11 @@ completas, que los valores están en las listas permitidas, que la partición
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
-| R-009 | Wallet trivial que no demuestre nada | Criterio de selección obligatorio (§5); el la revisión independiente aprueba la elección |
+| R-009 | Wallet trivial que no demuestre nada | Criterio de selección obligatorio (§5); el verificador independiente aprueba la elección |
 | R-010 | La reconstrucción parece perfecta ⇒ parece inventada | Obligatorio declarar huecos; sin `unknowns.md` no hay `PASS` |
-| R-011 | Exposición de privacidad de terceros | Criterio §5 + revisión del la revisión independiente |
+| R-011 | Exposición de privacidad de terceros | Criterio §5 + verificación independiente |
 | R-012 | Deriva hacia construir un producto | Prohibido en §7; el entregable es un informe, no software |
-| R-013 | **Publicar sin querer un dato de una persona** | Aprendido publicando P1 (L-14, L-16, L-17): el bundle no lleva rutas, correos, nombres de sistemas ni nada atribuible. **Y si algún día se publica, el historial de git también viaja: limpiar los archivos no basta** |
+| R-013 | **Publicar sin querer un dato de una persona** | Aprendido al publicar P1: el bundle no lleva rutas, correos, nombres de sistemas ni nada atribuible. **Y si algún día se publica, el historial de git también viaja: limpiar los archivos no basta** |
 
 ---
 
@@ -165,10 +164,10 @@ completas, que los valores están en las listas permitidas, que la partición
 
 | ID | Misión | Salida |
 |---|---|---|
-| **M-P2-01** | Proponer 3 wallets candidatas con justificación | Tabla de candidatas → **filtro del la revisión independiente** + **autorización del operador** si la candidata no es una entidad pública documentada |
+| **M-P2-01** | Proponer 3 wallets candidatas con justificación | Tabla de candidatas → **filtro del verificador independiente** + **autorización del operador** si la candidata no es una entidad pública documentada |
 | **M-P2-02** | Reconstruir las posiciones desde fuentes públicas | `positions.json` + `evidence.md` |
 | **M-P2-03** | Declarar los huecos | `unknowns.md` |
-| **M-P2-04** | Documentar el razonamiento y correr validación | `reasoning.md` + salida de los 5 comandos |
+| **M-P2-04** | Documentar el razonamiento y correr validación | `reasoning.md` + salida del comando de validación |
 
 **M-P2-01 requiere aprobación antes de continuar.** No empezar la reconstrucción sin
 la wallet aprobada.
@@ -178,24 +177,25 @@ la wallet aprobada.
 ## 10. CRITERIO DE TERMINADO
 
 `PASS` cuando:
-1. Los cinco comandos de validación pasan.
+1. El comando de validación pasa (los cuatro bloques del validador).
 2. Existe al menos un hueco declarado como `UNKNOWN`.
 3. Un tercero puede seguir `reasoning.md` y llegar a las mismas conclusiones.
 
 ---
 
-## 11. HUMAN GATES
+## 11. AUTORIZACIONES REQUERIDAS
 
-- **HG-001** — publicación externa
-- **HG-005** — si se elige el Camino B (pipeline real en el Core Node)
-- **HG-009** — aprobación de la wallet elegida. **Tiene DOS partes, y conviene no
-  confundirlas** (corregido el 2026-09-23: el charter decía «delegado al la revisión independiente» y al Maker
-  se le dijo «lo aprueba el operador» — una regla en dos sitios que no decían lo mismo):
+- **Publicación externa** — requiere autorización humana expresa.
+- **Camino B (pipeline real en la infraestructura interna)** — requiere autorización humana expresa.
+- **Aprobación de la wallet elegida.** **Tiene DOS partes, y conviene no
+  confundirlas** (corregido el 2026-09-23: el charter decía «delegado a la verificación
+  independiente» y a quien construye se le dijo «lo aprueba el operador» — una regla en dos
+  sitios que no decían lo mismo):
   - **La idoneidad técnica** —que la wallet demuestre lo que hay que demostrar— **la juzga el
-    la revisión independiente.** Está delegada.
+    verificador independiente.** Está delegada.
   - **La privacidad de un tercero** —si se reconstruyen y publican las finanzas de alguien que
     no ha dado permiso— **la autoriza el operador.** No es delegable: es material e
     irreversible, y es exactamente el tipo de decisión que el programa reserva al humano.
   - **Regla práctica:** si la candidata es una **entidad pública documentada** (una tesorería de
-    DAO, un multisig de protocolo, una fundación), decide el la revisión independiente. Si es una **dirección
+    DAO, un multisig de protocolo, una fundación), decide el verificador independiente. Si es una **dirección
     pseudónima que puede ser de un particular**, autoriza el operador.

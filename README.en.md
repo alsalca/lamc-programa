@@ -10,8 +10,10 @@
 > publishes** — the format that makes the following steps possible. What comes next is at
 > the end, under *The programme*.
 
-> **This is a summary.** The authoritative document is `entregables/SPEC.md`, written in
-> Spanish. If this page and the spec ever disagree, **the spec wins.** A full English
+> **This is a summary, not a translation.** The authoritative documents are `README.md` and
+> `entregables/SPEC.md`, both written in Spanish. If this page and either of them ever disagree,
+> **the Spanish wins.** This page deliberately omits some sections of the Spanish `README.md`
+> (the worked example and why this matters now) — and it must not contradict it. A full English
 > translation is welcome — see `CONTRIBUIR.md`.
 
 ---
@@ -71,7 +73,26 @@ It should end with `RESULTADO: APROBADO`. The four files in `entregables/example
 **All four are anonymised and none describes anybody.** Two are real on-chain readings of
 **empty, randomly generated addresses** — they belong to no one; one describes a **synthetic**
 statement published encrypted; and the fourth has its figures, date and assets **substituted**.
-Each record declares this in its own `anonymization` field.
+The anonymisation note for each one lives in the **final annex of `entregables/SPEC.md`**, **not
+in a field of the record**: the schema has no `anonymization` field.
+
+> **CORRECTION 2026-09-25:** this said «Each record declares this in its own `anonymization`
+> field». **It was false:** `grep -c anonymization` over the four examples is **0** in all four.
+
+### What the tool checks
+
+- That all **22 fields** are present, with no empties — except `unknown` and `unknown_reason`,
+  which **may be empty on purpose**.
+- That `UNKNOWN` is used where it is allowed — and **only** there: the tool expressly rejects it
+  in the **six registry fields** (`claim_id`, `known`, `unknown`, `unknown_reason`, `producer`,
+  `schema_version`), and checks **every closed list in the schema, at any level**, **the
+  patterns** (`claim_id`, `schema_version`) and any key the contract does not admit. **The schema
+  alone does not prevent the sentinel in `producer`** (a free string): that hole is declared in
+  `SPEC.md` (§5) and covered by the tool.
+- That each value in the "established" list is a real value, and each gap has a reason.
+- That the two lists cover the 22 fields without overlapping and without leaving any out.
+- That the closed values (authority, verification status, confidence) come from their list.
+- That there is **no extra field**: the contract declares `additionalProperties: false`.
 
 ---
 
@@ -107,15 +128,23 @@ exactly the missing conversation.
 
 ### Known limitations, declared
 
-- **22 fields across 12 domains** risks becoming unmanageable — and the number has already
-  changed three times, the last time because **a field was genuinely missing**.
+- **A form of 22 fields** risks becoming unmanageable — and the number has already changed
+  **twice** (`14 → 21 → 22`, counted in `SPEC.md` §9), the last time because **a field was
+  genuinely missing**.
 - **The contract declares validity periods; whether a system honours them is a different
   matter**, and that is not built.
 - **A record expresses an amount at a date — it does not distinguish a balance from a flow.**
 - **On-chain examples expire by design.** Past their validity they remain true *for that
   block*, but no longer describe the present.
+- **Records are standalone**, not a reconstructed portfolio. That is the next step.
 
-Full list in `entregables/SPEC.md`, section *Limitaciones conocidas de v0.2.0*.
+The Spanish `README.md` declares five limitations **of use**; `entregables/SPEC.md` declares
+five **technical** edges (numbered `LIM-1` to `LIM-5`, renamed from `C1`–`C5` on 2026-09-25).
+**They are two different lists and do not overlap.**
+
+> **CORRECTION 2026-09-25:** this said «22 fields across 12 domains» and «changed three times».
+> **Neither was checkable:** nothing in the documents defines or counts 12 domains (the spec
+> groups the 22 fields into **6 blocks**), and `14 → 21 → 22` is **two** changes, not three.
 
 ---
 
@@ -128,7 +157,11 @@ Full list in `entregables/SPEC.md`, section *Limitaciones conocidas de v0.2.0*.
 | `PORQUE.md` | The market problem behind it, with figures and sources |
 | `entregables/examples/` | Four records, each from a different authority — **all of them anonymised** |
 | `entregables/adjuntos/02-extracto-ejemplo.pdf.enc` | The **synthetic, encrypted** document example 02 refers to. Published so its hash can be verified; the password is not |
+| `entregables/adjuntos/03-informe-ejemplo.txt` | The **synthetic** document example 03 refers to. Published **in full** so its hash and content can be verified |
 | `herramientas/validar_evidencia.py` | The validator. No dependencies |
+| `herramientas/comprobar_coincidencia.py` | Checks that the manual and the schema do not disagree. A **heuristic**, not a guarantee |
+| `proyectos/` | The two published example projects (P2 and P3), each with its `CHARTER.md` |
+| `README.md` | The Spanish original of this page; **it wins** in case of difference |
 | `SELLOS.txt` | SHA-256 of every published file. Check with `sha256sum -c SELLOS.txt` |
 | `CHANGELOG.md` · `CONTRIBUIR.md` | Change history · how to contribute |
 

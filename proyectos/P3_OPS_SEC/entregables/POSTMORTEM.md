@@ -2,7 +2,9 @@
 
 **Fecha del incidente:** UNKNOWN (ocurrido en mayo de 2026, día exacto no registrado)
 **Fecha del documento:** 2026-09-21
-**Estado:** Post-mortem institucional, pre-publicación (requiere HG-002)
+**Estado:** Post-mortem técnico, pre-publicación. Para un lector externo, sus fuentes son
+documentos internos no publicados y **no puede comprobarlas** (ver §2). La rotación de las
+credenciales comprometidas sigue pendiente y **no consta** que se haya hecho.
 
 ---
 
@@ -25,6 +27,13 @@ Un nodo edge de infraestructura basado en hardware de bajo consumo experimentó 
 | **Estado observado** | El nodo todavía arrancaba correctamente y mantenía acceso parcial, pero presentaba degradación runtime severa | `LAMC_Incident_Transitional_Policy_v4_2_2.md` SS17 |
 | **Decisión** | Se oficializó no continuar desarrollo productivo sobre el nodo actual; el nodo entró en estado STANDBY/OFFLINE | `LAMC_Incident_Transitional_Policy_v4_2_2.md` SS18 |
 | **Post-decisión** | Se definieron nuevas políticas operacionales: separación estricta PROD vs LAB, NO EXPERIMENTS IN PROD, disciplina SQLite | `LAMC_Incident_Transitional_Policy_v4_2_2.md` SS20 |
+
+> **NOTA SOBRE LAS FUENTES 2026-09-25:** los documentos citados en esta tabla
+> (`LAMC_*`) y los archivos del corpus son **documentos internos del operador y NO se
+> publican** en este paquete. Se citan porque son la fuente real de cada afirmación, pero
+> **un verificador externo no puede abrirlos ni comprobarlos**: ese tramo del mapa de
+> evidencia es `UNKNOWN` para un tercero. Se conservan las citas —son la trazabilidad del
+> post-mortem— y se declara el límite en vez de esconderlo.
 
 ---
 
@@ -67,16 +76,47 @@ Se reconoció que:
 ### 5.2 Lo que se hizo MAL (hallazgos del post-mortem)
 
 #### ❌ **Secretos hardcodeados en código fuente**
-- Se encontró una API key hardcodeada como valor por defecto en el archivo `finanzas/api.py`
-- **Ubicación:** línea 10 del archivo original
+- Se encontró una API key hardcodeada en el sistema de finanzas.
+- **Ubicación verificada (2026-09-25):** un valor literal hardcodeado en `finanzas/api.py.bak` (línea 6), `finanzas/api_FUNCIONANDO.py` (línea 6), `finanzas/start.sh` (línea 5), `filesfinanzaspersonales/start.sh` (línea 5) y dos archivos `.pyc`. `finanzas/api.py` (línea 10) ya está en forma remediada, sin fallback.
+- **`UNKNOWN`:** qué contenía la «línea 10 original» de `finanzas/api.py`. El estado original del archivo no está en el corpus y no puede comprobarse.
 - **Violación:** la política de LAMC establece que "Los secretos JAMÁS deben quedar: hardcodeados; en GitHub; en documentación pública" (`LAMC_Master_Architecture_Document.md` §6)
-- **Estado actual:** REMEDIADO (se eliminó el fallback hardcodeado, ahora requiere variable de entorno)
-- **Nota:** el corpus crudo (archivos .bak, .env, scripts de inicio) aún contiene este valor; requiere rotaciónHG-002
+- **Estado actual:** REMEDIADO en `finanzas/api.py` (lee `os.environ.get("API_KEY")` y falla si no está definida).
+- **Nota:** el corpus crudo (copias `.bak`, scripts de inicio, bytecode) aún contiene ese valor; requiere la rotación de la credencial antes de publicar. **No consta** que se haya hecho.
 
-#### ❌ **Token de Telegram completo en documentación**
-- Se encontró un token completo de Telegram en `safefactorbot.md`
-- **Violación:** misma política de secretos de LAMC
-- **Estado:** el archivo está en corpus crudo (inmutable); requiere rotación HG-002
+#### ❌ **Token de Telegram real, comprometido en el corpus**
+- Se encontró un token completo de Telegram en `safefactorbot.md` y el valor **quedó en el
+  historial del repositorio del corpus**, no solo en el árbol de trabajo.
+- **Existencia — establecida (comprobación 2026-09-26, sin reproducir el valor):** el patrón
+  de token de Telegram `[0-9]{8,12}:[A-Za-z0-9_-]{30,}` aparece en **2 commits** del
+  repositorio del corpus —`f1d3841` (2026-09-23), que lo introduce, y `1dadccd` (2026-09-24),
+  que lo retira— sobre `_LAMC_EVOLUCION/textos/safefactorbot.md`. El **registro interno del
+  programa** —documento interno, **no publicado**, entradas del 2026-09-23— documenta que el
+  token era **real** y que **seguía en todos los commits**. No se reproduce su valor.
+  *(El registro interno no forma parte de lo que se publica: para un verificador externo, ese
+  tramo es `UNKNOWN`. Lo que sí puede comprobar cualquiera es el historial: los dos commits
+  citados arriba están nombrados con su identificador.)*
+- **Árbol de trabajo — limpio (2026-09-25):** el archivo actual solo contiene los marcadores
+  `CAMBIA_ESTE_TOKEN` y `CAMBIA_ESTE_CHAT_ID`; el mismo patrón devuelve **0** sobre el archivo
+  de hoy. Que el valor ya no esté ahí **no lo elimina del historial ni de las demás copias**.
+- **`UNKNOWN`:** el **inventario actual completo de dónde sigue vivo el valor** (historial,
+  respaldos, cachés). El `UNKNOWN` es de **localización**, **no de existencia**: el token era
+  real y quedó comprometido.
+- **Violación:** la política de LAMC establece que "Los secretos JAMÁS deben quedar:
+  hardcodeados; en GitHub; en documentación pública" (`LAMC_Master_Architecture_Document.md` §6).
+- **Estado:** la rotación de este token **sigue siendo obligatoria** y forma parte de la rotación de credenciales **pendiente**
+  (registro interno, **no publicado**: el riesgo de rotación aplazada y la autorización pendiente del operador). **No consta** que se haya
+  rotado. Retirarlo del alcance de rotación sería A3 al revés: «no lo encontré» → «no hace
+  falta».
+
+> **CORRECCIÓN 2026-09-26:** esta sección degradaba el token a `UNKNOWN` y **lo sacaba del
+> alcance de rotación** —«no hay token que rotar»— porque el `grep` del archivo citado daba
+> 0. El error no estaba en el `grep`, sino en la conclusión: el registro interno del programa
+> documenta que el token era real y que seguía en todos los commits, y el patrón reaparece en
+> el historial del corpus. El `0` del archivo solo prueba que el árbol de trabajo ya no lo
+> tiene. Se restituye el token al alcance de rotación (rotación de credenciales **pendiente**, autorización del operador) y el `UNKNOWN` se reubica en la
+> **localización actual** del valor. Igualmente, la ubicación «línea 10 del archivo original»
+> de la API key se corrige arriba: lo verificable son las seis copias del corpus, no el estado
+> original.
 
 #### ❌ **Ausencia de integridad filesystem**
 - No existían mecanismos de verificación de integridad del filesystem (como `fsck`, `integrity_check` o monitoreo SMART)
@@ -109,7 +149,7 @@ Se reconoció que:
 
 - **Nodo edge original:** OFFLINE / STANDBY
 - **Desarrollo productivo:** PAUSADO en el nodo original
-- **Migración a nueva infraestructura:** EN PROGRESO (CORE NODE operativo,edge NODE en transición)
+- **Migración a nueva infraestructura:** EN PROGRESO (CORE NODE operativo, edge NODE en transición)
 - **Observabilidad:** PRIORIDAD CRÍTICA (parcialmente implementada)
 - **Supply-chain Security:** PRIORIDAD CRÍTICA (parcialmente implementada)
 
@@ -128,5 +168,15 @@ El estándar derivado de este incidente debe incluir verificables binarios para 
 
 ---
 
-*Documento generado por quien construye el entregable P3 como parte del proyecto P3_OPS_SEC del Programa LAMC.*
-*Este post-mortem NO es un documento de publicación — requiere HG-002 (rotación de credenciales) y HG-001 (publicación externa).*
+*Documento generado por el equipo del proyecto P3_OPS_SEC — revisado 2026-09-25.*
+
+**Límites de este documento para un lector externo:** el post-mortem cita documentos
+internos del operador que **no se publican**; un verificador externo no puede abrirlos y,
+por tanto, ese tramo de la evidencia es `UNKNOWN` para él. Además, la rotación de las
+credenciales comprometidas **no consta como realizada** y sigue siendo condición previa a
+cualquier publicación. Este documento no certifica su propia publicación ni la rotación.
+
+> **CORRECCIÓN 2026-09-25:** la nota final decía que este post-mortem «NO es un documento
+> de publicación» y que «requiere» dos autorizaciones internas numeradas. Se reescribe para
+> que diga la verdad del documento —qué límites tiene para un lector externo— sin invocar
+> autorizaciones internas, y **sin afirmar que la autorización se haya dado**: no consta.

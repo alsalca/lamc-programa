@@ -43,7 +43,9 @@ aprobaba. **Un contrato que promete más de lo que comprueba está roto.**
 **2. Nada se añade sin un caso real que lo pida.**
 
 `quantity` se añadió porque una ficha no podía expresar una cifra. No porque fuera elegante.
-**Una casilla de más es deuda para siempre.** El número ya creció tres veces; cada vez costó.
+**Una casilla de más es deuda para siempre.** El número ya creció **dos veces** (`14 → 21 → 22`,
+contado en `SPEC.md` §9); cada vez costó.
+*(Corrección 2026-09-25: aquí decía «tres veces». La fuente documenta dos cambios, no tres.)*
 
 **3. Toda afirmación se cita.**
 

@@ -93,22 +93,43 @@ contra el esquema, campo por campo.
 **Las cuatro fichas están anonimizadas y ninguna describe a nadie.** Dos son lecturas reales
 de la cadena sobre direcciones **vacías, generadas al azar** —no pertenecen a ninguna persona—;
 una describe un extracto **sintético** que se publica cifrado; y la cuarta es un caso con las
-cifras, la fecha y los activos **sustituidos**. Cada ficha lo declara en su propio campo
-`anonymization`.
+cifras, la fecha y los activos **sustituidos**. La declaración de anonimización de cada ficha
+vive en el **anexo final de `entregables/SPEC.md`** («Anexo — Los cuatro ejemplos, explicados»),
+**no en un campo de la ficha**: el esquema no tiene ningún campo `anonymization` y una clave
+así sería rechazada.
+
+> **CORRECCIÓN 2026-09-25:** aquí decía «Cada ficha lo declara en su propio campo
+> `anonymization`». **Era falso:** `grep -c anonymization` sobre los cuatro ejemplos da **0** en
+> los cuatro. La nota de anonimización se movió al anexo del `SPEC.md` cuando los ejemplos
+> dejaron de llevar casillas que el esquema no admite.
 
 **Para escribir tu propia ficha:** lee `entregables/SPEC.md` y copia la ficha de `entregables/examples/` que más se
 parezca a tu caso. El verificador te dirá qué falta.
 
 ### Lo que la herramienta comprueba
 
-- Que estén las **22 casillas**, todas, y ninguna vacía
-- Que `UNKNOWN` se use donde está permitido —y **solo** donde está permitido
+- Que estén las **22 casillas**, todas, sin vacíos —salvo `unknown` y `unknown_reason`, que **sí
+  pueden ir vacíos a propósito** cuando no hay nada sin establecer
+- Que `UNKNOWN` se use donde está permitido —y **solo** donde está permitido—: la herramienta
+  lo rechaza de forma expresa en los **seis campos del registro** (`claim_id`, `known`,
+  `unknown`, `unknown_reason`, `producer`, `schema_version`), y comprueba **todas las listas
+  cerradas del esquema, en cualquier nivel**, **los patrones** (`claim_id`, `schema_version`) y
+  las claves que el contrato no admite. **El esquema, por sí solo, no impide el centinela en
+  `producer`** (es una cadena libre): ese hueco está declarado en `SPEC.md` (§5) y lo cubre la
+  herramienta
 - Que cada valor de la lista "establecido" sea realmente un valor, y cada hueco tenga motivo
 - Que las dos listas cubran las 22 casillas sin solaparse y sin dejar ninguna fuera
 - Que los valores cerrados (autoridad, estado de verificación, confianza) sean de la lista
 - Que **no haya ninguna casilla de más**: el contrato declara `additionalProperties: false`,
   así que una clave que el esquema no define —en la raíz o dentro de `subject`, `container`,
   `instrument` o `freshness`— hace fallar la comprobación
+
+> **CORRECCIÓN 2026-09-25 · dos matices del alcance.** (1) Aquí decía «las 22 casillas, todas, y
+> **ninguna vacía**»; **la herramienta exime a `unknown` y `unknown_reason`**, que pueden ir
+> vacíos a propósito. (2) Decía «`UNKNOWN` … y **solo** donde está permitido» sin precisar el
+> alcance; ahora se dice el real: la herramienta lo rechaza en los seis campos del registro,
+> comprueba las listas cerradas y los patrones, pero **no es un validador JSON Schema completo**
+> — el hueco del esquema en `producer` lo cubre ella, no el esquema (ver `SPEC.md` §5).
 
 > **CORRECCIÓN 2026-09-25 (auditoría, revisión 2, hallazgo 2).** Aquí decía, como algo que la
 > herramienta comprueba, «que haya al menos **tres fichas y dos autoridades distintas**».
@@ -161,12 +182,27 @@ exactamente la conversación que falta.
 
 ### Limitaciones conocidas, declaradas
 
-Se declaran aquí en vez de esconderlas. Están en detalle en `SPEC.md`, sección
-*Limitaciones conocidas de v0.2.0*.
+Se declaran aquí en vez de esconderlas. **Estas cinco son las que afectan a quien decide
+adoptarlo.** La especificación declara además **sus propios bordes técnicos** —la sección
+*Limitaciones conocidas de v0.2.0* de `SPEC.md`, numerados **LIM-1 a LIM-5**; se renombraron
+desde `C1`–`C5` el 2026-09-25 para no chocar con las reglas `C` de §5—, que son otros cinco y
+distintos: los de aquí son de uso, los de allí son del contrato.
 
-- **El sobre puede necesitar más casillas, o menos.** 22 casillas por 12 dominios es riesgo de
-  que el formulario se vuelva inmanejable. Y la historia no tranquiliza: el número ya cambió
-  tres veces, y la última fue porque **faltaba una casilla de verdad**.
+> *(Corrección 2026-09-25. Aquí decía «Están **en detalle** en `SPEC.md`, sección Limitaciones
+> conocidas de v0.2.0», dando a entender que eran **las mismas cinco, con más detalle**. No lo
+> son: son **dos listas distintas y sin un solo punto en común.** Una referencia que promete
+> equivalencia y entrega otra cosa es peor que no referenciar — quien la sigue cree haber
+> leído lo que no leyó.)*
+
+- **El sobre puede necesitar más casillas, o menos.** Un formulario de **22 casillas** es
+  riesgo de que se vuelva inmanejable. Y la historia no tranquiliza: el número ya cambió
+  **dos veces** (`14 → 21 → 22`, contado en `SPEC.md` §9), y la última fue porque **faltaba
+  una casilla de verdad**.
+
+  > **CORRECCIÓN 2026-09-25.** Aquí decía «**22 casillas por 12 dominios**». **Nada en el
+  > documento define ni cuenta 12 dominios**: el `SPEC.md` agrupa los 22 campos en **6 bloques**
+  > (§4). La cifra era un número que nadie podía comprobar y se retira. Y decía «el número ya
+  > cambió **tres veces**»; contados en la fuente son **dos** cambios (`14 → 21 → 22`), no tres.
 - **El contrato declara la vigencia; que el sistema la respete es otra cosa.** Eso no está
   construido.
 - **Una ficha expresa una cantidad a una fecha — no distingue un saldo de un movimiento.**
@@ -190,7 +226,11 @@ Se declaran aquí en vez de esconderlas. Están en detalle en `SPEC.md`, secció
 | `entregables/examples/03-derived.json` | Ficha de un total calculado por nosotros |
 | `entregables/examples/04-institution-api.json` | Ficha de un dato que responde por nosotros una institución |
 | `entregables/adjuntos/02-extracto-ejemplo.pdf.enc` | El documento **sintético y cifrado** que cita el ejemplo 02. Se publica para que su hash sea comprobable; la contraseña no |
+| `entregables/adjuntos/03-informe-ejemplo.txt` | El documento **sintético** que cita el ejemplo 03. Se publica **entero** para que su hash y su contenido sean comprobables |
 | `herramientas/validar_evidencia.py` | El verificador. Sin dependencias |
+| `herramientas/comprobar_coincidencia.py` | Comprueba que el manual y el esquema no se contradigan. Es una **heurística**, no una garantía |
+| `proyectos/` | Los dos proyectos de ejemplo publicados (P2 y P3), cada uno con su `CHARTER.md`: el contrato aplicado fuera de P1 |
+| `README.en.md` | Resumen en inglés de este `README.md`; ante cualquier diferencia, **manda el español** |
 | `SELLOS.txt` | El SHA-256 de cada archivo publicado. Se comprueba con `sha256sum -c SELLOS.txt` |
 | `CHANGELOG.md` | Qué cambió en cada versión y por qué |
 | `CONTRIBUIR.md` | Cómo proponer un cambio |
@@ -211,8 +251,12 @@ un documento fabricado para el ejemplo.
 
 **Ninguna de las cuatro fichas describe a una persona.** Dos son lecturas reales de la cadena
 sobre direcciones vacías generadas al azar; una describe el documento sintético de arriba; y la
-cuarta lleva las cifras, la fecha y los activos sustituidos. Cada una lo declara en su propio
-campo `anonymization`.
+cuarta lleva las cifras, la fecha y los activos sustituidos. La declaración de anonimización de
+cada una está en el **anexo final de `entregables/SPEC.md`**, no en un campo de la ficha.
+
+> **CORRECCIÓN 2026-09-25:** aquí decía «Cada una lo declara en su propio campo
+> `anonymization`». **Era falso**, por lo mismo que arriba: los cuatro ejemplos no tienen ese
+> campo (el esquema no lo admite). La nota vive en el anexo del `SPEC.md`.
 
 ---
 

@@ -14,10 +14,10 @@
       "chain_id": 1
     },
     "instrument": {
-      "kind": "NATIVE",
-      "symbol": "USD_BASED_ACCOUNT_DATA"
+      "kind": "LENDING_POSITION",
+      "symbol": "USD"
     },
-    "quantity": "24783691.41188819",
+    "quantity": "24783691.41188199",
     "source_type": "ONCHAIN",
     "source_reference": "Ethereum block 26040185 (0x18d5779), Tenderly public JSON-RPC eth_call to 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2, selector getUserAccountData(address)=0xbf92857c.",
     "capture_method": "Block-pinned eth_call. First returned word is totalCollateralBase in Aave base USD units with 8 decimals.",
@@ -31,8 +31,8 @@
     "authority": "PUBLIC_CHAIN",
     "verification_status": "deterministic",
     "confidence": "high",
-    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.aave_getUserAccountData.response.",
-    "evidence_hash": "UNKNOWN",
+    "raw_reference": "Ethereum mainnet, block 26040185 (0x18d5779): JSON-RPC eth_call to Aave V3 Pool 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2, selector getUserAccountData(address)=0xbf92857c for 0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e; endpoint https://gateway.tenderly.co/public/mainnet.",
+    "evidence_hash": "keccak256:a5cb9576ce5b2cd9aba82b3c3d63c55be665c67bd2b755a46e8f6b48b7f75ff1",
     "reconciliation_status": "unreconciled",
     "known": [
       "claim_id",
@@ -50,6 +50,7 @@
       "verification_status",
       "confidence",
       "raw_reference",
+      "evidence_hash",
       "reconciliation_status",
       "producer",
       "schema_version",
@@ -57,12 +58,8 @@
       "unknown",
       "unknown_reason"
     ],
-    "unknown": [
-      "evidence_hash"
-    ],
-    "unknown_reason": {
-      "evidence_hash": "No cryptographic hash generated; the exact call, endpoint, block and response are preserved."
-    },
+    "unknown": [],
+    "unknown_reason": {},
     "producer": "LAMC-P2/ethereum-aave-rpc",
     "schema_version": "0.2.0"
   },
@@ -81,7 +78,7 @@
       "chain_id": 1
     },
     "instrument": {
-      "kind": "TOKEN",
+      "kind": "DEBT",
       "symbol": "AAVE_ACCOUNT_DEBT_BASE_USD"
     },
     "quantity": "2369837.79237062",
@@ -98,8 +95,8 @@
     "authority": "PUBLIC_CHAIN",
     "verification_status": "deterministic",
     "confidence": "high",
-    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.aave_getUserAccountData.response.",
-    "evidence_hash": "UNKNOWN",
+    "raw_reference": "Ethereum mainnet, block 26040185 (0x18d5779): JSON-RPC eth_call to Aave V3 Pool 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2, selector getUserAccountData(address)=0xbf92857c for 0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e; endpoint https://gateway.tenderly.co/public/mainnet.",
+    "evidence_hash": "keccak256:a5cb9576ce5b2cd9aba82b3c3d63c55be665c67bd2b755a46e8f6b48b7f75ff1",
     "reconciliation_status": "unreconciled",
     "known": [
       "claim_id",
@@ -117,6 +114,7 @@
       "verification_status",
       "confidence",
       "raw_reference",
+      "evidence_hash",
       "reconciliation_status",
       "producer",
       "schema_version",
@@ -124,12 +122,8 @@
       "unknown",
       "unknown_reason"
     ],
-    "unknown": [
-      "evidence_hash"
-    ],
-    "unknown_reason": {
-      "evidence_hash": "No cryptographic hash generated."
-    },
+    "unknown": [],
+    "unknown_reason": {},
     "producer": "LAMC-P2/ethereum-aave-rpc",
     "schema_version": "0.2.0"
   },
@@ -148,10 +142,10 @@
       "chain_id": 1
     },
     "instrument": {
-      "kind": "TOKEN",
+      "kind": "ERC20",
       "symbol": "rETH"
     },
-    "quantity": "51.6282",
+    "quantity": "51.628217546317516669",
     "source_type": "ONCHAIN",
     "source_reference": "Ethereum block 26040185 (0x18d5779), Tenderly public JSON-RPC eth_call balanceOf(AHAB_SAFE) on rETH 0xae78736Cd615f374D3085123A210448E74Fc6393, selector 0x70a08231.",
     "capture_method": "Block-pinned balanceOf with 18 decimals. Recorded as token holding; no Rocket Pool deposit inferred.",
@@ -165,8 +159,8 @@
     "authority": "PUBLIC_CHAIN",
     "verification_status": "deterministic",
     "confidence": "high",
-    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.balanceOf_rETH.response.",
-    "evidence_hash": "UNKNOWN",
+    "raw_reference": "Ethereum mainnet, block 26040185 (0x18d5779): JSON-RPC eth_call balanceOf(address)=0x70a08231 to rETH 0xae78736Cd615f374D3085123A210448E74Fc6393 for 0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e; endpoint https://gateway.tenderly.co/public/mainnet.",
+    "evidence_hash": "keccak256:a5cb9576ce5b2cd9aba82b3c3d63c55be665c67bd2b755a46e8f6b48b7f75ff1",
     "reconciliation_status": "unreconciled",
     "known": [
       "claim_id",
@@ -184,6 +178,7 @@
       "verification_status",
       "confidence",
       "raw_reference",
+      "evidence_hash",
       "reconciliation_status",
       "producer",
       "schema_version",
@@ -191,12 +186,8 @@
       "unknown",
       "unknown_reason"
     ],
-    "unknown": [
-      "evidence_hash"
-    ],
-    "unknown_reason": {
-      "evidence_hash": "No cryptographic hash generated."
-    },
+    "unknown": [],
+    "unknown_reason": {},
     "producer": "LAMC-P2/ethereum-token-rpc",
     "schema_version": "0.2.0"
   },
@@ -215,8 +206,8 @@
       "chain_id": 8453
     },
     "instrument": {
-      "kind": "NATIVE",
-      "symbol": "USD_BASED_ACCOUNT_DATA"
+      "kind": "LENDING_POSITION",
+      "symbol": "USD"
     },
     "quantity": "14985.87931525",
     "source_type": "ONCHAIN",
@@ -232,8 +223,8 @@
     "authority": "PUBLIC_CHAIN",
     "verification_status": "deterministic",
     "confidence": "high",
-    "raw_reference": "Raw response in /tmp/p2_capture.json chains.base.calls.aave_getUserAccountData.response.",
-    "evidence_hash": "UNKNOWN",
+    "raw_reference": "Base mainnet, block 51691143 (0x314be87): JSON-RPC eth_call to Aave V3 Pool 0xA238Dd80C259a72e81d7e4664a9801593F98d1c5, selector getUserAccountData(address)=0xbf92857c for 0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e; endpoint https://gateway.tenderly.co/public/base.",
+    "evidence_hash": "keccak256:d83564d839fd5d816f8a7bb2e20de94bf4d098628fa6787817ca33ecffd71c6e",
     "reconciliation_status": "unreconciled",
     "known": [
       "claim_id",
@@ -251,6 +242,7 @@
       "verification_status",
       "confidence",
       "raw_reference",
+      "evidence_hash",
       "reconciliation_status",
       "producer",
       "schema_version",
@@ -258,12 +250,8 @@
       "unknown",
       "unknown_reason"
     ],
-    "unknown": [
-      "evidence_hash"
-    ],
-    "unknown_reason": {
-      "evidence_hash": "No cryptographic hash generated."
-    },
+    "unknown": [],
+    "unknown_reason": {},
     "producer": "LAMC-P2/base-aave-rpc",
     "schema_version": "0.2.0"
   },
@@ -282,7 +270,7 @@
       "chain_id": 8453
     },
     "instrument": {
-      "kind": "TOKEN",
+      "kind": "NONE",
       "symbol": "AAVE_HEALTH_FACTOR"
     },
     "quantity": "UNKNOWN",
@@ -298,9 +286,9 @@
     },
     "authority": "PUBLIC_CHAIN",
     "verification_status": "deterministic",
-    "confidence": "high",
-    "raw_reference": "Raw response in /tmp/p2_capture.json chains.base.calls.aave_getUserAccountData.response.",
-    "evidence_hash": "UNKNOWN",
+    "confidence": "low",
+    "raw_reference": "Base mainnet, block 51691143 (0x314be87): JSON-RPC eth_call to Aave V3 Pool 0xA238Dd80C259a72e81d7e4664a9801593F98d1c5, selector getUserAccountData(address)=0xbf92857c for 0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e; endpoint https://gateway.tenderly.co/public/base.",
+    "evidence_hash": "keccak256:d83564d839fd5d816f8a7bb2e20de94bf4d098628fa6787817ca33ecffd71c6e",
     "reconciliation_status": "unreconciled",
     "known": [
       "claim_id",
@@ -317,6 +305,7 @@
       "verification_status",
       "confidence",
       "raw_reference",
+      "evidence_hash",
       "reconciliation_status",
       "producer",
       "schema_version",
@@ -325,12 +314,10 @@
       "unknown_reason"
     ],
     "unknown": [
-      "quantity",
-      "evidence_hash"
+      "quantity"
     ],
     "unknown_reason": {
-      "quantity": "No HF applies: Aave returned uint256 max while totalDebtBase was zero.",
-      "evidence_hash": "No cryptographic hash generated."
+      "quantity": "No HF applies: Aave returned uint256 max while totalDebtBase was zero."
     },
     "producer": "LAMC-P2/base-aave-rpc",
     "schema_version": "0.2.0"
@@ -350,7 +337,7 @@
       "chain_id": 1
     },
     "instrument": {
-      "kind": "TOKEN",
+      "kind": "ERC20",
       "symbol": "wstETH"
     },
     "quantity": "0",
@@ -367,8 +354,8 @@
     "authority": "PUBLIC_CHAIN",
     "verification_status": "deterministic",
     "confidence": "high",
-    "raw_reference": "Raw response in /tmp/p2_capture.json chains.ethereum.calls.balanceOf_wstETH_direct_check.response.",
-    "evidence_hash": "UNKNOWN",
+    "raw_reference": "Ethereum mainnet, block 26040185 (0x18d5779): JSON-RPC eth_call balanceOf(address)=0x70a08231 to wstETH 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0 for 0xAA2461f0f0A3dE5fEAF3273eAe16DEF861cf594e; endpoint https://gateway.tenderly.co/public/mainnet.",
+    "evidence_hash": "keccak256:a5cb9576ce5b2cd9aba82b3c3d63c55be665c67bd2b755a46e8f6b48b7f75ff1",
     "reconciliation_status": "unreconciled",
     "known": [
       "claim_id",
@@ -386,6 +373,7 @@
       "verification_status",
       "confidence",
       "raw_reference",
+      "evidence_hash",
       "reconciliation_status",
       "producer",
       "schema_version",
@@ -393,12 +381,8 @@
       "unknown",
       "unknown_reason"
     ],
-    "unknown": [
-      "evidence_hash"
-    ],
-    "unknown_reason": {
-      "evidence_hash": "No cryptographic hash generated."
-    },
+    "unknown": [],
+    "unknown_reason": {},
     "producer": "LAMC-P2/ethereum-token-rpc",
     "schema_version": "0.2.0"
   },
@@ -417,12 +401,12 @@
       "chain_id": 1
     },
     "instrument": {
-      "kind": "OTHER"
+      "kind": "NONE"
     },
     "quantity": "UNKNOWN",
-    "source_type": "SIGNED_DOCUMENT",
-    "source_reference": "Aave ecosystem address book, src/MiscEthereum.sol: https://github.com/bgd-labs/aave-address-book/blob/main/src/MiscEthereum.sol, constant AHAB_SAFE.",
-    "capture_method": "Documentary read of the organization-published address book.",
+    "source_type": "STRUCTURED_EXPORT",
+    "source_reference": "Aave ecosystem address book, src/MiscEthereum.sol, constant AHAB_SAFE: https://github.com/bgd-labs/aave-address-book/blob/dd8bd67401e9c656061c0ac4dff777da25bca884/src/MiscEthereum.sol. Pinned to commit dd8bd67401e9c656061c0ac4dff777da25bca884 (2026-09-09); the branch URL blob/main was replaced because a branch moves and a commit does not.",
+    "capture_method": "Documentary read of the organization-published address book. The artifact is an UNSIGNED, machine-readable source file in a public repository, so SIGNED_DOCUMENT is discarded; the closest value in the contract's source_type taxonomy is STRUCTURED_EXPORT (the taxonomy has no dedicated public-document or source-code value). The commit is cited because the file is otherwise mutable.",
     "observed_at": "2026-09-23T16:05:25Z",
     "effective_at": "UNKNOWN",
     "freshness": {
@@ -432,7 +416,7 @@
     },
     "authority": "INSTITUTION_DOCUMENT",
     "verification_status": "documentary",
-    "confidence": "high",
+    "confidence": "low",
     "raw_reference": "Public source URL in source_reference.",
     "evidence_hash": "UNKNOWN",
     "reconciliation_status": "unreconciled",
@@ -465,7 +449,7 @@
     "unknown_reason": {
       "quantity": "The address book establishes the entity/address relationship, not a balance.",
       "effective_at": "The publication date is not established.",
-      "evidence_hash": "No cryptographic hash generated."
+      "evidence_hash": "No local artifact exists to hash: the source is a source-code file in a public repository, not a downloaded file, and only its pinned commit reference is cited. The reference is fixed to commit dd8bd67401e9c656061c0ac4dff777da25bca884 instead of the moving branch blob/main, so a third party can re-fetch the exact content. Materiality: this ficha asserts the published entity/address relationship, not a balance, so the missing hash cannot change any amount it states; it removes only the independent integrity anchor against a later edit of the repository file."
     },
     "producer": "LAMC-P2/institution-document",
     "schema_version": "0.2.0"
