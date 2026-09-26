@@ -252,3 +252,58 @@ fuente, no.
 lo haya implementado y haya dicho qué le faltó.**
 
 Un estándar sin implementaciones independientes no es un estándar. Es una propuesta.
+
+---
+
+## Cuarta publicación — 2026-09-26
+
+**El contrato sigue sin cambiar** —huella `fa709034…`, `VERSION` `0.2.0`— y esta vez entra un solo
+trabajo, con una corrección dentro que merece más explicación que la entrada misma.
+
+### Qué se añade
+
+| Proyecto | Qué es |
+|---|---|
+| **`P4_CAPA_CONTROLES`** | Los **52 controles del estándar de `P3`**, aplicados a **tres protocolos públicos**: Aave, Uniswap y Liquity. El resultado es crudo: de 52 controles se pudieron observar **5, 4 y 5**. **Casi todo lo demás es «no observable desde fuentes públicas».**
+
+**Este documento no es una auditoría ni una certificación.** No mide seguridad, no dice que un
+protocolo sea mejor que otro y **no acusa a nadie**. Un `✅` significa que hay evidencia pública de
+que el control está; un `?` significa que **no se pudo ver**; y un `❌` solo se marca cuando hay
+**evidencia pública de que el control NO se cumple** — no cuando simplemente no se encontró. **Esa
+distinción es el documento entero.**
+
+### La corrección que trae dentro, y por qué se cuenta
+
+Al preparar esta publicación, una revisión encontró **una marca `❌` que nuestra propia evidencia
+desmentía**: el control de gestión de dependencias de Uniswap estaba marcado como **ausente**,
+cuando la propia nota que lo acompañaba decía que **el proceso parecía existir** pero su
+configuración **no era visible desde el repositorio público**.
+
+**Eso es exactamente el error que este programa persigue** —«no lo encontré» convertido en «no
+existe»—, y estaba publicado a punto de salir, sobre un tercero con nombre. Se cambió a `?`
+(**no observable**), que es lo que se sabía de verdad. Los números no se movieron: la puntuación
+del modelo posterior solo cuenta lo verificado como presente, no lo ausente.
+
+En el mismo repaso apareció **otra cosa más silenciosa**: un archivo citaba **doce veces** la
+huella SHA-256 de sus datos de entrada… **y la huella no coincidía con el archivo**. Había
+cambiado después de calcularla y nadie actualizó la cita. **Una huella que promete integridad y
+nadie comprueba es peor que no ponerla, porque se apoya en ella.** Ahora hay una comprobación
+automática de toda huella citada contra el archivo que nombra.
+
+### Un aviso sobre nombres propios
+
+`P4` mide **protocolos reales, y los nombra**. Se consideró publicarlo con las identidades
+sustituidas por etiquetas, y **se descartó por una razón concreta: no se puede hacer sin mentir.**
+Las fuentes de cada fila son direcciones oficiales que **llevan el nombre dentro**; poner «protocolo
+A» y dejar el enlace al lado habría sido un anonimato que cualquiera deshace en dos segundos. Quitar
+los enlaces habría sido peor: destruir lo único que hace comprobable la tabla. **Si usted es uno de
+esos protocolos y encuentra un error en una fila, el error se corrige y se dice** — es lo que se
+acaba de hacer con una de ellas.
+
+### La comprobación, esta vez
+
+- **La puerta de salida**: fidelidad byte a byte, sellos, cero credenciales, cero datos personales,
+  cero rutas de la máquina, historial de git revisado.
+- **La prueba de ataque del verificador**: 57 casos.
+- **La prueba de los patrones de la puerta**: 10 casos.
+- **La huella del esquema, recalculada**: idéntica.

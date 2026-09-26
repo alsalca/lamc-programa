@@ -160,7 +160,7 @@ five **technical** edges (numbered `LIM-1` to `LIM-5`, renamed from `C1`–`C5` 
 | `entregables/adjuntos/03-informe-ejemplo.txt` | The **synthetic** document example 03 refers to. Published **in full** so its hash and content can be verified |
 | `herramientas/validar_evidencia.py` | The validator. No dependencies |
 | `herramientas/comprobar_coincidencia.py` | Checks that the manual and the schema do not disagree. A **heuristic**, not a guarantee |
-| `proyectos/` | **The four published projects** (P2, P3, P7 and P8), each with its `CHARTER.md` and deliverables: the contract applied outside P1, across four subjects and two industries |
+| `proyectos/` | **The five published projects** (P2, P3, P7, P8 and P4), each with its `CHARTER.md` and deliverables: the contract applied outside P1, across five subjects and two industries |
 | `README.md` | The Spanish original of this page; **it wins** in case of difference |
 | `SELLOS.txt` | SHA-256 of every published file. Check with `sha256sum -c SELLOS.txt` |
 | `CHANGELOG.md` · `CONTRIBUIR.md` | Change history · how to contribute |
