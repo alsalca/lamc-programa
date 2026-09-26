@@ -187,6 +187,64 @@ tanda anterior.
 
 ---
 
+## Tercera publicación — 2026-09-26
+
+**El contrato NO cambió.** La huella del esquema sigue siendo `fa709034…` y `VERSION` sigue siendo
+`0.2.0`. **Quien haya implementado `0.2.0` no tiene que tocar nada.** Lo que cambia es que
+**este repositorio publica dos trabajos más** que hasta hoy estaban terminados y sin publicar:
+el contrato aplicado **fuera de las criptomonedas** y la **conciliación** de dos mundos.
+
+### Qué se añade
+
+| Proyecto | Qué es |
+|---|---|
+| **`P7_SEGUNDO_DOMINIO`** | **La prueba de que el método no va de criptomonedas.** Seis fichas tomadas de la Cuenta General 2023 del **Ayuntamiento de Barcelona** —un documento público de 169 páginas—, cada una con la página y la línea de donde sale su cifra. **El contrato sirvió sin cambiarle una letra** |
+| **`P8_RECONCILIACION`** | Un solo registro con **trece fichas**: las siete de la cartera ajena (P2) y las seis del ayuntamiento (P7), copiadas tal cual. **No están fusionadas**: son sujetos distintos, con monedas distintas y ninguna cifra comparable. El documento **dice qué no se pudo unir y por qué** |
+
+**Por qué esto importa más que las cifras.** Un contrato que solo funciona con criptomonedas es un
+formato para criptomonedas. Uno que sostiene la contabilidad de un ayuntamiento **sin cambiar una
+coma** es un formato para evidencia financiera. Esa era la pregunta abierta desde la primera
+publicación, y la respuesta está en `P7_SEGUNDO_DOMINIO/entregables/VEREDICTO.md`.
+
+**En `P7` el lector puede ir más lejos que en ningún otro sitio de este paquete:** descargar el
+documento oficial del ayuntamiento, buscar la página y la línea que la ficha cita, y **encontrar
+la misma cifra**. El documento original **no viaja aquí** —pesa 26 MB y las fuentes se citan, no se
+copian—: viaja el enlace oficial, que es lo que hace la comprobación posible.
+
+### Un defecto que esta publicación destapó — y que se corrigió
+
+La puerta de salida marca como sospechoso todo número con forma de teléfono. Al meter `P7` marcó
+**`3332351497.29`**, que no es un teléfono: son **los ingresos totales del ayuntamiento**, con sus
+decimales. Y a la vez **se le escapaban** los teléfonos escritos como se escriben de verdad —con el
+prefijo del país y espacios entre bloques de dígitos—, porque el patrón solo los entendía escritos
+de un tirón.
+
+**El control tenía los dos defectos a la vez: inventaba uno que no existía y no veía los que sí.**
+Corregido: entiende los números agrupados, no dispara con los decimales ni con los dígitos dentro
+de un hash, y **no ha perdido nada de lo que cazaba** (comprobado metiendo un teléfono real en un
+paquete de prueba y viendo que la puerta lo detecta).
+
+### La comprobación, esta vez
+
+- **La puerta de salida**, ejecutada antes de publicar: fidelidad byte a byte, sellos, cero
+  credenciales, cero datos personales, cero rutas de la máquina, y el historial de git revisado.
+  **Cuatro rutas absolutas y tres falsos positivos aparecieron en el camino y se corrigieron
+  antes de salir**: nada de eso viaja.
+- **La prueba de ataque contra el verificador**: los **57 casos** (uno correcto, 56 rotos), todos
+  comportándose como deben.
+- **La huella del esquema, recalculada**: idéntica.
+- **Los patrones de la puerta tienen prueba propia**, y ahora vive en un archivo en vez de en un
+  comentario: `publicacion/prueba_patrones_puerta.py`. Antes decía «verificado con 17 casos» y
+  **esos casos no existían en ningún sitio**. Una prueba hecha una vez a mano no es una prueba.
+
+### Y una cifra que ya no se escribe aquí
+
+**El número de archivos publicados no se copia en este documento.** La fuente es `SELLOS.txt`, y se
+comprueba con `sha256sum -c SELLOS.txt`. Una cifra en dos archivos acaba discrepando; una sola
+fuente, no.
+
+---
+
 ## Numeración futura
 
 `0.x` mientras no haya **implementaciones independientes** del contrato. La señal para pasar a

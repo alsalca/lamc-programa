@@ -229,7 +229,7 @@ distintos: los de aquí son de uso, los de allí son del contrato.
 | `entregables/adjuntos/03-informe-ejemplo.txt` | El documento **sintético** que cita el ejemplo 03. Se publica **entero** para que su hash y su contenido sean comprobables |
 | `herramientas/validar_evidencia.py` | El verificador. Sin dependencias |
 | `herramientas/comprobar_coincidencia.py` | Comprueba que el manual y el esquema no se contradigan. Es una **heurística**, no una garantía |
-| `proyectos/` | Los dos proyectos de ejemplo publicados (P2 y P3), cada uno con su `CHARTER.md`: el contrato aplicado fuera de P1 |
+| `proyectos/` | **Los cuatro proyectos publicados** (P2, P3, P7 y P8), cada uno con su `CHARTER.md` y sus entregables: el contrato aplicado fuera de P1, en cuatro sujetos y dos industrias |
 | `README.en.md` | Resumen en inglés de este `README.md`; ante cualquier diferencia, **manda el español** |
 | `SELLOS.txt` | El SHA-256 de cada archivo publicado. Se comprueba con `sha256sum -c SELLOS.txt` |
 | `CHANGELOG.md` | Qué cambió en cada versión y por qué |
@@ -326,12 +326,26 @@ suponiendo**. El método salió de ahí. Se publica porque el problema no es de 
 
 > **El activo no es el portafolio. Es el método.**
 
-### Publicado hoy
+### Publicado en este repositorio
 
-**El contrato 0.2.0** — este repositorio. El formato.
+**El contrato 0.2.0** — el formato. Es el peldaño que hace posibles los demás: **sin una ficha
+común no hay nada que agregar, ni que comparar, ni que auditar.** Por eso va primero, aunque no
+sea lo más vistoso.
 
-Es el peldaño que hace posibles los demás: **sin una ficha común no hay nada que agregar, ni
-que comparar, ni que auditar.** Por eso va primero, aunque no sea lo más vistoso.
+**Y cuatro trabajos hechos con él**, en `proyectos/`. No son ejemplos inventados: cada uno tiene
+su encargo, su procedencia y sus huecos declarados.
+
+| Proyecto | Qué demuestra |
+|---|---|
+| **`P2_DEMO_RECONSTRUCCION`** | Reconstruir una cartera ajena desde la cadena pública, sin preguntarle nada a su dueño |
+| **`P3_OPS_SEC`** | Medir **52 controles operativos** —los que viven fuera de la cadena— dejando en «aún no establecido» todo lo que no se pudo observar, con su motivo |
+| **`P7_SEGUNDO_DOMINIO`** | El mismo contrato, **sin cambiarle una letra**, sobre la contabilidad de un ayuntamiento. Es la prueba de que el método **no va de criptomonedas** |
+| **`P8_RECONCILIACION`** | Las dos series anteriores **en un solo registro, sin fusionarlas**: dice qué **no** se pudo unir y por qué |
+
+En `P7` y `P8` el lector puede ir más lejos que en ningún otro sitio de este repositorio:
+**descargar el documento oficial, buscar la página y la línea que la ficha cita, y encontrar la
+misma cifra.** El documento original no viaja aquí —pesa 26 MB y las fuentes se citan, no se
+copian—; el enlace oficial sí.
 
 ### Lo que viene después, y en qué orden
 
@@ -341,9 +355,15 @@ puede fallar**, y no se sube al siguiente sin pasarla.
 | # | Peldaño | Prueba para subir |
 |---|---|---|
 | **1** | **El contrato** ✅ — este repositorio | ¿Un tercero sin contexto rellena una ficha válida? **Probado cinco veces** |
-| **2** | **Reconstruir** — leer datos reales y emitir fichas de un portafolio entero | ¿Reproduce un total conocido **sin inventar ningún valor**? |
-| **3** | **Controles operativos** — el estándar de lo que pasa **fuera de la cadena**, que es donde están los golpes | ¿Un tercero puede comprobar el estado de un control **sin preguntarle al autor**? |
-| **4** | **Los datos de control** — qué control tiene cada protocolo, y cuál no | ¿Se pueden comparar dos instituciones entre sí? |
+| **2** | **Reconstruir** ✅ — `P2` | ¿Reproduce un total conocido **sin inventar ningún valor**? |
+| **3** | **Controles operativos** ✅ — `P3` | ¿Un tercero puede comprobar el estado de un control **sin preguntarle al autor**? |
+| **4** | **Un segundo dominio** ✅ — `P7` | ¿El mismo contrato sirve **sin modificarse** en una industria que no es la cripto? **Sí** |
+| **5** | **Conciliar** ✅ — `P8` | ¿Dos series de mundos distintos caben en un registro, declarando lo que **no** se puede unir? |
+| **6** | **Comparar** — pendiente | ¿Se puede comparar a dos instituciones **sin afirmar que una es mejor**? |
+
+**Nada de esto se publica como recomendación.** El repositorio declara lo que hay y lo que no se
+pudo establecer; **no dice a quién comprar ni qué es seguro.** Un peldaño que necesite afirmarlo
+no se publica.
 
 **La razón del orden.** Hoy no hay nada que agregar porque **no existe el formato de lo que se
 quiere agregar**. Construir el motor antes que la unidad de medida es exactamente cómo se

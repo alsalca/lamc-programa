@@ -1,0 +1,373 @@
+[
+  {
+    "claim_id": "P7-BCN-2026-0001",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "Ajuntament-de-Barcelona",
+      "label": "Ayuntamiento de Barcelona"
+    },
+    "container": {
+      "type": "DOCUMENTARY_ASSET",
+      "container_id": "LOCAL:CG-BCN-2023",
+      "operator": "Ajuntament-de-Barcelona"
+    },
+    "instrument": {
+      "kind": "NONE",
+      "symbol": "EUR"
+    },
+    "quantity": "3332351497.29",
+    "source_type": "SIGNED_DOCUMENT",
+    "source_reference": "Cuenta General 2023, pagina 7: Compte del Resultat Economic Patrimonial. Linea A) TOTAL INGRESSOS DE GESTIO ORDINARIA (1+2+3+4+5+6+7): 3.332.351.497,29 euros.",
+    "capture_method": "Extraction via pypdf text extraction from PDF downloaded from official Ajuntament de Barcelona website. Catalan text read and numeric values extracted from Compte del Resultat table on page 7.",
+    "observed_at": "2026-09-25T15:37:21Z",
+    "effective_at": "2023-12-31",
+    "freshness": {
+      "status": "stale",
+      "valid_until": "UNKNOWN",
+      "policy": "Cuenta General anual: vigente como snapshot historico hasta la publicacion de la siguiente Cuenta General."
+    },
+    "authority": "INSTITUTION_DOCUMENT",
+    "verification_status": "documentary",
+    "confidence": "medium",
+    "raw_reference": "https://ajuntament.barcelona.cat/pressupostosifinances/sites/default/files/COMPTE%20GENERAL%202023.pdf (sha256 3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351, 26.860.658 bytes, 169 paginas)",
+    "evidence_hash": "sha256:3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351",
+    "reconciliation_status": "unreconciled",
+    "unknown": [],
+    "unknown_reason": {},
+    "producer": "P7-BCN/manual-entry",
+    "schema_version": "0.2.0",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "evidence_hash",
+      "reconciliation_status",
+      "known",
+      "unknown",
+      "unknown_reason",
+      "producer",
+      "schema_version"
+    ]
+  },
+  {
+    "claim_id": "P7-BCN-2026-0002",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "Ajuntament-de-Barcelona",
+      "label": "Ayuntamiento de Barcelona"
+    },
+    "container": {
+      "type": "DOCUMENTARY_ASSET",
+      "container_id": "LOCAL:CG-BCN-2023",
+      "operator": "Ajuntament-de-Barcelona"
+    },
+    "instrument": {
+      "kind": "NONE",
+      "symbol": "EUR"
+    },
+    "quantity": "12629039834.15",
+    "source_type": "SIGNED_DOCUMENT",
+    "source_reference": "Cuenta General 2023, pagina 6: Balanc. Linea A) PATRIMONI NET ECPN: 12.629.039.834,15 euros. Compuesto por I. Patrimoni 7.787.674.637,92 + II. Patrimoni generat 3.844.509.951,31 + IV. Subvencions rebudes pendents d'imputacio 996.855.244,92.",
+    "capture_method": "Extraction via pypdf text extraction from PDF downloaded from official Ajuntament de Barcelona website. Catalan text read and numeric values extracted from Balanc table on page 6.",
+    "observed_at": "2026-09-25T15:37:21Z",
+    "effective_at": "2023-12-31",
+    "freshness": {
+      "status": "stale",
+      "valid_until": "UNKNOWN",
+      "policy": "Cuenta General anual: vigente como snapshot historico hasta la publicacion de la siguiente Cuenta General."
+    },
+    "authority": "INSTITUTION_DOCUMENT",
+    "verification_status": "documentary",
+    "confidence": "medium",
+    "raw_reference": "https://ajuntament.barcelona.cat/pressupostosifinances/sites/default/files/COMPTE%20GENERAL%202023.pdf (sha256 3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351, 26.860.658 bytes, 169 paginas)",
+    "evidence_hash": "sha256:3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351",
+    "reconciliation_status": "unreconciled",
+    "unknown": [],
+    "unknown_reason": {},
+    "producer": "P7-BCN/manual-entry",
+    "schema_version": "0.2.0",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "freshness",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "evidence_hash",
+      "reconciliation_status",
+      "known",
+      "unknown",
+      "unknown_reason",
+      "producer",
+      "schema_version"
+    ]
+  },
+  {
+    "claim_id": "P7-BCN-2026-0003",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "Ajuntament-de-Barcelona",
+      "label": "Ayuntamiento de Barcelona"
+    },
+    "container": {
+      "type": "CREDIT_ACCOUNT",
+      "container_id": "LOCAL:DEUDA-LP-BCN-2023",
+      "operator": "Varios acreedores (entidades de credito y tenedores de obligaciones)"
+    },
+    "instrument": {
+      "kind": "DEBT",
+      "symbol": "EUR"
+    },
+    "quantity": "95000000",
+    "source_type": "SIGNED_DOCUMENT",
+    "source_reference": "Cuenta General 2023, pagina 6: Balanc, seccion B) PASSIU NO CORRENT, linea II. Deutes a llarg termini, sublinea 1. Obligacions i altres valors negociables: 95.000.000,00 euros (2023 y 2022). Nota 11 pagina 51: detalle de vencimientos.",
+    "capture_method": "Extraction via pypdf text extraction from PDF. Catalan text from Balanc table (page 6) and memoria note 11 (page 51) with detailed loan maturities.",
+    "observed_at": "2026-09-25T15:37:21Z",
+    "effective_at": "2023-12-31",
+    "freshness": "UNKNOWN",
+    "authority": "INSTITUTION_DOCUMENT",
+    "verification_status": "documentary",
+    "confidence": "medium",
+    "raw_reference": "https://ajuntament.barcelona.cat/pressupostosifinances/sites/default/files/COMPTE%20GENERAL%202023.pdf (sha256 3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351, 26.860.658 bytes, 169 paginas)",
+    "evidence_hash": "sha256:3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351",
+    "reconciliation_status": "unreconciled",
+    "unknown": [
+      "freshness"
+    ],
+    "unknown_reason": {
+      "freshness": "El documento no declara explicitamente una politica de vigencia para los saldos de deuda. La fecha de corte (31/12/2023) va en effective_at, pero la duracion de validez del dato como estado actual no esta declarada por la fuente."
+    },
+    "producer": "P7-BCN/manual-entry",
+    "schema_version": "0.2.0",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "evidence_hash",
+      "reconciliation_status",
+      "known",
+      "unknown",
+      "unknown_reason",
+      "producer",
+      "schema_version"
+    ],
+    "unknown_detail": {
+      "freshness.valid_until": "La fecha de vencimiento de las obligaciones no esta en el balanc; se detalla parcialmente en la memoria (pagina 51) con vencimientos escalonados hasta 2043, pero no hay un unico vencimiento."
+    }
+  },
+  {
+    "claim_id": "P7-BCN-2026-0004",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "Ajuntament-de-Barcelona",
+      "label": "Ayuntamiento de Barcelona"
+    },
+    "container": {
+      "type": "DOCUMENTARY_ASSET",
+      "container_id": "LOCAL:CG-BCN-2023",
+      "operator": "Ajuntament-de-Barcelona"
+    },
+    "instrument": {
+      "kind": "DEBT",
+      "symbol": "EUR"
+    },
+    "quantity": "17493930.44",
+    "source_type": "SIGNED_DOCUMENT",
+    "source_reference": "Cuenta General 2023, pagina 6: Balanc, seccion B) PASSIU NO CORRENT, linea I. Provisions a llarg termini (nota 16): 17.493.930,44 euros (2023), 18.403.724,88 euros (2022).",
+    "capture_method": "Extraction via pypdf text extraction from PDF. Catalan text from Balanc table on page 6.",
+    "observed_at": "2026-09-25T15:37:21Z",
+    "effective_at": "2023-12-31",
+    "freshness": "UNKNOWN",
+    "authority": "INSTITUTION_DOCUMENT",
+    "verification_status": "documentary",
+    "confidence": "medium",
+    "raw_reference": "https://ajuntament.barcelona.cat/pressupostosifinances/sites/default/files/COMPTE%20GENERAL%202023.pdf (sha256 3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351, 26.860.658 bytes, 169 paginas)",
+    "evidence_hash": "sha256:3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351",
+    "reconciliation_status": "unreconciled",
+    "unknown": [
+      "freshness"
+    ],
+    "unknown_reason": {
+      "freshness": "El documento no declara politica de vigencia para provisiones. Las provisiones son obligaciones contingentes cuyo vencimiento depende de eventos futuros no determinados."
+    },
+    "producer": "P7-BCN/manual-entry",
+    "schema_version": "0.2.0",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "evidence_hash",
+      "reconciliation_status",
+      "known",
+      "unknown",
+      "unknown_reason",
+      "producer",
+      "schema_version"
+    ]
+  },
+  {
+    "claim_id": "P7-BCN-2026-0005",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "Ajuntament-de-Barcelona",
+      "label": "Ayuntamiento de Barcelona"
+    },
+    "container": {
+      "type": "DOCUMENTARY_ASSET",
+      "container_id": "LOCAL:CG-BCN-2023",
+      "operator": "Ajuntament-de-Barcelona"
+    },
+    "instrument": {
+      "kind": "NONE",
+      "symbol": "EUR"
+    },
+    "quantity": "5598515769.72",
+    "source_type": "SIGNED_DOCUMENT",
+    "source_reference": "Cuenta General 2023, pagina 41: Nota 5.4 Infraestructures. Detalle del coste: Edificis 10.995.624,12 + Equipaments 9.865.843,58 + Forestal 60.457.445,40 + Industrial 21.538.366,85 + Mixte 458.001.476,71 + Parcs i jardins 1.319.861.460,51 + Rustic 447.590,19 + Sistemes 10.120.958,13 + Vials 3.707.227.004,23. TOTAL: 5.598.515.769,72 euros.",
+    "capture_method": "Extraction via pypdf text extraction from PDF. Catalan text from memoria note 5.4 on page 41. Nine infrastructure categories summed to verify total.",
+    "observed_at": "2026-09-25T15:37:21Z",
+    "effective_at": "2023-12-31",
+    "freshness": "UNKNOWN",
+    "authority": "INSTITUTION_DOCUMENT",
+    "verification_status": "documentary",
+    "confidence": "medium",
+    "raw_reference": "https://ajuntament.barcelona.cat/pressupostosifinances/sites/default/files/COMPTE%20GENERAL%202023.pdf (sha256 3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351, 26.860.658 bytes, 169 paginas)",
+    "evidence_hash": "sha256:3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351",
+    "reconciliation_status": "unreconciled",
+    "unknown": [
+      "freshness"
+    ],
+    "unknown_reason": {
+      "freshness": "Las infraestructuras son activos no corrientes a coste historico. No hay politica de vigencia declarada; el dato representa el coste acumulado a 31/12/2023, no un valor razonable."
+    },
+    "producer": "P7-BCN/manual-entry",
+    "schema_version": "0.2.0",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "evidence_hash",
+      "reconciliation_status",
+      "known",
+      "unknown",
+      "unknown_reason",
+      "producer",
+      "schema_version"
+    ]
+  },
+  {
+    "claim_id": "P7-BCN-2026-0006",
+    "subject": {
+      "type": "LEGAL_ENTITY",
+      "subject_id": "Ajuntament-de-Barcelona",
+      "label": "Ayuntamiento de Barcelona"
+    },
+    "container": {
+      "type": "DOCUMENTARY_ASSET",
+      "container_id": "LOCAL:CG-BCN-2023",
+      "operator": "Ajuntament-de-Barcelona"
+    },
+    "instrument": {
+      "kind": "DEBT",
+      "symbol": "EUR"
+    },
+    "quantity": "94629028.63",
+    "source_type": "SIGNED_DOCUMENT",
+    "source_reference": "Cuenta General 2023, pagina 61: Nota 17. Informacio sobre el medi ambient. Obligacions amb carrec als programes de politica de despesa 17 'Medi ambient': TOTAL 94.629.028,63 euros. Desglose: Construccio i manteniment d'espais verds 86.245.264,31 + Biodiversitat 27.037,16 + Intervencio mediambiental 3.822.167,98 + otros.",
+    "capture_method": "Extraction via pypdf text extraction from PDF. Catalan text from memoria note 17 on page 61. Environmental obligations by program.",
+    "observed_at": "2026-09-25T15:37:21Z",
+    "effective_at": "2023-12-31",
+    "freshness": "UNKNOWN",
+    "authority": "INSTITUTION_DOCUMENT",
+    "verification_status": "documentary",
+    "confidence": "medium",
+    "raw_reference": "https://ajuntament.barcelona.cat/pressupostosifinances/sites/default/files/COMPTE%20GENERAL%202023.pdf (sha256 3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351, 26.860.658 bytes, 169 paginas)",
+    "evidence_hash": "sha256:3d7d494fb96f3fa1d6b7b28a0f2870b381fb0c076e16a314bed6c1dc92cb4351",
+    "reconciliation_status": "unreconciled",
+    "unknown": [
+      "freshness"
+    ],
+    "unknown_reason": {
+      "freshness": "Obligaciones ambientales reconocidas durante el ejercicio 2023. No se declara politica de vigencia; representan compromisos de gasto para politicas ambientales."
+    },
+    "producer": "P7-BCN/manual-entry",
+    "schema_version": "0.2.0",
+    "known": [
+      "claim_id",
+      "subject",
+      "container",
+      "instrument",
+      "quantity",
+      "source_type",
+      "source_reference",
+      "capture_method",
+      "observed_at",
+      "effective_at",
+      "authority",
+      "verification_status",
+      "confidence",
+      "raw_reference",
+      "evidence_hash",
+      "reconciliation_status",
+      "known",
+      "unknown",
+      "unknown_reason",
+      "producer",
+      "schema_version"
+    ]
+  }
+]
